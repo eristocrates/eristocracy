@@ -1,11 +1,11 @@
 {
-  "name": "eristocracy",
+  "name": "eris",
   "version": "0.0.1",
   "lockfileVersion": 3,
   "requires": true,
   "packages": {
     "": {
-      "name": "eristocracy",
+      "name": "eris",
       "version": "0.0.1",
       "dependencies": {
         "astro": "^5.8.1"
