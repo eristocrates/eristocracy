@@ -9,8 +9,453 @@
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>the eristocracy</title>
+    <script src="https://unpkg.com/n3/browser/n3.min.js"></script>
+    <script type="module">
+      import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+      const LOCAL_STORAGE_KEY = "d3-forceParams";
+      const LOCAL_ZOOM_KEY = "d3-zoomTransform";
+
+      const forceParams = {
+        width: Math.round(window.innerWidth),
+        height: Math.round(window.innerHeight),
+        linkDistance: 80,
+        chargeStrength: -400,
+        labelFontSize: 10,
+        nodeRadius: 10,
+      };
+
+      let savedZoom = null;
+
+      function saveParams() {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(forceParams));
+        console.log("Saved forceParams:", forceParams);
+      }
+
+      function saveZoom(transform) {
+        localStorage.setItem(LOCAL_ZOOM_KEY, JSON.stringify(transform));
+      }
+
+      function loadSavedParams() {
+        const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            Object.assign(forceParams, parsed);
+            console.log("Loaded saved forceParams:", parsed);
+          } catch (e) {
+            console.warn("Failed to parse saved forceParams:", e);
+          }
+        }
+
+        const zoomStored = localStorage.getItem(LOCAL_ZOOM_KEY);
+        if (zoomStored) {
+          try {
+            savedZoom = JSON.parse(zoomStored);
+          } catch (e) {
+            console.warn("Failed to parse saved zoom transform:", e);
+          }
+        }
+      }
+
+      function updateDisplay() {
+        document.getElementById("val-width").value = forceParams.width;
+        document.getElementById("val-height").value = forceParams.height;
+        document.getElementById("val-width-pct").value =
+          (100 * forceParams.width) / window.innerWidth;
+        document.getElementById("val-height-pct").value =
+          (100 * forceParams.height) / window.innerHeight;
+        document.getElementById("val-linkDistance").value =
+          forceParams.linkDistance;
+        document.getElementById("val-chargeStrength").value =
+          forceParams.chargeStrength;
+        document.getElementById("val-labelFontSize").value =
+          forceParams.labelFontSize;
+        document.getElementById("val-nodeRadius").value =
+          forceParams.nodeRadius;
+
+        if (savedZoom) {
+          document.getElementById("val-zoom-k").value = savedZoom.k;
+          document.getElementById("val-pan-x").value = savedZoom.x;
+          document.getElementById("val-pan-y").value = savedZoom.y;
+        }
+      }
+
+      function bindInputs() {
+        const bindings = [
+          ["width", "val-width"],
+          ["height", "val-height"],
+          ["linkDistance", "val-linkDistance"],
+          ["chargeStrength", "val-chargeStrength"],
+          ["labelFontSize", "val-labelFontSize"],
+          ["nodeRadius", "val-nodeRadius"],
+        ];
+
+        for (const [param, id] of bindings) {
+          document.getElementById(id).addEventListener("input", (e) => {
+            forceParams[param] = parseFloat(e.target.value);
+            saveParams();
+            regenerateGraph();
+          });
+        }
+
+        document
+          .getElementById("val-width-pct")
+          .addEventListener("input", (e) => {
+            const pct = parseFloat(e.target.value);
+            forceParams.width = Math.round((pct / 100) * window.innerWidth);
+            document.getElementById("val-width").value = forceParams.width;
+            saveParams();
+            regenerateGraph();
+          });
+
+        document
+          .getElementById("val-height-pct")
+          .addEventListener("input", (e) => {
+            const pct = parseFloat(e.target.value);
+            forceParams.height = Math.round((pct / 100) * window.innerHeight);
+            document.getElementById("val-height").value = forceParams.height;
+            saveParams();
+            regenerateGraph();
+          });
+
+        for (const id of ["val-zoom-k", "val-pan-x", "val-pan-y"]) {
+          document.getElementById(id).addEventListener("input", (e) => {
+            savedZoom = {
+              x: parseFloat(document.getElementById("val-pan-x").value),
+              y: parseFloat(document.getElementById("val-pan-y").value),
+              k: parseFloat(document.getElementById("val-zoom-k").value),
+            };
+            saveZoom(savedZoom);
+            regenerateGraph();
+          });
+        }
+        // Keep transform inputs in sync with user interaction
+        const zoomBehavior = d3.zoom().on("zoom", (event) => {
+          const t = event.transform;
+          savedZoom = t;
+          saveZoom(t);
+          updateTransformInputs(t);
+          d3.select("#graph-container").attr("transform", t);
+        });
+
+        d3.select("svg").call(zoomBehavior);
+      }
+
+      function regenerateGraph() {
+        d3.select("#viz svg").remove();
+        loadTTL("/ontology/arcaea.ttl")
+          .then(({ triples, prefixMap }) => projectTriples(triples, prefixMap))
+          .then(renderGraph);
+      }
+
+      async function loadTTL(url) {
+        const response = await fetch(url);
+        const ttlText = await response.text();
+        let discoveredPrefixes = {};
+
+        return new Promise((resolve, reject) => {
+          const tempParser = new N3.Parser();
+          tempParser.parse(ttlText, (error, quad, prefixes) => {
+            if (error) return reject(error);
+            if (!quad) {
+              discoveredPrefixes = prefixes;
+              const baseIRI = prefixes[":"] || undefined;
+              const parser = new N3.Parser({ baseIRI });
+
+              const triples = [];
+              parser.parse(ttlText, (err, q) => {
+                if (err) return reject(err);
+                if (q) triples.push(q);
+                else resolve({ triples, prefixMap: discoveredPrefixes });
+              });
+            }
+          });
+        });
+      }
+
+      function projectTriples(triples, prefixMap) {
+        const nodes = new Map();
+        const links = [];
+        const reversedPrefixMap = Object.fromEntries(
+          Object.entries(prefixMap).map(([prefix, iri]) => [iri, prefix])
+        );
+
+        const sortedPrefixes = Object.entries(reversedPrefixMap).sort(
+          ([a], [b]) => b.length - a.length
+        );
+        function shortenIRI(iri) {
+          for (const [baseIRI, prefix] of sortedPrefixes) {
+            if (iri.startsWith(baseIRI)) {
+              const local = iri.slice(baseIRI.length);
+              return prefix ? `${prefix}:${local}` : local;
+            }
+          }
+          return iri;
+        }
+
+        for (const quad of triples) {
+          const s = shortenIRI(quad.subject.id);
+          const o = shortenIRI(quad.object.id);
+          const p = shortenIRI(quad.predicate.id);
+
+          nodes.set(s, { id: s });
+          if (
+            quad.object.termType === "NamedNode" ||
+            quad.object.termType === "BlankNode"
+          ) {
+            nodes.set(o, { id: o });
+            links.push({ source: s, target: o, predicate: p });
+          }
+        }
+
+        return {
+          nodes: Array.from(nodes.values()),
+          links,
+        };
+      }
+
+      function renderGraph({ nodes, links }) {
+        const svg = d3
+          .select("#viz")
+          .append("svg")
+          .attr("width", forceParams.width)
+          .attr("height", forceParams.height);
+
+        const container = svg.append("g");
+
+        const zoom = d3.zoom().on("zoom", (event) => {
+          container.attr("transform", event.transform);
+          saveZoom(event.transform);
+        });
+
+        svg.call(zoom);
+
+        if (savedZoom) {
+          svg.call(
+            zoom.transform,
+            d3.zoomIdentity
+              .translate(savedZoom.x, savedZoom.y)
+              .scale(savedZoom.k)
+          );
+        }
+
+        const simulation = d3
+          .forceSimulation(nodes)
+          .force(
+            "link",
+            d3
+              .forceLink(links)
+              .id((d) => d.id)
+              .distance(forceParams.linkDistance)
+          )
+          .force(
+            "charge",
+            d3.forceManyBody().strength(forceParams.chargeStrength)
+          )
+          .force(
+            "center",
+            d3.forceCenter(forceParams.width / 2, forceParams.height / 2)
+          );
+
+        container
+          .append("defs")
+          .append("marker")
+          .attr("id", "arrowhead")
+          .attr("markerWidth", 6)
+          .attr("markerHeight", 7)
+          .attr("refX", 10)
+          .attr("refY", 2.5)
+          .attr("orient", "auto")
+          .append("polygon")
+          .attr("points", "0,5 1.6666666666666667,2.5 0,0 5,2.5")
+          .attr("fill", "gray");
+
+        const link = container
+          .append("g")
+          .attr("stroke", "#999")
+          .attr("stroke-opacity", 0.6)
+          .selectAll("line")
+          .data(links)
+          .join("line")
+          .attr("stroke-width", 2)
+          .attr("marker-end", "url(#arrowhead)");
+
+        const node = container
+          .append("g")
+          .attr("stroke", "#fff")
+          .attr("stroke-width", 1.5)
+          .selectAll("circle")
+          .data(nodes)
+          .join("circle")
+          .attr("r", forceParams.nodeRadius)
+          .attr("fill", (d) =>
+            d.id.startsWith('"') ? "orange" : "forestgreen"
+          )
+          .call(drag(simulation));
+
+        const nodeText = container
+          .append("g")
+          .selectAll("text")
+          .data(nodes)
+          .join("text")
+          .text((d) => (d.id.startsWith("_") ? "" : d.id))
+          .attr("x", 12)
+          .attr("y", ".31em")
+          .attr("fill", "white")
+          .attr("font-size", forceParams.labelFontSize);
+
+        const linkText = container
+          .append("g")
+          .selectAll("text")
+          .data(links)
+          .join("text")
+          .text((d) => d.predicate)
+          .attr("x", 12)
+          .attr("y", ".31em")
+          .attr("fill", "grey")
+          .attr("font-size", forceParams.labelFontSize);
+
+        simulation.on("tick", () => {
+          link
+            .attr("x1", (d) => d.source.x)
+            .attr("y1", (d) => d.source.y)
+            .attr("x2", (d) => d.target.x)
+            .attr("y2", (d) => d.target.y);
+
+          node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+
+          nodeText.attr("x", (d) => d.x + 15).attr("y", (d) => d.y + 3);
+
+          linkText
+            .attr("x", (d) => (d.source.x + d.target.x) / 2)
+            .attr("y", (d) => (d.source.y + d.target.y) / 2);
+        });
+      }
+
+      function drag(simulation) {
+        function dragstarted(event) {
+          if (!event.active) simulation.alphaTarget(0.3).restart();
+          event.subject.fx = event.subject.x;
+          event.subject.fy = event.subject.y;
+        }
+
+        function dragged(event) {
+          event.subject.fx = event.x;
+          event.subject.fy = event.y;
+        }
+
+        function dragended(event) {
+          if (!event.active) simulation.alphaTarget(0);
+          event.subject.fx = null;
+          event.subject.fy = null;
+        }
+
+        return d3
+          .drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended);
+      }
+
+      function makeDraggable(el) {
+        let offsetX = 0;
+        let offsetY = 0;
+        let isDown = false;
+
+        el.addEventListener("mousedown", (e) => {
+          isDown = true;
+          offsetX = e.clientX - el.offsetLeft;
+          offsetY = e.clientY - el.offsetTop;
+          el.style.cursor = "grabbing";
+        });
+
+        document.addEventListener("mouseup", () => {
+          isDown = false;
+          el.style.cursor = "grab";
+        });
+
+        document.addEventListener("mousemove", (e) => {
+          if (!isDown) return;
+          el.style.left = `${e.clientX - offsetX}px`;
+          el.style.top = `${e.clientY - offsetY}px`;
+        });
+      }
+
+      loadSavedParams();
+      updateDisplay();
+      bindInputs();
+      loadTTL("/ontology/arcaea.ttl")
+        .then(({ triples, prefixMap }) => projectTriples(triples, prefixMap))
+        .then(renderGraph);
+      makeDraggable(document.getElementById("floating-ui"));
+
+      function updateTransformInputs(t) {
+        document.getElementById("val-zoom-k").value = t.k.toFixed(2);
+        document.getElementById("val-pan-x").value = Math.round(t.x);
+        document.getElementById("val-pan-y").value = Math.round(t.y);
+      }
+    </script>
+    <style>
+      #floating-ui {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #ccc;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        cursor: grab;
+        z-index: 1000;
+        user-select: none;
+      }
+    </style>
   </head>
   <body>
-    <h1>the eristocracy</h1>
+    <div id="viz"></div>
+    <div id="floating-ui">
+      <ul>
+        <li>
+          <strong>Width (px):</strong>
+          <input id="val-width" type="number" step="10" />
+          <strong>or (%) of window:</strong>
+          <input id="val-width-pct" type="number" step="1" />
+        </li>
+        <li>
+          <strong>Height (px):</strong>
+          <input id="val-height" type="number" step="10" />
+          <strong>or (%) of window:</strong>
+          <input id="val-height-pct" type="number" step="1" />
+        </li>
+        <li>
+          <strong>Link Distance:</strong>
+          <input id="val-linkDistance" type="number" step="1" />
+        </li>
+        <li>
+          <strong>Charge Strength:</strong>
+          <input id="val-chargeStrength" type="number" step="1" />
+        </li>
+        <li>
+          <strong>Label Font Size:</strong>
+          <input id="val-labelFontSize" type="number" step="1" />
+        </li>
+        <li>
+          <strong>Node Radius:</strong>
+          <input id="val-nodeRadius" type="number" step="1" />
+        </li>
+        <li>
+          <strong>Zoom Scale (k):</strong>
+          <input id="val-zoom-k" type="number" step="0.1" />
+        </li>
+        <li>
+          <strong>Pan X:</strong>
+          <input id="val-pan-x" type="number" step="10" />
+        </li>
+        <li>
+          <strong>Pan Y:</strong>
+          <input id="val-pan-y" type="number" step="10" />
+        </li>
+      </ul>
+    </div>
   </body>
 </html>

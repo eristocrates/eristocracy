@@ -1,0 +1,172 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix arcaea: <https://eristocrates.dev/externalism/ontology/arcaea/> .
+
+@prefix : <https://eristocrates.dev/externalism/ontology/arcaea/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+
+:additional_files a :lexicalKeyItem ;
+        :optional true .
+
+:artist a :lexicalKeyItem ;
+        :optional true .
+
+:audioOverride a :lexicalKeyItem ;
+        :optional true .
+
+:audioPreview a :lexicalKeyItem ;
+        :optional true .
+
+:audioPreviewEnd a :lexicalKeyItem ;
+        :optional true .
+
+:bg a :lexicalKeyItem ;
+        :optional true .
+
+:bg_daynight a :lexicalKeyItem ;
+        :optional true .
+
+:bg_inverse a :lexicalKeyItem ;
+        :optional true .
+
+:bpm a :lexicalKeyItem ;
+        :optional true .
+
+:bpm_base a :lexicalKeyItem ;
+        :optional true .
+
+:byd_local_unlock a :lexicalKeyItem ;
+        :optional true .
+
+:category a :lexicalKeyItem ;
+        :optional true .
+
+:chartDesigner a :lexicalKeyItem ;
+        :optional false .
+
+:date a :lexicalKeyItem ;
+        :optional true .
+
+:day a :lexicalKeyItem ;
+        :optional false .
+
+:deleted a :lexicalKeyItem ;
+        :optional true .
+
+:difficulties a :lexicalKeyItem ;
+        :optional true .
+
+:en a :lexicalKeyItem ;
+        :optional false .
+
+:file_name a :lexicalKeyItem ;
+        :optional false .
+
+:hidden_until a :lexicalKeyItem ;
+        :optional true .
+
+:hidden_until_unlocked a :lexicalKeyItem ;
+        :optional true .
+
+:id a :lexicalKeyItem ;
+        :optional false .
+
+:idx a :lexicalKeyItem ;
+        :optional false .
+
+:ja a :lexicalKeyItem ;
+        :optional false .
+
+:jacketDesigner a :lexicalKeyItem ;
+        :optional false .
+
+:jacketOverride a :lexicalKeyItem ;
+        :optional true .
+
+:jacket_localized a :lexicalKeyItem ;
+        :optional true .
+
+:jacket_night a :lexicalKeyItem ;
+        :optional true .
+
+:ko a :lexicalKeyItem ;
+        :optional false .
+
+:ko_dialog a :lexicalKeyItem ;
+        :optional true .
+
+:kr a :lexicalKeyItem ;
+        :optional true .
+
+:legacy11 a :lexicalKeyItem ;
+        :optional true .
+
+:limitedSaleEndTime a :lexicalKeyItem ;
+        :optional true .
+
+:night a :lexicalKeyItem ;
+        :optional false .
+
+:no_stream a :lexicalKeyItem ;
+        :optional true .
+
+:plusFingers a :lexicalKeyItem ;
+        :optional true .
+
+:purchase a :lexicalKeyItem ;
+        :optional true .
+
+:rating a :lexicalKeyItem ;
+        :optional false .
+
+:ratingClass a :lexicalKeyItem ;
+        :optional false .
+
+:ratingPlus a :lexicalKeyItem ;
+        :optional true .
+
+:remote_dl a :lexicalKeyItem ;
+        :optional true .
+
+:requirement a :lexicalKeyItem ;
+        :optional false .
+
+:search_artist a :lexicalKeyItem ;
+        :optional true .
+
+:search_title a :lexicalKeyItem ;
+        :optional true .
+
+:set a :lexicalKeyItem ;
+        :optional true .
+
+:side a :lexicalKeyItem ;
+        :optional true .
+
+:songlist_hidden a :lexicalKeyItem ;
+        :optional true .
+
+:songs a :lexicalKeyItem ;
+        :optional false .
+
+:source_copyright a :lexicalKeyItem ;
+        :optional true .
+
+:source_localized a :lexicalKeyItem ;
+        :optional true .
+
+:title_localized a :lexicalKeyItem ;
+        :optional true .
+
+:version a :lexicalKeyItem ;
+        :optional true .
+
+:world_unlock a :lexicalKeyItem ;
+        :optional true .
+
+:zh-Hans a :lexicalKeyItem ;
+        :optional true .
+
+:zh-Hant a :lexicalKeyItem ;
+        :optional true .
+
