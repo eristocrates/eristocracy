@@ -1,0 +1,14 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <https://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <https://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix schema: <http://schema.org/> .
+@prefix ex: <https://w3id.org/example/> .
+@prefix dc11: <http://purl.org/dc/elements/1.1/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix vaem: <http://www.linkedmodel.org/schema/vaem#> .
+
+@prefix : <https://w3id.org/example#> .
+
+ex: rdf:type ex:test.

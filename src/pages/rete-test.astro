@@ -1,0 +1,33 @@
+---
+import ReteEditorSimple from "../components/react/ReteEditorSimple";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rete Editor Test</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
+      }
+      .container {
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Basic Rete Editor</h1>
+      <ReteEditorSimple client:only="react" />
+    </div>
+  </body>
+</html>
