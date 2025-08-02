@@ -12,7 +12,6 @@
     "@alpinejs/intersect": "^3.14.9",
     "@ascorbic/feed-loader": "^2.0.1",
     "@astrojs/alpinejs": "^0.4.8",
-    "@astrojs/db": "^0.16.0",
     "@astrojs/markdoc": "^0.15.4",
     "@astrojs/mdx": "^4.3.3",
     "@astrojs/netlify": "^6.3.4",

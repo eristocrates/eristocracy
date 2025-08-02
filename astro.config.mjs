@@ -3,7 +3,8 @@ import { defineConfig } from 'astro/config';
 import netlify from '@astrojs/netlify';
 import react from '@astrojs/react';
 
-import db from '@astrojs/db';
+// Removed db import since not using it yet
+// import db from '@astrojs/db';
 
 import markdoc from '@astrojs/markdoc';
 
@@ -19,7 +20,7 @@ export default defineConfig({
   // Focus on React for 3D Force Graph and Rete.js
   integrations: [react({
     include: ['**/react/*'],
-  }), db(), markdoc(), mdx(), /* partytown(), */ sitemap()],
+  }), /* db(), */ markdoc(), mdx(), /* partytown(), */ sitemap()],
   vite: {
     optimizeDeps: {
       include: ['@babylonjs/core'],
