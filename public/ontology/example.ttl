@@ -1,0 +1,143 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <https://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <https://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix schema: <http://schema.org/> .
+@prefix ex: <https://w3id.org/example/> .
+@prefix dc11: <http://purl.org/dc/elements/1.1/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix vaem: <http://www.linkedmodel.org/schema/vaem#> .
+
+@prefix : <https://w3id.org/example#> .
+
+ex: rdf:type owl:Ontology ;
+        owl:versionIRI ex:1.0.1 ;
+        dc:abstract "An example vocabulary designed to illustrate how to publish vocabularies on the Web following the FAIR principles"@en ;
+        dc11:description "This is an example ontology to illustrate some of the annotations that should be included"@en ;
+        dc11:title "The example ontology"@en ;
+        dc:created "February 5th, 2020"@en ;
+        dc:creator "Daniel Garijo"@en ,
+        "Maria Poveda-Villalon"@en ;
+        dc:license <http://creativecommons.org/licenses/by/2.0/> ;
+        vann:preferredNamespacePrefix "exo"@en ;
+        vann:preferredNamespaceUri "https://w3id.org/example" ;
+        schema:citation "Cite this vocabulary as: Garijo, D. and Poveda-Villalon, M. The example ontology 1.0.1."@en ;
+        rdfs:comment "An example vocabulary designed to illustrate how to publish vocabularies on the Web following the FAIR principles. This vocabulary describes three simple classes with 3 properties and a data property."@en ;
+        owl:backwardCompatibleWith ex:1.0.0 ;
+        owl:priorVersion ex:1.0.0 ;
+        owl:versionInfo "1.0.1"@en .
+
+        #################################################################
+        #    Annotation properties
+        #################################################################
+
+        ###  http://purl.org/dc/elements/1.1/abstract
+        dc11:abstract rdf:type owl:AnnotationProperty .
+
+        ###  http://purl.org/dc/elements/1.1/created
+        dc11:created rdf:type owl:AnnotationProperty .
+
+        ###  http://purl.org/dc/elements/1.1/description
+        dc11:description rdf:type owl:AnnotationProperty .
+
+        ###  http://purl.org/dc/elements/1.1/publisher
+        dc11:publisher rdf:type owl:AnnotationProperty .
+
+        ###  http://purl.org/dc/elements/1.1/title
+        dc11:title rdf:type owl:AnnotationProperty .
+
+        ###  http://purl.org/dc/terms/created
+        dc:created rdf:type owl:AnnotationProperty .
+
+        ###  http://purl.org/dc/terms/creator
+        dc:creator rdf:type owl:AnnotationProperty .
+
+        ###  http://purl.org/dc/terms/license
+        dc:license rdf:type owl:AnnotationProperty .
+
+        ###  http://purl.org/vocab/vann/example
+        vann:example rdf:type owl:AnnotationProperty .
+
+        ###  http://purl.org/vocab/vann/preferredNamespacePrefix
+        vann:preferredNamespacePrefix rdf:type owl:AnnotationProperty .
+
+        ###  http://purl.org/vocab/vann/preferredNamespaceUri
+        vann:preferredNamespaceUri rdf:type owl:AnnotationProperty .
+
+        ###  http://schema.org/author
+        schema:author rdf:type owl:AnnotationProperty .
+
+        ###  http://schema.org/citation
+        schema:citation rdf:type owl:AnnotationProperty .
+
+        ###  http://www.linkedmodel.org/schema/vaem#rationale
+        vaem:rationale rdf:type owl:AnnotationProperty .
+
+        #################################################################
+        #    Datatypes
+        #################################################################
+
+        ###  http://www.w3.org/2001/XMLSchema#date
+        xsd:date rdf:type rdfs:Datatype .
+
+        #################################################################
+        #    Object Properties
+        #################################################################
+
+        ###  https://w3id.org/example#hasMember
+:hasMember rdf:type owl:ObjectProperty ;
+        rdfs:domain :Organization ;
+        rdfs:range :Researcher ;
+        rdfs:comment "This example property indicates that an Organization has a Researcher as member"@en ;
+        rdfs:label "has member"@en .
+
+        ###  https://w3id.org/example#hasMentor
+:hasMentor rdf:type owl:ObjectProperty ;
+        rdfs:domain :Student ;
+        rdfs:range :Researcher ;
+        rdfs:comment "This property links the students to the researcher who mentored them"@en ;
+        rdfs:label "has mentor"@en .
+
+        ###  https://w3id.org/example#partOf
+:partOf rdf:type owl:ObjectProperty ;
+        rdfs:domain :Researcher ;
+        rdfs:range :Organization ;
+        rdfs:comment "This property links instances from Researcher to Organization"@en ;
+        rdfs:label "part of"@en .
+
+        #################################################################
+        #    Data properties
+        #################################################################
+
+        ###  https://w3id.org/example#foundedIn
+:foundedIn rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Organization ;
+        rdfs:range xsd:date ;
+        rdfs:comment "Date when an organization was founded"@en ;
+        rdfs:label "founded in"@en .
+
+        #################################################################
+        #    Classes
+        #################################################################
+
+        ###  https://w3id.org/example#Organization
+:Organization rdf:type owl:Class ;
+        vann:example "University of Southern California"@en ;
+        rdfs:comment "An organized body of people with a particular purpose, especially a business, society, association, etc."@en ;
+        rdfs:label "Organization"@en .
+
+        ###  https://w3id.org/example#Researcher
+:Researcher rdf:type owl:Class ;
+        vann:example "An example using the Researcher class, e.g., Bob is a professor at the University of Southern California."@en ;
+        vaem:rationale "The reason why this concept was added to the ontology. This could reflect some agreement or use cases that may need to be reflected here. For example: The concept Researcher was added to the ontology to represent those authors of scientific publications that belong to a public institution."@en ;
+        rdfs:comment "A definition of your class. For example, A researcher is a person who publishes scientific papers, writes research proposals and mentors students"@en ;
+        rdfs:label "Researcher"@en .
+
+        ###  https://w3id.org/example#Student
+:Student rdf:type owl:Class ;
+        rdfs:comment "Student is a class introduced in the version 1.0.1 of the ontology. "@en ;
+        rdfs:label "Student"@en .
+
+        ###  Generated by the OWL API (version 5.1.14) https://github.com/owlcs/owlapi/
+

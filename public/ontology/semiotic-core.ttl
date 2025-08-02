@@ -1,0 +1,305 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <https://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <https://www.w3.org/2004/02/skos/core#> .
+@prefix arcaea: <https://eristocrates.dev/externalism/ontology/arcaea/> .
+@prefix skos-core: <http://www.w3.org/2004/02/skos/core#> .
+
+@prefix : <https://eristocrates.dev/externalism/ontology/semiotic/> .
+@prefix arcaea: <https://eristocrates.dev/externalism/ontology/arcaea/> .
+@prefix owl: <https://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos-core: <http://www.w3.org/2004/02/skos/core#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:Typology a owl:Class ;
+  rdfs:label "Typology" ;
+  skos:definition "A classificatory structure for organizing signs according to formal distinctions." .
+:Trichotomy a owl:Class ;
+  rdfs:label "Trichotomy" ;
+  owl:subClassOf :Typology ;
+  :hasSequence :TrichotomySequence ;
+  skos:definition "One of Peirce's three core divisions of signs, based on the sign itself, its object relation, or its interpretant relation." .
+:TrichotomySequence rdf:Seq ( :TrichotomyOfGround :TrichotomyOfBeing :TrichotomyOfInterpretation :TrichotomyOfImmediateObject :TrichotomyOfDynamicalObject :TrichotomyOfImmediateInterpretant :TrichotomyOfDynamicalInterpretant :TrichotomyOfFinalInterpretant ) ;
+  rdfs:label "Ordered sequence of Peircean trichotomies" .
+:CanonTrichotomy a owl:Class ;
+  owl:subClassOf :Trichotomy ;
+  rdfs:label "Canonical Trichotomy" ;
+  skos:definition "The three canonical Peircean trichotomies." .
+:Sign a owl:Class ;
+  rdfs:label "Sign" ;
+  skos:definition "A triadic relation among representamen, object, and interpretant." .
+:hasRepresentamen a rdf:Property ;
+  rdfs:domain :Sign ;
+  rdfs:range :Representamen .
+:Representamen a owl:Class ;
+  rdfs:label "Representamen" ;
+  skos:definition "The form a sign takes; the perceivable or structural expression." .
+:hasObject a rdf:Property ;
+  rdfs:domain :Sign ;
+  rdfs:range :Object .
+:Object a owl:Class ;
+  rdfs:label "Object" ;
+  skos:definition "That which the sign refers to or denotes." .
+:hasInterpretant a rdf:Property ;
+  rdfs:domain :Sign ;
+  rdfs:range :Interpretant .
+:Interpretant a owl:Class ;
+  rdfs:label "Interpretant" ;
+  skos:definition "The effect or understanding the sign produces in a mind or system." .
+
+
+#---------------------------------------------------------------------------------------------------------------------------------
+:TrichotomyOfGround a skos:ConceptScheme ;
+  rdfs:label "Trichotomy of Ground" ;
+  owl:subClassOf :CanonTrichotomy ;
+  skos:related :Object ;
+  skos:note "Basis of sign-object reference" ;
+  skos:definition "Classifies signs according to the manner in which they refer to their object: resemblance, contiguity, or convention." .
+:hasGroundType a owl:ObjectProperty ;
+  rdfs:label "has ground type" ;
+  rdfs:domain :Sign ;
+   rdfs:range [
+       a owl:Class ;
+       owl:oneOf ( :Icon :Index :Symbol ) 
+   ] ;
+  skos:definition "Classifies a sign by the nature of its grounding in relation to its object." .
+:RelationSign a owl:Class ;
+  rdfs:label "Relation-Classified Sign" ;
+  rdfs:subClassOf :Sign ;
+  skos:definition "A sign classified by how it relates to its object via resemblance, causality, or learned association." .
+:Icon a owl:Class ;
+  skos:inScheme :TrichotomyOfGround ;
+  rdfs:label "Icon" ;
+  owl:subClassOf :RelationSign ;
+  skos:definition "A sign that refers to its object by resembling it or sharing its qualities." .
+:Index a owl:Class ;
+  skos:inScheme :TrichotomyOfGround ;
+  rdfs:label "Index" ;
+  owl:subClassOf :RelationSign ;
+  skos:definition "A sign that refers to its object through direct connection, such as causality or proximity." .
+:Symbol a owl:Class ;
+  skos:inScheme :TrichotomyOfGround ;
+  rdfs:label "Symbol" ;
+  owl:subClassOf :RelationSign ;
+  skos:definition "A sign that refers to its object by rule, habit, or social convention." .
+
+#---------------------------------------------------------------------------------------------------------------------------------
+:TrichotomyOfBeing a skos:ConceptScheme ;
+  rdfs:label "Trichotomy of Being" ;
+  owl:subClassOf :CanonTrichotomy ;
+  skos:related :Representamen ;
+  skos:note "Ontological Mode" ;
+  skos:definition "Classifies signs as Qualisigns, Sinsigns, or Legisigns based on their mode of being." .
+:hasBeingType a owl:ObjectProperty ;
+  rdfs:label "has being type" ;
+  rdfs:domain :Sign ;
+   rdfs:range [
+       a owl:Class ;
+       owl:oneOf ( :Qualisign :Sinsign :Legisign ) 
+   ] ;
+  skos:definition "Classifies a sign by its ontological mode of being." .
+:BeingSign a owl:Class ;
+  rdfs:label "Being-Classified Sign" ;
+  rdfs:subClassOf :Sign ;
+  skos:definition "A sign categorized according to its ontological mode of being." .
+:Sinsign a owl:Class ;
+  skos:inScheme :TrichotomyOfBeing ;
+  rdfs:label "Sinsign" ;
+  owl:subClassOf :BeingSign ;
+  skos:definition "An actually occurring sign-token; an individual instance of a sign." .
+:Legisign a owl:Class ;
+  skos:inScheme :TrichotomyOfBeing ;
+  rdfs:label "Legisign" ;
+  owl:subClassOf :BeingSign ;
+  skos:definition "A law-based or rule-governed sign type, whose tokens are sinsigns." .
+:Qualisign a owl:Class ;
+  skos:inScheme :TrichotomyOfBeing ;
+  rdfs:label "Qualisign" ;
+  owl:subClassOf :BeingSign ;
+  skos:definition "A quality or potential that is capable of functioning as a sign, but which is not instantiated on its own." .
+
+
+#---------------------------------------------------------------------------------------------------------------------------------
+:TrichotomyOfInterpretation a skos:ConceptScheme ;
+  rdfs:label "Trichotomy of Interpretation" ;
+  owl:subClassOf :CanonTrichotomy ;
+  skos:related :Interpretant ;
+  skos:note "Effect on the Interpretant" ;
+  skos:definition "Classifies signs as Rhemes, Dicisigns, or Arguments based on their effect on the interpretant." .
+:hasInterpretantType a owl:ObjectProperty ;
+  rdfs:label "has interpretant type" ;
+  rdfs:domain :Sign ;
+   rdfs:range [
+       a owl:Class ;
+       owl:oneOf ( :Rheme :Dicisign :Argument ) 
+   ] ;
+  skos:definition "Classifies a sign by the nature of its interpretant relation." .
+:InterpretantSign a owl:Class ;
+  rdfs:label "Interpretant-Classified Sign" ;
+  rdfs:subClassOf :Sign ;
+  skos:definition "A sign categorized according to the form of interpretant it gives rise to." .
+:Rheme a owl:Class ;
+  skos:inScheme :TrichotomyOfInterpretation ;
+  rdfs:label "Rheme" ;
+  owl:subClassOf :InterpretantSign ;
+  skos:definition "A sign that represents its object in terms of quality or possibility; it functions like a predicate or possibility." .
+:Dicisign a owl:Class ;
+  skos:inScheme :TrichotomyOfInterpretation ;
+  rdfs:label "Dicisign" ;
+  owl:subClassOf :InterpretantSign ;
+  skos:definition "A sign that asserts or denotes a fact; analogous to a proposition or declarative statement." .
+:Argument a owl:Class ;
+  skos:inScheme :TrichotomyOfInterpretation ;
+  rdfs:label "Argument" ;
+  owl:subClassOf :InterpretantSign ;
+  skos:definition "A sign that represents a process of reasoning or inference; it compels interpretive assent through structured logic." .
+
+#---------------------------------------------------------------------------------------------------------------------------------
+:TrichotomyOfImmediateObject a owl:Class , skos:ConceptScheme ;
+  rdfs:label "Trichotomy of Immediate Object" ;
+  skos:note "Distinguishes signs based on the immediacy or abstraction of their object reference." ;
+  rdfs:subClassOf :Trichotomy ;
+  skos:related :Object .
+:hasImmediateObjectType a owl:ObjectProperty ;
+  rdfs:label "has immediate object type" ;
+  rdfs:domain :Sign ;
+  rdfs:range :ImmediateObjectSign ;
+  skos:note "Specifies the mode of immediate object reference of a sign." .
+:ImmediateObjectSign a owl:Class ;
+  rdfs:label "Immediate Object Sign" ;
+  rdfs:subClassOf :Sign .
+:Abstract a owl:Class ;
+  rdfs:label "Abstract" ;
+  rdfs:subClassOf :ImmediateObjectSign ;
+  skos:definition "A sign that refers to its object through abstraction or generalization." .
+:Singular a owl:Class ;
+  rdfs:label "Singular" ;
+  rdfs:subClassOf :ImmediateObjectSign ;
+  skos:definition "A sign that refers to a single, concrete object in the immediate sense." .
+:Generic a owl:Class ;
+  rdfs:label "Generic" ;
+  rdfs:subClassOf :ImmediateObjectSign ;
+  skos:definition "A sign that refers to a kind or type without referencing a specific instance." .
+
+#---------------------------------------------------------------------------------------------------------------------------------
+:TrichotomyOfDynamicalObject a owl:Class , skos:ConceptScheme ;
+  rdfs:label "Trichotomy of Dynamical Object" ;
+  skos:note "Distinguishes signs based on their relation to an object's dynamic character or reality." ;
+  rdfs:subClassOf :Trichotomy ;
+  skos:related :Object .
+:hasDynamicalObjectType a owl:ObjectProperty ;
+  rdfs:label "has dynamical object type" ;
+  rdfs:domain :Sign ;
+  rdfs:range :DynamicalObjectSign ;
+  skos:note "Specifies the mode of reference a sign has to the dynamically instantiated object." .
+:DynamicalObjectSign a owl:Class ;
+  rdfs:label "Dynamical Object Sign" ;
+  rdfs:subClassOf :Sign .
+:Experiential a owl:Class ;
+  rdfs:label "Experiential" ;
+  rdfs:subClassOf :DynamicalObjectSign ;
+  skos:definition "A sign whose object relation is rooted in lived or empirical experience." .
+:Empirical a owl:Class ;
+  rdfs:label "Empirical" ;
+  rdfs:subClassOf :DynamicalObjectSign ;
+  skos:definition "A sign whose object is accessible through external observation or measurement." .
+:Immanent a owl:Class ;
+  rdfs:label "Immanent" ;
+  rdfs:subClassOf :DynamicalObjectSign ;
+  skos:definition "A sign whose object is understood as internal, subjective, or emergent within a system of interpretation." .
+
+
+#---------------------------------------------------------------------------------------------------------------------------------
+:TrichotomyOfImmediateInterpretant a owl:Class , skos:ConceptScheme ;
+  rdfs:label "Trichotomy of Immediate Interpretant" ;
+  skos:note "Distinguishes signs based on how their interpretants function in the immediate moment of interpretation." ;
+  rdfs:subClassOf :Trichotomy ;
+  skos:related :Interpretant .
+:hasImmediateInterpretantType a owl:ObjectProperty ;
+  rdfs:label "has immediate interpretant type" ;
+  rdfs:domain :Sign ;
+  rdfs:range :ImmediateInterpretantSign ;
+  skos:note "Specifies the interpretant form a sign elicits in the moment of contact or recognition." .
+:ImmediateInterpretantSign a owl:Class ;
+  rdfs:label "Immediate Interpretant Sign" ;
+  rdfs:subClassOf :Sign .
+:Affective a owl:Class ;
+  rdfs:label "Affective" ;
+  rdfs:subClassOf :ImmediateInterpretantSign ;
+  skos:definition "A sign whose interpretant is primarily emotive or affect-driven." .
+:Cognitive a owl:Class ;
+  rdfs:label "Cognitive" ;
+  rdfs:subClassOf :ImmediateInterpretantSign ;
+  skos:definition "A sign whose interpretant is an immediate apprehension or conception in thought." .
+:Volitional a owl:Class ;
+  rdfs:label "Volitional" ;
+  rdfs:subClassOf :ImmediateInterpretantSign ;
+  skos:definition "A sign whose interpretant initiates or is shaped by a tendency to act or respond." .
+
+#---------------------------------------------------------------------------------------------------------------------------------
+:TrichotomyOfDynamicalInterpretant a owl:Class , skos:ConceptScheme ;
+  rdfs:label "Trichotomy of Dynamical Interpretant" ;
+  skos:note "Distinguishes signs based on how their interpretants evolve in response to unfolding understanding or interpretation." ;
+  rdfs:subClassOf :Trichotomy ;
+  skos:related :Interpretant .
+:hasDynamicalInterpretantType a owl:ObjectProperty ;
+  rdfs:label "has dynamical interpretant type" ;
+  rdfs:domain :Sign ;
+  rdfs:range :DynamicalInterpretantSign ;
+  skos:note "Specifies the evolving interpretant form a sign takes over the course of understanding or interaction." .
+:DynamicalInterpretantSign a owl:Class ;
+  rdfs:label "Dynamical Interpretant Sign" ;
+  rdfs:subClassOf :Sign .
+:Discursive a owl:Class ;
+  rdfs:label "Discursive" ;
+  rdfs:subClassOf :DynamicalInterpretantSign ;
+  skos:definition "A sign whose interpretant unfolds through reasoning or conceptual progression." .
+:Habitual a owl:Class ;
+  rdfs:label "Habitual" ;
+  rdfs:subClassOf :DynamicalInterpretantSign ;
+  skos:definition "A sign whose interpretant is grounded in behavioral pattern or interpretive precedent." .
+:Emergent a owl:Class ;
+  rdfs:label "Emergent" ;
+  rdfs:subClassOf :DynamicalInterpretantSign ;
+  skos:definition "A sign whose interpretant forms dynamically through context-sensitive interaction." .
+#---------------------------------------------------------------------------------------------------------------------------------
+:TrichotomyOfFinalInterpretant a owl:Class , skos:ConceptScheme ;
+  rdfs:label "Trichotomy of Final Interpretant" ;
+  skos:note "Distinguishes signs based on the ultimate interpretive effect they are expected to produce in an idealized state of understanding." ;
+  rdfs:subClassOf :Trichotomy ;
+  skos:related :Interpretant .
+:hasFinalInterpretantType a owl:ObjectProperty ;
+  rdfs:label "has final interpretant type" ;
+  rdfs:domain :Sign ;
+  rdfs:range :FinalInterpretantSign ;
+  skos:note "Specifies the eventual, ideal interpretant a sign would stabilize into given complete knowledge and interpretation." .
+:FinalInterpretantSign a owl:Class ;
+  rdfs:label "Final Interpretant Sign" ;
+  rdfs:subClassOf :Sign .
+:Resolved a owl:Class ;
+  rdfs:label "Resolved" ;
+  rdfs:subClassOf :FinalInterpretantSign ;
+  skos:definition "A sign whose final interpretant achieves closure or definitive understanding." .
+:Normative a owl:Class ;
+  rdfs:label "Normative" ;
+  rdfs:subClassOf :FinalInterpretantSign ;
+  skos:definition "A sign whose final interpretant reflects enduring rules or standards of interpretation." .
+:Transformative a owl:Class ;
+  rdfs:label "Transformative" ;
+  rdfs:subClassOf :FinalInterpretantSign ;
+  skos:definition "A sign whose final interpretant changes the framework of understanding or enacts paradigm-level change." .
+
+#---------------------------------------------------------------------------------------------------------------------------------
+:SemioticEvent a owl:Class ;
+  rdfs:label "Semiotic Event" ;
+  skos:definition "A situated occurrence in which a sign engages with an interpretant through a representamen." .
+:hasSign a owl:ObjectProperty ;
+  rdfs:domain :SemioticEvent ;
+  rdfs:range :Sign ;
+  rdfs:label "has sign" ;
+  skos:definition "Links a semiotic event to the sign that was involved." .
+
+#---------------------------------------------------------------------------------------------------------------------------------

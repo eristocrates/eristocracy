@@ -1,0 +1,3165 @@
+---
+
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>the eristocracy</title>
+    <script src="https://unpkg.com/n3/browser/n3.min.js"></script>
+    <script type="module">
+      import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+      const LOCAL_STORAGE_KEY = "d3-forceParams";
+      const LOCAL_ZOOM_KEY = "d3-zoomTransform";
+
+      const forceParams = {
+        width: Math.round(window.innerWidth),
+        height: Math.round(window.innerHeight),
+        linkDistance: 80,
+        chargeStrength: -400,
+        labelFontSize: 10,
+        nodeRadius: 10,
+        // Node colors
+        classNodeColor: "#4A90E2", // Blue for OWL Classes
+        instanceNodeColor: "#7ED321", // Green for Named Individuals
+        literalNodeColor: "#F5A623", // Orange for Literals
+        blankNodeColor: "#BD10E0", // Purple for Blank Nodes
+        // Edge colors
+        objectPropertyColor: "#50E3C2", // Teal for Object Properties
+        datatypePropertyColor: "#B8E986", // Light Green for Datatype Properties
+        rdfPropertyColor: "#9013FE", // Purple for RDF/RDFS properties
+        // UI colors
+        textColor: "#FFFFFF",
+        backgroundColor: "#000000",
+        fontFamily: "Arial, sans-serif",
+        fontWeight: 400,
+        fontStretch: 100,
+        fontSlant: 0,
+        dataSource: "/ontology/arcaea.ttl", // Default data source
+        simulationRunning: true, // Track simulation state
+        nodeFixed: false, // Track if nodes should be pinned on drag
+        highlightEnabled: true, // Track if hover highlighting is enabled
+        // Simple collision avoidance (affects nodes/edges only, not text directly)
+        nodeCollisionRadius: 25, // Collision radius for nodes (should be > nodeRadius)
+        edgeNodeAvoidance: true, // Prevent edges from overlapping nodes
+        adaptiveNodeSpacing: true, // Increase node spacing in dense areas
+        smartTextPositioning: true, // Rotate text anchor around node to avoid overlaps
+        textAvoidanceRadius: 30, // Radius to check for node-text collisions
+        edgeTextSpacing: true, // Push nodes apart to make room for edge text
+        edgeTextSpacingStrength: 0.3, // Strength of edge text spacing force
+        // Node filtering
+        hiddenNodes: new Set(), // Set of node IDs that are hidden
+        // Performance optimizations
+        maxNodeCount: 200, // Maximum nodes before auto-filtering kicks in
+        showInstances: true, // Show ABox (instances/individuals)
+        showClasses: true, // Show TBox classes
+        showLiterals: true, // Show literal nodes
+        minNodeDegree: 0, // Minimum connections to show a node (0 = show all)
+        performanceMode: false, // Auto-enabled when many nodes
+        useFPSThrottling: false, // Use requestAnimationFrame for tick function
+      };
+
+      // Popular Google Fonts that work well for data visualization
+      const availableFonts = [
+        { name: "Arial", value: "Arial, sans-serif" },
+        { name: "Roboto", value: "Roboto, sans-serif" },
+        { name: "Open Sans", value: "'Open Sans', sans-serif" },
+        { name: "Lato", value: "Lato, sans-serif" },
+        { name: "Montserrat", value: "Montserrat, sans-serif" },
+        { name: "Source Sans Pro", value: "'Source Sans Pro', sans-serif" },
+        { name: "Raleway", value: "Raleway, sans-serif" },
+        { name: "Ubuntu", value: "Ubuntu, sans-serif" },
+        { name: "Nunito", value: "Nunito, sans-serif" },
+        { name: "Poppins", value: "Poppins, sans-serif" },
+        { name: "Inter", value: "Inter, sans-serif" },
+        { name: "Fira Sans", value: "'Fira Sans', sans-serif" },
+        { name: "JetBrains Mono", value: "'JetBrains Mono', monospace" },
+        { name: "Fira Code", value: "'Fira Code', monospace" },
+        { name: "Source Code Pro", value: "'Source Code Pro', monospace" },
+        // Monaspace fonts from GitHub
+        { name: "Monaspace Neon", value: "'Monaspace Neon', monospace" },
+        { name: "Monaspace Argon", value: "'Monaspace Argon', monospace" },
+        { name: "Monaspace Xenon", value: "'Monaspace Xenon', monospace" },
+        { name: "Monaspace Radon", value: "'Monaspace Radon', monospace" },
+        { name: "Monaspace Krypton", value: "'Monaspace Krypton', monospace" },
+      ];
+
+      // Available local ontology files - will be populated dynamically
+      let availableOntologies = [];
+
+      let savedZoom = null;
+
+      function parseURLParameters() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const dataParam = urlParams.get("data");
+
+        if (dataParam) {
+          // Override the default data source with URL parameter
+          forceParams.dataSource = dataParam;
+          console.log("Data source from URL parameter:", dataParam);
+        }
+      }
+
+      function loadGoogleFont(fontFamily) {
+        // Extract just the font name for font loading
+        const fontName = fontFamily.split(",")[0].replace(/['"]/g, "");
+
+        // Skip system fonts
+        if (["Arial", "Helvetica", "Times", "Courier"].includes(fontName)) {
+          return;
+        }
+
+        // Check if font is already loaded
+        const existingLink = document.querySelector(
+          `link[href*="${fontName.replace(/\s+/g, "+")}"]`
+        );
+        if (existingLink) return;
+
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+
+        // Handle Monaspace fonts from @fontsource
+        if (fontName.startsWith("Monaspace")) {
+          // Check if this specific Monaspace font is already loaded
+          const fontSlug = fontName.toLowerCase().replace(/\s+/g, "-");
+          const existingLink = document.querySelector(
+            `link[href*="${fontSlug}"]`
+          );
+          if (existingLink) return;
+
+          // Add CSS link for the specific Monaspace font from @fontsource
+          link.href = `https://cdn.jsdelivr.net/npm/@fontsource/${fontSlug}@latest/variable.css`;
+          document.head.appendChild(link);
+          return; // Don't continue to Google Fonts
+        }
+
+        // Handle Google Fonts
+        link.href = `https://fonts.googleapis.com/css2?family=${fontName.replace(/\s+/g, "+")}:wght@300;400;500;600;700&display=swap`;
+        document.head.appendChild(link);
+      }
+
+      function saveParams() {
+        // Convert Set to Array for JSON serialization
+        const paramsToSave = {
+          ...forceParams,
+          hiddenNodes: Array.from(forceParams.hiddenNodes),
+        };
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(paramsToSave));
+        console.log("Saved forceParams:", paramsToSave);
+      }
+
+      function saveZoom(transform) {
+        localStorage.setItem(LOCAL_ZOOM_KEY, JSON.stringify(transform));
+      }
+
+      function loadSavedParams() {
+        const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            // Convert hiddenNodes array back to Set
+            if (parsed.hiddenNodes && Array.isArray(parsed.hiddenNodes)) {
+              parsed.hiddenNodes = new Set(parsed.hiddenNodes);
+            } else {
+              parsed.hiddenNodes = new Set();
+            }
+            Object.assign(forceParams, parsed);
+            console.log("Loaded saved forceParams:", parsed);
+          } catch (e) {
+            console.warn("Failed to parse saved forceParams:", e);
+            // Ensure hiddenNodes is a Set even if loading fails
+            forceParams.hiddenNodes = new Set();
+          }
+        }
+
+        const zoomStored = localStorage.getItem(LOCAL_ZOOM_KEY);
+        if (zoomStored) {
+          try {
+            savedZoom = JSON.parse(zoomStored);
+          } catch (e) {
+            console.warn("Failed to parse saved zoom transform:", e);
+          }
+        }
+      }
+
+      function updateDisplay() {
+        // Update numeric and color parameters
+        const parameterMappings = {
+          "val-width": forceParams.width,
+          "val-height": forceParams.height,
+          "val-width-pct": (100 * forceParams.width) / window.innerWidth,
+          "val-height-pct": (100 * forceParams.height) / window.innerHeight,
+          "val-linkDistance": forceParams.linkDistance,
+          "val-chargeStrength": forceParams.chargeStrength,
+          "val-labelFontSize": forceParams.labelFontSize,
+          "val-nodeRadius": forceParams.nodeRadius,
+          "val-textColor": forceParams.textColor,
+          "val-backgroundColor": forceParams.backgroundColor,
+          // Node and edge coloring parameters
+          "val-classNodeColor": forceParams.classNodeColor,
+          "val-instanceNodeColor": forceParams.instanceNodeColor,
+          "val-literalNodeColor": forceParams.literalNodeColor,
+          "val-blankNodeColor": forceParams.blankNodeColor,
+          "val-objectPropertyColor": forceParams.objectPropertyColor,
+          "val-datatypePropertyColor": forceParams.datatypePropertyColor,
+          "val-rdfPropertyColor": forceParams.rdfPropertyColor,
+          "val-fontFamily": forceParams.fontFamily,
+          "val-fontWeight": forceParams.fontWeight,
+          "val-fontStretch": forceParams.fontStretch,
+          "val-fontSlant": forceParams.fontSlant,
+          // Collision parameters
+          "val-nodeCollisionRadius": forceParams.nodeCollisionRadius,
+          "val-textAvoidanceRadius": forceParams.textAvoidanceRadius,
+          "val-edgeTextSpacingStrength": forceParams.edgeTextSpacingStrength,
+        };
+
+        Object.entries(parameterMappings).forEach(([elementId, value]) => {
+          document.getElementById(elementId).value = value;
+        });
+
+        // Handle checkboxes for collision features
+        document.getElementById("val-edgeNodeAvoidance").checked =
+          forceParams.edgeNodeAvoidance;
+        document.getElementById("val-adaptiveNodeSpacing").checked =
+          forceParams.adaptiveNodeSpacing;
+        document.getElementById("val-smartTextPositioning").checked =
+          forceParams.smartTextPositioning;
+        document.getElementById("val-edgeTextSpacing").checked =
+          forceParams.edgeTextSpacing;
+
+        // Handle performance checkboxes
+        document.getElementById("val-showClasses").checked =
+          forceParams.showClasses;
+        document.getElementById("val-showInstances").checked =
+          forceParams.showInstances;
+        document.getElementById("val-showLiterals").checked =
+          forceParams.showLiterals;
+        document.getElementById("val-performanceMode").checked =
+          forceParams.performanceMode;
+        document.getElementById("val-useFPSThrottling").checked =
+          forceParams.useFPSThrottling;
+
+        // Performance numeric parameters
+        document.getElementById("val-maxNodeCount").value =
+          forceParams.maxNodeCount;
+        document.getElementById("val-minNodeDegree").value =
+          forceParams.minNodeDegree;
+
+        // Update data source controls
+        updateDataSourceControls();
+
+        // Update variable font display values
+        document.getElementById("fontWeight-display").textContent =
+          forceParams.fontWeight;
+        document.getElementById("fontStretch-display").textContent =
+          `${forceParams.fontStretch}%`;
+        document.getElementById("fontSlant-display").textContent =
+          `${forceParams.fontSlant}°`;
+
+        // Update zoom parameters if available
+        if (savedZoom) {
+          updateTransformInputs(savedZoom);
+        }
+      }
+
+      function updateDataSourceControls() {
+        // Check if current dataSource is a local ontology
+        const isLocalOntology = availableOntologies.some(
+          (ont) => ont.path === forceParams.dataSource
+        );
+
+        if (isLocalOntology) {
+          // Set the dropdown to the current local ontology
+          document.getElementById("val-localOntology").value =
+            forceParams.dataSource;
+          // Clear the external URL field
+          document.getElementById("val-externalURL").value = "";
+        } else {
+          // Set the external URL field to the current dataSource
+          document.getElementById("val-externalURL").value =
+            forceParams.dataSource;
+          // Reset dropdown to first option (or could be blank)
+          document.getElementById("val-localOntology").selectedIndex = 0;
+        }
+      }
+
+      function createZoomBehavior(onZoom) {
+        return d3.zoom().on("zoom", (event) => {
+          const t = event.transform;
+          savedZoom = t;
+          saveZoom(t);
+          updateTransformInputs(t);
+          if (onZoom) onZoom(event);
+        });
+      }
+
+      function updateTransformInputs(t) {
+        document.getElementById("val-zoom-k").value = t.k.toFixed(2);
+        document.getElementById("val-pan-x").value = Math.round(t.x);
+        document.getElementById("val-pan-y").value = Math.round(t.y);
+      }
+
+      function bindParameterInput(paramName, elementId, parser = parseFloat) {
+        document.getElementById(elementId).addEventListener("input", (e) => {
+          forceParams[paramName] = parser(e.target.value);
+          saveParams();
+          regenerateGraph();
+        });
+      }
+
+      function bindPercentageInput(paramName, elementId, referenceValue) {
+        document.getElementById(elementId).addEventListener("input", (e) => {
+          const pct = parseFloat(e.target.value);
+          forceParams[paramName] = Math.round((pct / 100) * referenceValue);
+          document.getElementById(`val-${paramName}`).value =
+            forceParams[paramName];
+          saveParams();
+          regenerateGraph();
+        });
+      }
+
+      function bindColorInput(paramName) {
+        document
+          .getElementById(`val-${paramName}`)
+          .addEventListener("input", (e) => {
+            forceParams[paramName] = e.target.value;
+            if (paramName === "backgroundColor") {
+              document.body.style.backgroundColor = forceParams.backgroundColor;
+            }
+            saveParams();
+            regenerateGraph();
+          });
+      }
+
+      function populateFontSelector() {
+        const select = document.getElementById("val-fontFamily");
+        availableFonts.forEach((font) => {
+          const option = document.createElement("option");
+          option.value = font.value;
+          option.textContent = font.name;
+          select.appendChild(option);
+        });
+      }
+
+      async function populateOntologySelector() {
+        const select = document.getElementById("val-localOntology");
+
+        try {
+          // Dynamically fetch the list of ontology files
+          await loadAvailableOntologies();
+
+          // Clear any existing options
+          select.innerHTML = "";
+
+          // Populate the dropdown with discovered ontology files
+          if (availableOntologies.length > 0) {
+            availableOntologies.forEach((ontology) => {
+              const option = document.createElement("option");
+              option.value = ontology.path;
+              option.textContent = ontology.name;
+              select.appendChild(option);
+            });
+
+            console.log(
+              "Successfully loaded",
+              availableOntologies.length,
+              "ontology files:",
+              availableOntologies.map((ont) => ont.filename || ont.name)
+            );
+          } else {
+            // This shouldn't happen due to fallback in loadAvailableOntologies,
+            // but just in case
+            const option = document.createElement("option");
+            option.value = "/ontology/example.ttl";
+            option.textContent = "No ontologies found - Example fallback";
+            select.appendChild(option);
+            console.warn("No ontology files could be loaded");
+          }
+        } catch (error) {
+          console.error("Failed to load ontology files:", error);
+
+          // Clear any partial results and add error fallback
+          select.innerHTML = "";
+          const option = document.createElement("option");
+          option.value = "/ontology/example.ttl";
+          option.textContent = "Error loading ontologies - Example fallback";
+          select.appendChild(option);
+        }
+      }
+
+      async function loadAvailableOntologies() {
+        availableOntologies = [];
+
+        try {
+          console.log("Fetching ontology list from server...");
+
+          // Use our API endpoint to get the actual directory contents
+          const response = await fetch("/api/ontologies.json", {
+            cache: "no-cache", // Always get fresh results
+          });
+
+          if (!response.ok) {
+            throw new Error(
+              `API request failed: ${response.status} ${response.statusText}`
+            );
+          }
+
+          const data = await response.json();
+
+          if (data.success && data.ontologies) {
+            availableOntologies = data.ontologies;
+            console.log(
+              `Successfully loaded ${availableOntologies.length} ontology files from server:`,
+              availableOntologies.map((ont) => ont.filename)
+            );
+          } else {
+            throw new Error(data.error || "API returned unsuccessful response");
+          }
+        } catch (error) {
+          console.error("Failed to load ontologies from server:", error);
+          console.log("Falling back to client-side file discovery...");
+
+          // Fallback to client-side discovery if server API fails
+          await loadAvailableOntologiesFallback();
+        }
+
+        // Ensure we always have at least one option
+        if (availableOntologies.length === 0) {
+          console.warn("No ontology files found, adding default fallback");
+          availableOntologies.push({
+            name: "Example Ontology (fallback)",
+            path: "/ontology/example.ttl",
+            filename: "example.ttl",
+          });
+        }
+      }
+
+      async function loadAvailableOntologiesFallback() {
+        // Fallback method using client-side file checks
+        const potentialFiles = [
+          "arcaea.ttl",
+          "example.ttl",
+          "grammar.ttl",
+          "semiotic-core.ttl",
+          "test.ttl",
+          "pizza.ttl",
+        ];
+
+        console.log("Scanning for ontology files using fallback method...");
+
+        const checkPromises = potentialFiles.map(async (filename) => {
+          try {
+            const path = `/ontology/${filename}`;
+            const response = await fetch(path, {
+              method: "HEAD",
+              cache: "no-cache",
+            });
+
+            if (response.ok) {
+              const name = filename
+                .replace(".ttl", "")
+                .split("-")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ");
+
+              return {
+                name: name + " Ontology",
+                path: path,
+                filename: filename,
+              };
+            }
+            return null;
+          } catch (error) {
+            return null;
+          }
+        });
+
+        const results = await Promise.all(checkPromises);
+        const fallbackOntologies = results.filter((result) => result !== null);
+
+        if (fallbackOntologies.length > 0) {
+          availableOntologies = fallbackOntologies.sort((a, b) =>
+            a.name.localeCompare(b.name)
+          );
+          console.log(
+            `Fallback method found ${availableOntologies.length} ontology files:`,
+            availableOntologies.map((ont) => ont.filename)
+          );
+        }
+      }
+
+      function bindFontInput() {
+        document
+          .getElementById("val-fontFamily")
+          .addEventListener("change", (e) => {
+            forceParams.fontFamily = e.target.value;
+            loadGoogleFont(forceParams.fontFamily);
+            saveParams();
+            regenerateGraph();
+          });
+      }
+
+      function bindFontVariableInputs() {
+        // Font Weight
+        document
+          .getElementById("val-fontWeight")
+          .addEventListener("input", (e) => {
+            forceParams.fontWeight = parseInt(e.target.value);
+            document.getElementById("fontWeight-display").textContent =
+              forceParams.fontWeight;
+            saveParams();
+            regenerateGraph();
+          });
+
+        // Font Stretch
+        document
+          .getElementById("val-fontStretch")
+          .addEventListener("input", (e) => {
+            forceParams.fontStretch = parseInt(e.target.value);
+            document.getElementById("fontStretch-display").textContent =
+              `${forceParams.fontStretch}%`;
+            saveParams();
+            regenerateGraph();
+          });
+
+        // Font Slant
+        document
+          .getElementById("val-fontSlant")
+          .addEventListener("input", (e) => {
+            forceParams.fontSlant = parseInt(e.target.value);
+            document.getElementById("fontSlant-display").textContent =
+              `${forceParams.fontSlant}°`;
+            saveParams();
+            regenerateGraph();
+          });
+      }
+
+      function bindDataSourceInput() {
+        // Local ontology dropdown
+        document
+          .getElementById("val-localOntology")
+          .addEventListener("change", (e) => {
+            forceParams.dataSource = e.target.value;
+            saveParams();
+            regenerateGraph();
+          });
+
+        // External URL text input (only updates parameter, doesn't auto-load)
+        document
+          .getElementById("val-externalURL")
+          .addEventListener("input", (e) => {
+            forceParams.dataSource = e.target.value;
+            saveParams();
+          });
+
+        // Load button for external URLs
+        document
+          .getElementById("load-external-btn")
+          .addEventListener("click", () => {
+            loadNewData();
+          });
+      }
+
+      function bindNodeFilterInput() {
+        // Node filter dropdown
+        document
+          .getElementById("node-filter-select")
+          .addEventListener("change", (e) => {
+            if (e.target.value) {
+              toggleNodeVisibility(e.target.value);
+              // Update dropdown to reflect new state
+              if (window.currentContainer) {
+                const nodes = window.currentSimulation
+                  ? window.currentSimulation.nodes()
+                  : [];
+                const links = window.currentSimulation
+                  ? window.currentSimulation.force("link").links()
+                  : [];
+                updateNodeFilterDropdown(nodes, links);
+              }
+              // Reset dropdown selection
+              e.target.value = "";
+            }
+          });
+
+        // Show all nodes button
+        document
+          .getElementById("show-all-nodes-btn")
+          .addEventListener("click", () => {
+            forceParams.hiddenNodes.clear();
+            updateNodeVisibility();
+            if (window.currentContainer) {
+              const nodes = window.currentSimulation
+                ? window.currentSimulation.nodes()
+                : [];
+              const links = window.currentSimulation
+                ? window.currentSimulation.force("link").links()
+                : [];
+              updateNodeFilterDropdown(nodes, links);
+            }
+            saveParams();
+          });
+
+        // Hide all nodes button
+        document
+          .getElementById("hide-all-nodes-btn")
+          .addEventListener("click", () => {
+            if (window.currentSimulation) {
+              const nodes = window.currentSimulation.nodes();
+              nodes.forEach((node) => {
+                forceParams.hiddenNodes.add(node.id);
+              });
+              updateNodeVisibility();
+              updateNodeFilterDropdown(
+                nodes,
+                window.currentSimulation.force("link").links()
+              );
+              saveParams();
+            }
+          });
+      }
+
+      function loadNewData() {
+        console.log("Loading new data from:", forceParams.dataSource);
+        regenerateGraph();
+      }
+
+      // Performance optimization functions
+      function calculateNodeDegrees(nodes, links) {
+        const nodeDegrees = new Map();
+
+        // Initialize all nodes with degree 0
+        nodes.forEach((node) => {
+          nodeDegrees.set(node.id, 0);
+        });
+
+        // Count connections for each node
+        links.forEach((link) => {
+          const sourceId =
+            typeof link.source === "object" ? link.source.id : link.source;
+          const targetId =
+            typeof link.target === "object" ? link.target.id : link.target;
+
+          nodeDegrees.set(sourceId, (nodeDegrees.get(sourceId) || 0) + 1);
+          nodeDegrees.set(targetId, (nodeDegrees.get(targetId) || 0) + 1);
+        });
+
+        return nodeDegrees;
+      }
+
+      function applyPerformanceFiltering(nodes, links) {
+        let filteredNodes = [...nodes];
+        let filteredLinks = [...links];
+
+        console.log(
+          `Starting with ${filteredNodes.length} nodes and ${filteredLinks.length} links`
+        );
+
+        // Apply TBox/ABox filtering
+        if (!forceParams.showInstances) {
+          filteredNodes = filteredNodes.filter(
+            (node) => node.type !== "instance"
+          );
+          console.log(
+            `After removing instances: ${filteredNodes.length} nodes`
+          );
+        }
+
+        if (!forceParams.showClasses) {
+          filteredNodes = filteredNodes.filter((node) => node.type !== "class");
+          console.log(`After removing classes: ${filteredNodes.length} nodes`);
+        }
+
+        if (!forceParams.showLiterals) {
+          filteredNodes = filteredNodes.filter(
+            (node) => node.type !== "literal"
+          );
+          console.log(`After removing literals: ${filteredNodes.length} nodes`);
+        }
+
+        // Create a set of remaining node IDs for link filtering
+        const nodeIds = new Set(filteredNodes.map((node) => node.id));
+
+        // Filter links to only connect remaining nodes
+        filteredLinks = filteredLinks.filter((link) => {
+          const sourceId =
+            typeof link.source === "object" ? link.source.id : link.source;
+          const targetId =
+            typeof link.target === "object" ? link.target.id : link.target;
+          return nodeIds.has(sourceId) && nodeIds.has(targetId);
+        });
+
+        // Apply node degree filtering if enabled
+        if (forceParams.minNodeDegree > 0) {
+          const nodeDegrees = calculateNodeDegrees(
+            filteredNodes,
+            filteredLinks
+          );
+
+          filteredNodes = filteredNodes.filter((node) => {
+            const degree = nodeDegrees.get(node.id) || 0;
+            return degree >= forceParams.minNodeDegree;
+          });
+
+          console.log(
+            `After degree filtering (min ${forceParams.minNodeDegree}): ${filteredNodes.length} nodes`
+          );
+
+          // Re-filter links after node degree filtering
+          const degreeFiltededNodeIds = new Set(
+            filteredNodes.map((node) => node.id)
+          );
+          filteredLinks = filteredLinks.filter((link) => {
+            const sourceId =
+              typeof link.source === "object" ? link.source.id : link.source;
+            const targetId =
+              typeof link.target === "object" ? link.target.id : link.target;
+            return (
+              degreeFiltededNodeIds.has(sourceId) &&
+              degreeFiltededNodeIds.has(targetId)
+            );
+          });
+        }
+
+        console.log(
+          `Final result: ${filteredNodes.length} nodes, ${filteredLinks.length} links`
+        );
+
+        return {
+          nodes: filteredNodes,
+          links: filteredLinks,
+        };
+      }
+
+      function checkAndEnablePerformanceMode(nodeCount) {
+        const wasPerformanceMode = forceParams.performanceMode;
+
+        if (
+          nodeCount > forceParams.maxNodeCount &&
+          !forceParams.performanceMode
+        ) {
+          forceParams.performanceMode = true;
+          forceParams.useFPSThrottling = true;
+
+          // Auto-enable some filtering to reduce load
+          if (forceParams.minNodeDegree === 0) {
+            forceParams.minNodeDegree = Math.max(
+              1,
+              Math.floor(nodeCount / 100)
+            );
+            console.log(
+              `Auto-enabled node degree filtering: min degree ${forceParams.minNodeDegree}`
+            );
+          }
+
+          showPerformanceWarning(nodeCount);
+          updateDisplay(); // Update UI to reflect changes
+        } else if (
+          nodeCount <= forceParams.maxNodeCount &&
+          forceParams.performanceMode
+        ) {
+          forceParams.performanceMode = false;
+          forceParams.useFPSThrottling = false;
+          console.log("Performance mode disabled - node count within limits");
+          updateDisplay();
+        }
+
+        return forceParams.performanceMode !== wasPerformanceMode;
+      }
+
+      function showPerformanceWarning(nodeCount) {
+        console.warn(
+          `Performance warning: ${nodeCount} nodes detected. Auto-enabling performance optimizations.`
+        );
+
+        // Create a simple warning notification
+        const warning = document.createElement("div");
+        warning.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: rgba(255, 165, 0, 0.9);
+          color: black;
+          padding: 15px;
+          border-radius: 5px;
+          z-index: 10000;
+          max-width: 300px;
+          font-size: 14px;
+          border: 2px solid #ff8c00;
+        `;
+        warning.innerHTML = `
+          <strong>Performance Mode Enabled</strong><br>
+          Detected ${nodeCount} nodes. Auto-filtering applied to improve performance.<br>
+          <small>Use the performance controls to adjust filtering.</small>
+          <button onclick="this.parentElement.remove()" style="margin-left: 10px; padding: 2px 8px;">✕</button>
+        `;
+
+        document.body.appendChild(warning);
+
+        // Auto-remove after 10 seconds
+        setTimeout(() => {
+          if (warning.parentElement) {
+            warning.remove();
+          }
+        }, 10000);
+      }
+
+      // FPS-throttled tick function for better performance
+      let lastFrameTime = 0;
+      const targetFPS = 60;
+      const frameInterval = 1000 / targetFPS;
+
+      function createPerformantTickFunction(
+        simulation,
+        link,
+        node,
+        nodeText,
+        linkText,
+        visibleNodes,
+        visibleLinks
+      ) {
+        if (forceParams.useFPSThrottling) {
+          return function () {
+            const currentTime = performance.now();
+            if (currentTime - lastFrameTime >= frameInterval) {
+              updatePositions();
+              lastFrameTime = currentTime;
+            }
+          };
+        } else {
+          return updatePositions;
+        }
+
+        function updatePositions() {
+          // Update links with optional edge-node collision avoidance
+          link
+            .attr("x1", (d) => d.source.x)
+            .attr("y1", (d) => d.source.y)
+            .attr("x2", (d) => d.target.x)
+            .attr("y2", (d) => d.target.y);
+
+          node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+
+          // Text positioning with smart anchor rotation to avoid node overlaps
+          nodeText
+            .attr("x", (d) => {
+              if (forceParams.smartTextPositioning) {
+                return getSmartTextPosition(d, visibleNodes, true);
+              }
+              return d.x + 15;
+            })
+            .attr("y", (d) => {
+              if (forceParams.smartTextPositioning) {
+                return getSmartTextPosition(d, visibleNodes, false);
+              }
+              return d.y + 3;
+            });
+
+          // Position and rotate link text along the edge lines with smart positioning
+          linkText.attr("transform", (d, i) => {
+            let sourceX = d.source.x;
+            let sourceY = d.source.y;
+            let targetX = d.target.x;
+            let targetY = d.target.y;
+
+            const dx = targetX - sourceX;
+            const dy = targetY - sourceY;
+            const edgeLength = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+            if (edgeLength === 0) {
+              return `translate(${sourceX}, ${sourceY}) rotate(0)`;
+            }
+
+            // Smart positioning along the edge to avoid overlaps
+            const bestPosition = findBestEdgeTextPosition(
+              d,
+              i,
+              sourceX,
+              sourceY,
+              targetX,
+              targetY,
+              visibleLinks,
+              visibleNodes
+            );
+
+            // Flip text if it would be upside down
+            const adjustedAngle =
+              angle > 90 || angle < -90 ? angle + 180 : angle;
+
+            // Offset perpendicular to the line
+            const perpAngle = (angle + 90) * (Math.PI / 180);
+            const offsetDistance = 8;
+            const offsetX = Math.cos(perpAngle) * offsetDistance;
+            const offsetY = Math.sin(perpAngle) * offsetDistance;
+
+            return `translate(${bestPosition.x + offsetX}, ${bestPosition.y + offsetY}) rotate(${adjustedAngle})`;
+          });
+        }
+      }
+
+      // Color theme generation functions
+      async function generateColorTheme(baseColor, schemeType = "analogic") {
+        try {
+          // Remove # from hex color if present
+          const cleanColor = baseColor.replace("#", "");
+
+          // Call the Color API
+          const response = await fetch(
+            `https://www.thecolorapi.com/scheme?hex=${cleanColor}&mode=${schemeType}&count=6`
+          );
+
+          if (!response.ok) {
+            throw new Error(`Color API request failed: ${response.status}`);
+          }
+
+          const data = await response.json();
+
+          // Extract hex colors from the response
+          const colors = data.colors.map((color) => color.hex.value);
+
+          return colors;
+        } catch (error) {
+          console.error("Error generating color theme:", error);
+          // Fallback to a simple color variation if API fails
+          return generateFallbackTheme(baseColor);
+        }
+      }
+
+      function generateFallbackTheme(baseColor) {
+        // Simple fallback that creates variations of the base color
+        const colors = [baseColor];
+
+        // Generate 5 more colors by shifting hue and adjusting saturation/lightness
+        for (let i = 1; i < 6; i++) {
+          const hueShift = (i * 60) % 360; // Shift hue by 60 degrees each time
+          const variation = adjustColorHSL(baseColor, hueShift, 0, 0);
+          colors.push(variation);
+        }
+
+        return colors;
+      }
+
+      function adjustColorHSL(
+        hexColor,
+        hueShift = 0,
+        saturationShift = 0,
+        lightnessShift = 0
+      ) {
+        // Convert hex to HSL, adjust, and convert back
+        // This is a simplified version - in production you might want a more robust color library
+        const hex = hexColor.replace("#", "");
+        const r = parseInt(hex.substr(0, 2), 16) / 255;
+        const g = parseInt(hex.substr(2, 2), 16) / 255;
+        const b = parseInt(hex.substr(4, 2), 16) / 255;
+
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+        let h,
+          s,
+          l = (max + min) / 2;
+
+        if (max === min) {
+          h = s = 0;
+        } else {
+          const d = max - min;
+          s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+          switch (max) {
+            case r:
+              h = (g - b) / d + (g < b ? 6 : 0);
+              break;
+            case g:
+              h = (b - r) / d + 2;
+              break;
+            case b:
+              h = (r - g) / d + 4;
+              break;
+          }
+          h /= 6;
+        }
+
+        // Apply shifts
+        h = (h + hueShift / 360) % 1;
+        s = Math.max(0, Math.min(1, s + saturationShift / 100));
+        l = Math.max(0, Math.min(1, l + lightnessShift / 100));
+
+        // Convert back to hex
+        const hue2rgb = (p, q, t) => {
+          if (t < 0) t += 1;
+          if (t > 1) t -= 1;
+          if (t < 1 / 6) return p + (q - p) * 6 * t;
+          if (t < 1 / 2) return q;
+          if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+          return p;
+        };
+
+        let r2, g2, b2;
+        if (s === 0) {
+          r2 = g2 = b2 = l;
+        } else {
+          const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+          const p = 2 * l - q;
+          r2 = hue2rgb(p, q, h + 1 / 3);
+          g2 = hue2rgb(p, q, h);
+          b2 = hue2rgb(p, q, h - 1 / 3);
+        }
+
+        const toHex = (c) => {
+          const hex = Math.round(c * 255).toString(16);
+          return hex.length === 1 ? "0" + hex : hex;
+        };
+
+        return `#${toHex(r2)}${toHex(g2)}${toHex(b2)}`;
+      }
+
+      async function applyColorTheme(colors) {
+        // Map the generated colors to our semantic color parameters
+        if (colors.length >= 6) {
+          forceParams.classNodeColor = colors[0]; // Base color for classes
+          forceParams.instanceNodeColor = colors[1]; // Second color for instances
+          forceParams.literalNodeColor = colors[2]; // Third color for literals
+          forceParams.blankNodeColor = colors[3]; // Fourth color for blank nodes
+          forceParams.objectPropertyColor = colors[4]; // Fifth color for object properties
+          forceParams.datatypePropertyColor = colors[5]; // Sixth color for datatype properties
+
+          // Generate a variation for RDF properties (slightly different from object properties)
+          forceParams.rdfPropertyColor = adjustColorHSL(colors[4], 30, 0, -10);
+        }
+
+        // Update the UI inputs
+        updateDisplay();
+
+        // Save and regenerate
+        saveParams();
+        regenerateGraph();
+
+        console.log("Applied color theme:", colors);
+      }
+
+      function generateRandomColor() {
+        const hue = Math.floor(Math.random() * 360);
+        const saturation = 60 + Math.floor(Math.random() * 40); // 60-100%
+        const lightness = 40 + Math.floor(Math.random() * 20); // 40-60%
+
+        // Convert HSL to hex for the color picker
+        return hslToHex(hue, saturation, lightness);
+      }
+
+      function hslToHex(h, s, l) {
+        l /= 100;
+        const a = (s * Math.min(l, 1 - l)) / 100;
+        const f = (n) => {
+          const k = (n + h / 30) % 12;
+          const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+          return Math.round(255 * color)
+            .toString(16)
+            .padStart(2, "0");
+        };
+        return `#${f(0)}${f(8)}${f(4)}`;
+      }
+
+      function bindColorThemeInput() {
+        // Generate theme button
+        document
+          .getElementById("generate-theme-btn")
+          .addEventListener("click", async () => {
+            const baseColor =
+              document.getElementById("base-color-picker").value;
+            const schemeType =
+              document.getElementById("color-scheme-type").value;
+
+            console.log(
+              "Generating color theme with base:",
+              baseColor,
+              "scheme:",
+              schemeType
+            );
+
+            const colors = await generateColorTheme(baseColor, schemeType);
+            await applyColorTheme(colors);
+          });
+
+        // Random theme button
+        document
+          .getElementById("randomize-theme-btn")
+          .addEventListener("click", async () => {
+            const randomColor = generateRandomColor();
+            const schemeTypes = [
+              "monochrome",
+              "analogic",
+              "complement",
+              "triad",
+              "quad",
+            ];
+            const randomScheme =
+              schemeTypes[Math.floor(Math.random() * schemeTypes.length)];
+
+            // Update the UI to show what we're generating
+            document.getElementById("base-color-picker").value = randomColor;
+            document.getElementById("color-scheme-type").value = randomScheme;
+
+            console.log(
+              "Generating random theme with base:",
+              randomColor,
+              "scheme:",
+              randomScheme
+            );
+
+            const colors = await generateColorTheme(randomColor, randomScheme);
+            await applyColorTheme(colors);
+          });
+      }
+
+      function bindZoomInputs() {
+        for (const id of ["val-zoom-k", "val-pan-x", "val-pan-y"]) {
+          document.getElementById(id).addEventListener("input", (e) => {
+            savedZoom = {
+              x: parseFloat(document.getElementById("val-pan-x").value),
+              y: parseFloat(document.getElementById("val-pan-y").value),
+              k: parseFloat(document.getElementById("val-zoom-k").value),
+            };
+            saveZoom(savedZoom);
+            regenerateGraph();
+          });
+        }
+      }
+
+      function setupCollapseToggle() {
+        const floatingUI = document.getElementById("floating-ui");
+        const collapseToggle = document.getElementById("collapse-toggle");
+        const uiContent = document.getElementById("ui-content");
+        const uiHeader = document.getElementById("ui-header");
+
+        let isCollapsed = false;
+
+        collapseToggle.addEventListener("click", (e) => {
+          e.stopPropagation(); // Prevent dragging when clicking the button
+
+          isCollapsed = !isCollapsed;
+
+          if (isCollapsed) {
+            floatingUI.classList.add("collapsed");
+            collapseToggle.textContent = "+";
+            collapseToggle.title = "Expand panel";
+          } else {
+            floatingUI.classList.remove("collapsed");
+            collapseToggle.textContent = "−";
+            collapseToggle.title = "Collapse panel";
+          }
+        });
+
+        // Make sure only the header area can be used for dragging when collapsed
+        uiHeader.style.cursor = "grab";
+      }
+
+      function bindInputs() {
+        // Numeric parameters (excluding variable font parameters which have special handling)
+        const numericParams = [
+          "width",
+          "height",
+          "linkDistance",
+          "chargeStrength",
+          "labelFontSize",
+          "nodeRadius",
+          "nodeCollisionRadius",
+          "textAvoidanceRadius",
+          "edgeTextSpacingStrength",
+          "maxNodeCount",
+          "minNodeDegree",
+        ];
+        numericParams.forEach((param) =>
+          bindParameterInput(param, `val-${param}`)
+        );
+
+        // Percentage inputs
+        bindPercentageInput("width", "val-width-pct", window.innerWidth);
+        bindPercentageInput("height", "val-height-pct", window.innerHeight);
+
+        // Color inputs
+        const colorParams = [
+          "textColor",
+          "backgroundColor",
+          "classNodeColor",
+          "instanceNodeColor",
+          "literalNodeColor",
+          "blankNodeColor",
+          "objectPropertyColor",
+          "datatypePropertyColor",
+          "rdfPropertyColor",
+        ];
+        colorParams.forEach(bindColorInput);
+
+        // Collision feature checkboxes
+        document
+          .getElementById("val-edgeNodeAvoidance")
+          .addEventListener("change", (e) => {
+            forceParams.edgeNodeAvoidance = e.target.checked;
+            saveParams();
+            regenerateGraph();
+          });
+
+        document
+          .getElementById("val-adaptiveNodeSpacing")
+          .addEventListener("change", (e) => {
+            forceParams.adaptiveNodeSpacing = e.target.checked;
+            saveParams();
+            regenerateGraph();
+          });
+
+        document
+          .getElementById("val-smartTextPositioning")
+          .addEventListener("change", (e) => {
+            forceParams.smartTextPositioning = e.target.checked;
+            saveParams();
+            regenerateGraph();
+          });
+
+        document
+          .getElementById("val-edgeTextSpacing")
+          .addEventListener("change", (e) => {
+            forceParams.edgeTextSpacing = e.target.checked;
+            saveParams();
+            regenerateGraph();
+          });
+
+        // Performance controls
+        document
+          .getElementById("val-showClasses")
+          .addEventListener("change", (e) => {
+            forceParams.showClasses = e.target.checked;
+            saveParams();
+            regenerateGraph();
+          });
+
+        document
+          .getElementById("val-showInstances")
+          .addEventListener("change", (e) => {
+            forceParams.showInstances = e.target.checked;
+            saveParams();
+            regenerateGraph();
+          });
+
+        document
+          .getElementById("val-showLiterals")
+          .addEventListener("change", (e) => {
+            forceParams.showLiterals = e.target.checked;
+            saveParams();
+            regenerateGraph();
+          });
+
+        document
+          .getElementById("val-useFPSThrottling")
+          .addEventListener("change", (e) => {
+            forceParams.useFPSThrottling = e.target.checked;
+            saveParams();
+            regenerateGraph();
+          });
+
+        // Font input
+        bindFontInput();
+
+        // Variable font inputs
+        bindFontVariableInputs();
+
+        // Data source input
+        bindDataSourceInput();
+
+        // Node filter input
+        bindNodeFilterInput();
+
+        // Color theme input
+        bindColorThemeInput();
+
+        // Zoom and pan inputs
+        bindZoomInputs();
+      }
+
+      let isRegenerating = false; // Flag to prevent multiple simultaneous regenerations
+
+      function regenerateGraph() {
+        // Prevent multiple simultaneous regenerations
+        if (isRegenerating) {
+          console.log("Graph regeneration already in progress, skipping...");
+          return;
+        }
+
+        isRegenerating = true;
+        console.log("Starting graph regeneration");
+
+        // Remove existing SVG
+        const existingSvgs = d3.select("#viz").selectAll("svg");
+        console.log(`Removing ${existingSvgs.size()} existing SVG(s)`);
+        existingSvgs.remove();
+
+        loadTTL(forceParams.dataSource)
+          .then(({ triples, prefixMap }) => projectTriples(triples, prefixMap))
+          .then(renderGraph)
+          .finally(() => {
+            isRegenerating = false;
+            console.log("Graph regeneration completed");
+          });
+      }
+
+      async function loadTTL(url) {
+        const response = await fetch(url);
+        const ttlText = await response.text();
+        let discoveredPrefixes = {};
+
+        return new Promise((resolve, reject) => {
+          const tempParser = new N3.Parser();
+          tempParser.parse(ttlText, (error, quad, prefixes) => {
+            if (error) return reject(error);
+            if (!quad) {
+              discoveredPrefixes = prefixes;
+              const baseIRI = prefixes[":"] || undefined;
+              const parser = new N3.Parser({ baseIRI });
+
+              const triples = [];
+              parser.parse(ttlText, (err, q) => {
+                if (err) return reject(err);
+                if (q) triples.push(q);
+                else resolve({ triples, prefixMap: discoveredPrefixes });
+              });
+            }
+          });
+        });
+      }
+
+      function projectTriples(triples, prefixMap) {
+        const nodes = new Map();
+        const links = [];
+        const typeAssertions = new Map(); // Track rdf:type assertions
+        const propertyTypes = new Map(); // Track property types
+
+        const reversedPrefixMap = Object.fromEntries(
+          Object.entries(prefixMap).map(([prefix, iri]) => [iri, prefix])
+        );
+
+        const sortedPrefixes = Object.entries(reversedPrefixMap).sort(
+          ([a], [b]) => b.length - a.length
+        );
+        function shortenIRI(iri) {
+          for (const [baseIRI, prefix] of sortedPrefixes) {
+            if (iri.startsWith(baseIRI)) {
+              const local = iri.slice(baseIRI.length);
+              return prefix ? `${prefix}:${local}` : local;
+            }
+          }
+          return iri;
+        }
+
+        // Helper function to classify node type
+        function classifyNodeType(nodeId, termType) {
+          if (termType === "Literal") return "literal";
+          if (nodeId.startsWith('"')) return "literal";
+          if (nodeId.startsWith("_")) return "blankNode";
+
+          // Check if this node has rdf:type assertions
+          const types = typeAssertions.get(nodeId) || [];
+
+          // Check if it's declared as a class
+          if (
+            types.some(
+              (type) =>
+                type === "owl:Class" ||
+                type === "rdfs:Class" ||
+                type.includes("Class")
+            )
+          ) {
+            return "class";
+          }
+
+          // Check if it's declared as an individual
+          if (
+            types.some(
+              (type) =>
+                type === "owl:NamedIndividual" ||
+                type === "owl:Thing" ||
+                types.length > 0 // Has some type assertion
+            )
+          ) {
+            return "instance";
+          }
+
+          // Default to instance for named nodes
+          return "instance";
+        }
+
+        // Helper function to classify property type
+        function classifyPropertyType(predicate) {
+          const pred = predicate.toLowerCase();
+
+          // RDF/RDFS system properties
+          if (pred.includes("rdf:") || pred.includes("rdfs:")) {
+            return "rdf";
+          }
+
+          // Datatype properties (common patterns)
+          if (
+            pred.includes("label") ||
+            pred.includes("comment") ||
+            pred.includes("title") ||
+            pred.includes("name") ||
+            pred.includes("value") ||
+            pred.includes("literal")
+          ) {
+            return "datatype";
+          }
+
+          // Check if we've seen this property in domain/range declarations
+          const propType = propertyTypes.get(predicate);
+          if (propType) return propType;
+
+          // Default to object property
+          return "object";
+        }
+
+        // First pass: collect type assertions and property classifications
+        for (const quad of triples) {
+          const s = shortenIRI(quad.subject.id);
+          const p = shortenIRI(quad.predicate.id);
+          const o =
+            quad.object.termType === "Literal"
+              ? quad.object.value
+              : shortenIRI(quad.object.id);
+
+          // Track rdf:type assertions
+          if (p === "rdf:type" || p === "a") {
+            if (!typeAssertions.has(s)) typeAssertions.set(s, []);
+            typeAssertions.get(s).push(o);
+          }
+
+          // Track property type declarations
+          if (p === "rdf:type") {
+            if (o === "owl:ObjectProperty") {
+              propertyTypes.set(s, "object");
+            } else if (o === "owl:DatatypeProperty") {
+              propertyTypes.set(s, "datatype");
+            }
+          }
+        }
+
+        // Second pass: build graph with type information
+        for (const quad of triples) {
+          const s = shortenIRI(quad.subject.id);
+          const p = shortenIRI(quad.predicate.id);
+
+          // Add subject node with type
+          if (!nodes.has(s)) {
+            nodes.set(s, {
+              id: s,
+              type: classifyNodeType(s, quad.subject.termType),
+              termType: quad.subject.termType,
+            });
+          }
+
+          if (
+            quad.object.termType === "NamedNode" ||
+            quad.object.termType === "BlankNode"
+          ) {
+            const o = shortenIRI(quad.object.id);
+
+            // Add object node with type
+            if (!nodes.has(o)) {
+              nodes.set(o, {
+                id: o,
+                type: classifyNodeType(o, quad.object.termType),
+                termType: quad.object.termType,
+              });
+            }
+
+            // Add link with property type
+            links.push({
+              source: s,
+              target: o,
+              predicate: p,
+              propertyType: classifyPropertyType(p),
+            });
+          } else if (quad.object.termType === "Literal") {
+            // Handle literal nodes
+            const literalId = `"${quad.object.value}"`;
+            if (!nodes.has(literalId)) {
+              nodes.set(literalId, {
+                id: literalId,
+                type: "literal",
+                termType: "Literal",
+                value: quad.object.value,
+              });
+            }
+
+            // Add link to literal with datatype property type
+            links.push({
+              source: s,
+              target: literalId,
+              predicate: p,
+              propertyType: "datatype",
+            });
+          }
+        }
+
+        return {
+          nodes: Array.from(nodes.values()),
+          links,
+        };
+      }
+
+      function createGraphElements(container, nodes, links, simulation) {
+        // Create arrowhead marker
+        container
+          .append("defs")
+          .append("marker")
+          .attr("id", "arrowhead")
+          .attr("markerWidth", 6)
+          .attr("markerHeight", 7)
+          .attr("refX", 10)
+          .attr("refY", 2.5)
+          .attr("orient", "auto")
+          .append("polygon")
+          .attr("points", "0,5 1.6666666666666667,2.5 0,0 5,2.5")
+          .attr("fill", "gray");
+
+        // Create links first (background layer)
+        const link = container
+          .append("g")
+          .attr("stroke-opacity", 0.6)
+          .selectAll("line")
+          .data(links)
+          .join("line")
+          .attr("stroke-width", 2)
+          .attr("stroke", (d) => {
+            switch (d.propertyType) {
+              case "object":
+                return forceParams.objectPropertyColor;
+              case "datatype":
+                return forceParams.datatypePropertyColor;
+              case "rdf":
+                return forceParams.rdfPropertyColor;
+              default:
+                return "#999";
+            }
+          })
+          .attr("marker-end", "url(#arrowhead)");
+
+        // Create link text (background layer - after links but before nodes)
+        const linkText = container
+          .append("g")
+          .selectAll("text")
+          .data(links)
+          .join("text")
+          .text((d) => d.predicate)
+          .attr("fill", "grey")
+          .attr("font-size", forceParams.labelFontSize)
+          .attr("font-family", forceParams.fontFamily)
+          .attr("font-weight", forceParams.fontWeight)
+          .style("font-stretch", `${forceParams.fontStretch}%`)
+          .style("font-variation-settings", `"slnt" ${forceParams.fontSlant}`)
+          .attr("text-anchor", "middle")
+          .attr("dominant-baseline", "central");
+
+        // Create nodes (foreground layer - after link text)
+        const node = container
+          .append("g")
+          .attr("stroke", "#fff")
+          .attr("stroke-width", 1.5)
+          .selectAll("circle")
+          .data(nodes)
+          .join("circle")
+          .attr("r", forceParams.nodeRadius)
+          .attr("fill", (d) => {
+            // Semantic coloring based on ontological type
+            switch (d.type) {
+              case "class":
+                return forceParams.classNodeColor;
+              case "instance":
+                return forceParams.instanceNodeColor;
+              case "literal":
+                return forceParams.literalNodeColor;
+              case "blankNode":
+                return forceParams.blankNodeColor;
+              default:
+                return forceParams.instanceNodeColor; // Default to instance color
+            }
+          })
+          .call(drag(simulation));
+
+        // Create node text (foreground layer - after nodes)
+        const nodeText = container
+          .append("g")
+          .selectAll("text")
+          .data(nodes)
+          .join("text")
+          .text((d) => (d.id.startsWith("_") ? "" : d.id))
+          .attr("x", 12)
+          .attr("y", ".31em")
+          .attr("fill", forceParams.textColor)
+          .attr("font-size", forceParams.labelFontSize)
+          .attr("font-family", forceParams.fontFamily)
+          .attr("font-weight", forceParams.fontWeight)
+          .style("font-stretch", `${forceParams.fontStretch}%`)
+          .style("font-variation-settings", `"slnt" ${forceParams.fontSlant}`);
+
+        return { link, node, nodeText, linkText };
+      }
+
+      // Smart text positioning function to avoid node overlaps
+      function getSmartTextPosition(textNode, allNodes, getX) {
+        if (!forceParams.smartTextPositioning) {
+          return getX ? textNode.x + 15 : textNode.y + 3;
+        }
+
+        // Default position (right side)
+        const defaultDistance = 15;
+        const defaultAngle = 0; // 0 degrees = right side
+
+        // Try different anchor positions around the node (8 positions)
+        const candidateAngles = [0, 45, 90, 135, 180, 225, 270, 315]; // degrees
+        const textLength = textNode.id.length * forceParams.labelFontSize * 0.6; // Estimate text width
+
+        for (const angle of candidateAngles) {
+          const radians = (angle * Math.PI) / 180;
+          const textX = textNode.x + Math.cos(radians) * defaultDistance;
+          const textY = textNode.y + Math.sin(radians) * defaultDistance;
+
+          // Check if this position would overlap with other nodes
+          let hasCollision = false;
+          for (const otherNode of allNodes) {
+            if (otherNode.id === textNode.id) continue; // Skip self
+
+            // Calculate distance from text position to other node
+            const distToOtherNode = Math.sqrt(
+              (textX - otherNode.x) ** 2 + (textY - otherNode.y) ** 2
+            );
+
+            // Check if text would overlap with the other node
+            // Consider both the text size and node collision radius
+            const minDistance =
+              forceParams.textAvoidanceRadius + textLength / 2;
+
+            if (distToOtherNode < minDistance) {
+              hasCollision = true;
+              break;
+            }
+          }
+
+          // If no collision at this angle, use this position
+          if (!hasCollision) {
+            return getX ? textX : textY;
+          }
+        }
+
+        // If all positions have collisions, use default (right side)
+        return getX ? textNode.x + defaultDistance : textNode.y + 3;
+      }
+
+      // Find the best position along an edge for text to minimize overlaps
+      function findBestEdgeTextPosition(
+        currentLink,
+        linkIndex,
+        sourceX,
+        sourceY,
+        targetX,
+        targetY,
+        allLinks,
+        allNodes
+      ) {
+        const dx = targetX - sourceX;
+        const dy = targetY - sourceY;
+        const edgeLength = Math.sqrt(dx * dx + dy * dy);
+
+        if (edgeLength === 0) {
+          return { x: sourceX, y: sourceY };
+        }
+
+        const unitX = dx / edgeLength;
+        const unitY = dy / edgeLength;
+
+        // Estimate text dimensions
+        const textLength = currentLink.predicate
+          ? currentLink.predicate.length * forceParams.labelFontSize * 0.6
+          : 0;
+        const textHeight = forceParams.labelFontSize;
+
+        // Default to midpoint
+        const defaultPosition = 0.5;
+
+        // Try different positions along the edge (0 = source, 1 = target)
+        const candidatePositions = [
+          0.5, 0.4, 0.6, 0.3, 0.7, 0.2, 0.8, 0.15, 0.85,
+        ];
+
+        for (const position of candidatePositions) {
+          const testX = sourceX + unitX * edgeLength * position;
+          const testY = sourceY + unitY * edgeLength * position;
+
+          let hasCollision = false;
+
+          // Check collision with nodes
+          for (const node of allNodes) {
+            const distToNode = Math.sqrt(
+              (testX - node.x) ** 2 + (testY - node.y) ** 2
+            );
+            const minNodeDistance = forceParams.nodeRadius + textHeight / 2 + 5; // 5px padding
+
+            if (distToNode < minNodeDistance) {
+              hasCollision = true;
+              break;
+            }
+          }
+
+          if (hasCollision) continue;
+
+          // Check collision with other edge text
+          for (let i = 0; i < allLinks.length; i++) {
+            if (i === linkIndex) continue; // Skip self
+
+            const otherLink = allLinks[i];
+            if (!otherLink.source || !otherLink.target) continue;
+
+            // Calculate other link's text position (assuming it's at midpoint for now)
+            const otherSourceX = otherLink.source.x || 0;
+            const otherSourceY = otherLink.source.y || 0;
+            const otherTargetX = otherLink.target.x || 0;
+            const otherTargetY = otherLink.target.y || 0;
+
+            const otherMidX = (otherSourceX + otherTargetX) / 2;
+            const otherMidY = (otherSourceY + otherTargetY) / 2;
+
+            const distToOtherText = Math.sqrt(
+              (testX - otherMidX) ** 2 + (testY - otherMidY) ** 2
+            );
+            const otherTextLength = otherLink.predicate
+              ? otherLink.predicate.length * forceParams.labelFontSize * 0.6
+              : 0;
+            const minTextDistance =
+              Math.max(textLength, otherTextLength) / 2 + textHeight + 5; // 5px padding
+
+            if (distToOtherText < minTextDistance) {
+              hasCollision = true;
+              break;
+            }
+          }
+
+          // If no collision at this position, use it
+          if (!hasCollision) {
+            return { x: testX, y: testY };
+          }
+        }
+
+        // If all positions have collisions, fall back to default position (midpoint)
+        return {
+          x: sourceX + unitX * edgeLength * defaultPosition,
+          y: sourceY + unitY * edgeLength * defaultPosition,
+        };
+      }
+
+      // Calculate edge counts for each node for filtering
+      function calculateNodeEdgeCounts(nodes, links) {
+        const edgeCounts = new Map();
+
+        // Initialize all nodes with 0 edges
+        nodes.forEach((node) => {
+          edgeCounts.set(node.id, 0);
+        });
+
+        // Count edges for each node
+        links.forEach((link) => {
+          const sourceId =
+            typeof link.source === "object" ? link.source.id : link.source;
+          const targetId =
+            typeof link.target === "object" ? link.target.id : link.target;
+
+          edgeCounts.set(sourceId, (edgeCounts.get(sourceId) || 0) + 1);
+          edgeCounts.set(targetId, (edgeCounts.get(targetId) || 0) + 1);
+        });
+
+        return edgeCounts;
+      }
+
+      // Create and populate the node filter dropdown
+      function updateNodeFilterDropdown(nodes, links) {
+        const edgeCounts = calculateNodeEdgeCounts(nodes, links);
+
+        // Sort nodes by edge count (descending)
+        const sortedNodes = nodes
+          .map((node) => ({
+            id: node.id,
+            edgeCount: edgeCounts.get(node.id) || 0,
+            type: node.type || "unknown",
+          }))
+          .sort((a, b) => b.edgeCount - a.edgeCount);
+
+        const select = document.getElementById("node-filter-select");
+
+        // Clear existing options except the default
+        while (select.children.length > 1) {
+          select.removeChild(select.lastChild);
+        }
+
+        // Add nodes to dropdown
+        sortedNodes.forEach((nodeInfo) => {
+          const option = document.createElement("option");
+          option.value = nodeInfo.id;
+          option.textContent = `${nodeInfo.id} (${nodeInfo.edgeCount} edges, ${nodeInfo.type})`;
+
+          // Mark hidden nodes
+          if (forceParams.hiddenNodes.has(nodeInfo.id)) {
+            option.textContent += " [HIDDEN]";
+            option.style.fontStyle = "italic";
+            option.style.color = "#666";
+          }
+
+          select.appendChild(option);
+        });
+      }
+
+      // Toggle node visibility
+      function toggleNodeVisibility(nodeId) {
+        if (forceParams.hiddenNodes.has(nodeId)) {
+          forceParams.hiddenNodes.delete(nodeId);
+        } else {
+          forceParams.hiddenNodes.add(nodeId);
+        }
+
+        // Update visual state immediately
+        updateNodeVisibility();
+        saveParams();
+      }
+
+      // Filter nodes and links based on hidden nodes before rendering
+      function filterGraphData(nodes, links) {
+        // Filter out hidden nodes
+        const visibleNodes = nodes.filter(
+          (node) => !forceParams.hiddenNodes.has(node.id)
+        );
+
+        // Create a set of visible node IDs for quick lookup
+        const visibleNodeIds = new Set(visibleNodes.map((node) => node.id));
+
+        // Filter out links that connect to hidden nodes
+        const visibleLinks = links.filter((link) => {
+          const sourceId =
+            typeof link.source === "object" ? link.source.id : link.source;
+          const targetId =
+            typeof link.target === "object" ? link.target.id : link.target;
+
+          return visibleNodeIds.has(sourceId) && visibleNodeIds.has(targetId);
+        });
+
+        return {
+          nodes: visibleNodes,
+          links: visibleLinks,
+        };
+      }
+
+      // Update the visual state of nodes based on hidden status
+      function updateNodeVisibility() {
+        // Since we're doing complete filtering, just regenerate the graph
+        if (window.currentContainer && !isRegenerating) {
+          regenerateGraph();
+        }
+      }
+
+      function renderGraph({ nodes, links }) {
+        console.log(
+          "renderGraph called with",
+          nodes.length,
+          "nodes and",
+          links.length,
+          "links"
+        );
+
+        // Check if performance mode should be enabled
+        const performanceModeChanged = checkAndEnablePerformanceMode(
+          nodes.length
+        );
+
+        // Apply performance filtering before user-defined hidden node filtering
+        const performanceFiltered = applyPerformanceFiltering(nodes, links);
+
+        // Then apply user-defined hidden node filtering
+        const filteredData = filterGraphData(
+          performanceFiltered.nodes,
+          performanceFiltered.links
+        );
+        const visibleNodes = filteredData.nodes;
+        const visibleLinks = filteredData.links;
+
+        console.log(
+          "After all filtering:",
+          visibleNodes.length,
+          "visible nodes and",
+          visibleLinks.length,
+          "visible links"
+        );
+
+        const svg = d3
+          .select("#viz")
+          .append("svg")
+          .attr("width", forceParams.width)
+          .attr("height", forceParams.height);
+
+        console.log(
+          "Created new SVG, total SVGs now:",
+          d3.select("#viz").selectAll("svg").size()
+        );
+
+        const container = svg.append("g");
+
+        const zoom = createZoomBehavior((event) => {
+          container.attr("transform", event.transform);
+        });
+
+        svg.call(zoom);
+
+        if (savedZoom) {
+          svg.call(
+            zoom.transform,
+            d3.zoomIdentity
+              .translate(savedZoom.x, savedZoom.y)
+              .scale(savedZoom.k)
+          );
+        }
+
+        const simulation = d3
+          .forceSimulation(visibleNodes)
+          .force(
+            "link",
+            d3
+              .forceLink(visibleLinks)
+              .id((d) => d.id)
+              .distance((d) => {
+                // Adaptive link distance based on node spacing settings
+                let distance = forceParams.linkDistance;
+                if (forceParams.adaptiveNodeSpacing) {
+                  // Increase distance for nodes with longer labels to prevent text overlap
+                  const sourceLength = d.source.id ? d.source.id.length : 0;
+                  const targetLength = d.target.id ? d.target.id.length : 0;
+                  const avgLength = (sourceLength + targetLength) / 2;
+                  distance += Math.min(avgLength * 2, 30);
+                }
+
+                // Additional spacing for edge text
+                if (forceParams.edgeTextSpacing) {
+                  const predicateLength = d.predicate ? d.predicate.length : 0;
+                  distance += Math.min(
+                    predicateLength * forceParams.labelFontSize * 0.8,
+                    50
+                  );
+                }
+
+                return distance;
+              })
+          )
+          .force(
+            "charge",
+            d3.forceManyBody().strength(forceParams.chargeStrength)
+          )
+          .force(
+            "center",
+            d3.forceCenter(forceParams.width / 2, forceParams.height / 2)
+          )
+          .force(
+            "collision",
+            d3
+              .forceCollide()
+              .radius((d) => {
+                // Node collision radius with text consideration
+                let radius = forceParams.nodeCollisionRadius;
+                if (forceParams.adaptiveNodeSpacing) {
+                  // Add extra space for longer labels
+                  const labelLength = d.id.length;
+                  radius += Math.min(labelLength * 1.5, 20);
+                }
+
+                // Additional radius for connected edge text
+                if (forceParams.edgeTextSpacing) {
+                  const nodeConnections = visibleLinks.filter(
+                    (link) =>
+                      link.source.id === d.id ||
+                      link.source === d.id ||
+                      link.target.id === d.id ||
+                      link.target === d.id
+                  );
+                  const avgPredicateLength =
+                    nodeConnections.length > 0
+                      ? nodeConnections.reduce(
+                          (sum, link) => sum + (link.predicate?.length || 0),
+                          0
+                        ) / nodeConnections.length
+                      : 0;
+                  radius += Math.min(avgPredicateLength * 0.5, 15);
+                }
+
+                return radius;
+              })
+              .strength(0.7)
+          );
+
+        // Add custom edge text spacing force
+        if (forceParams.edgeTextSpacing) {
+          simulation.force("edgeTextRepulsion", () => {
+            const strength = forceParams.edgeTextSpacingStrength;
+
+            // For each link, apply repulsion between nodes along the edge path
+            visibleLinks.forEach((link) => {
+              const source =
+                typeof link.source === "object"
+                  ? link.source
+                  : visibleNodes.find((n) => n.id === link.source);
+              const target =
+                typeof link.target === "object"
+                  ? link.target
+                  : visibleNodes.find((n) => n.id === link.target);
+
+              if (!source || !target) return;
+
+              const dx = target.x - source.x;
+              const dy = target.y - source.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+
+              if (distance === 0) return;
+
+              const predicateLength = link.predicate
+                ? link.predicate.length
+                : 0;
+              const minDistance =
+                forceParams.nodeRadius * 2 +
+                predicateLength * forceParams.labelFontSize * 0.6;
+
+              if (distance < minDistance) {
+                const forceStrength = (minDistance - distance) * strength;
+                const fx = (dx / distance) * forceStrength * 0.5;
+                const fy = (dy / distance) * forceStrength * 0.5;
+
+                // Apply opposite forces to source and target
+                source.vx = (source.vx || 0) - fx;
+                source.vy = (source.vy || 0) - fy;
+                target.vx = (target.vx || 0) + fx;
+                target.vy = (target.vy || 0) + fy;
+              }
+            });
+          });
+        }
+
+        const { link, node, nodeText, linkText } = createGraphElements(
+          container,
+          visibleNodes,
+          visibleLinks,
+          simulation
+        );
+
+        simulation.on("tick", () => {
+          // Update links with optional edge-node collision avoidance
+          link
+            .attr("x1", (d) => {
+              if (forceParams.edgeNodeAvoidance) {
+                // Offset link start point to avoid node overlap
+                const dx = d.target.x - d.source.x;
+                const dy = d.target.y - d.source.y;
+                const length = Math.sqrt(dx * dx + dy * dy);
+                const offset = forceParams.nodeRadius + 3;
+                return length > 0
+                  ? d.source.x + (dx / length) * offset
+                  : d.source.x;
+              }
+              return d.source.x;
+            })
+            .attr("y1", (d) => {
+              if (forceParams.edgeNodeAvoidance) {
+                const dx = d.target.x - d.source.x;
+                const dy = d.target.y - d.source.y;
+                const length = Math.sqrt(dx * dx + dy * dy);
+                const offset = forceParams.nodeRadius + 3;
+                return length > 0
+                  ? d.source.y + (dy / length) * offset
+                  : d.source.y;
+              }
+              return d.source.y;
+            })
+            .attr("x2", (d) => {
+              if (forceParams.edgeNodeAvoidance) {
+                // Offset link end point to avoid node overlap
+                const dx = d.source.x - d.target.x;
+                const dy = d.source.y - d.target.y;
+                const length = Math.sqrt(dx * dx + dy * dy);
+                const offset = forceParams.nodeRadius + 3;
+                return length > 0
+                  ? d.target.x + (dx / length) * offset
+                  : d.target.x;
+              }
+              return d.target.x;
+            })
+            .attr("y2", (d) => {
+              if (forceParams.edgeNodeAvoidance) {
+                const dx = d.source.x - d.target.x;
+                const dy = d.source.y - d.target.y;
+                const length = Math.sqrt(dx * dx + dy * dy);
+                const offset = forceParams.nodeRadius + 3;
+                return length > 0
+                  ? d.target.y + (dy / length) * offset
+                  : d.target.y;
+              }
+              return d.target.y;
+            });
+
+          node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+
+          // Text positioning with smart anchor rotation to avoid node overlaps
+          nodeText
+            .attr("x", (d) => {
+              if (forceParams.smartTextPositioning) {
+                return getSmartTextPosition(d, visibleNodes, true); // true for x-coordinate
+              }
+              return d.x + 15;
+            })
+            .attr("y", (d) => {
+              if (forceParams.smartTextPositioning) {
+                return getSmartTextPosition(d, visibleNodes, false); // false for y-coordinate
+              }
+              return d.y + 3;
+            });
+
+          // Position and rotate link text along the edge lines with smart positioning
+          linkText.attr("transform", (d, i) => {
+            let sourceX = d.source.x;
+            let sourceY = d.source.y;
+            let targetX = d.target.x;
+            let targetY = d.target.y;
+
+            // Apply edge-node avoidance offset to link text positioning if enabled
+            if (forceParams.edgeNodeAvoidance) {
+              const dx = targetX - sourceX;
+              const dy = targetY - sourceY;
+              const length = Math.sqrt(dx * dx + dy * dy);
+              const offset = forceParams.nodeRadius + 3;
+
+              if (length > 0) {
+                sourceX += (dx / length) * offset;
+                sourceY += (dy / length) * offset;
+                targetX -= (dx / length) * offset;
+                targetY -= (dy / length) * offset;
+              }
+            }
+
+            const dx = targetX - sourceX;
+            const dy = targetY - sourceY;
+            const edgeLength = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+            if (edgeLength === 0) {
+              return `translate(${sourceX}, ${sourceY}) rotate(0)`;
+            }
+
+            // Smart positioning along the edge to avoid overlaps
+            const bestPosition = findBestEdgeTextPosition(
+              d,
+              i,
+              sourceX,
+              sourceY,
+              targetX,
+              targetY,
+              visibleLinks,
+              visibleNodes
+            );
+
+            // Flip text if it would be upside down (angle > 90 or < -90)
+            const adjustedAngle =
+              angle > 90 || angle < -90 ? angle + 180 : angle;
+
+            // Offset perpendicular to the line
+            const perpAngle = (angle + 90) * (Math.PI / 180);
+            const offsetDistance = 8;
+            const offsetX = Math.cos(perpAngle) * offsetDistance;
+            const offsetY = Math.sin(perpAngle) * offsetDistance;
+
+            return `translate(${bestPosition.x + offsetX}, ${bestPosition.y + offsetY}) rotate(${adjustedAngle})`;
+          });
+        });
+
+        // Store references for control functions
+        window.currentSimulation = simulation;
+        window.currentZoom = zoom;
+        window.currentContainer = container;
+        window.currentSvg = svg;
+
+        // Store the current full dataset for filtering
+        window.fullGraphData = { nodes, links };
+
+        // Initialize node filtering with the original (unfiltered) data for counts
+        updateNodeFilterDropdown(nodes, links);
+
+        // Initialize enhanced controls
+        initializeGraphControls(simulation, zoom, container, svg);
+        initializeTooltips(node, link, nodeText, linkText, visibleLinks);
+        initializeWindowResize(simulation, zoom, container, svg);
+      }
+
+      function drag(simulation) {
+        function dragstarted(event) {
+          if (!event.active) simulation.alphaTarget(0.3).restart();
+          event.subject.fx = event.subject.x;
+          event.subject.fy = event.subject.y;
+        }
+
+        function dragged(event) {
+          event.subject.fx = event.x;
+          event.subject.fy = event.y;
+        }
+
+        function dragended(event) {
+          if (!event.active) simulation.alphaTarget(0);
+          // Pin node if pin mode is active
+          if (forceParams.nodeFixed) {
+            event.subject.fx = event.subject.x;
+            event.subject.fy = event.subject.y;
+            // Visual feedback for pinned node
+            d3.select(event.sourceEvent.target)
+              .attr("stroke", "#ff6600")
+              .attr("stroke-width", 3);
+          } else {
+            event.subject.fx = null;
+            event.subject.fy = null;
+          }
+        }
+
+        return d3
+          .drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended);
+      }
+
+      // Enhanced graph control functions
+      function initializeGraphControls(simulation, zoom, container, svg) {
+        // Freeze/Unfreeze simulation
+        document.getElementById("freeze-btn").addEventListener("click", () => {
+          simulation.stop();
+          forceParams.simulationRunning = false;
+          document.getElementById("freeze-btn").style.display = "none";
+          document.getElementById("unfreeze-btn").style.display =
+            "inline-block";
+        });
+
+        document
+          .getElementById("unfreeze-btn")
+          .addEventListener("click", () => {
+            simulation.alpha(1).restart();
+            forceParams.simulationRunning = true;
+            document.getElementById("freeze-btn").style.display =
+              "inline-block";
+            document.getElementById("unfreeze-btn").style.display = "none";
+          });
+
+        // Fit to screen
+        document.getElementById("fit-btn").addEventListener("click", () => {
+          zoomToFit(zoom, container, svg, 0.9, 500);
+        });
+
+        // Toggle pin mode
+        document
+          .getElementById("pin-toggle-btn")
+          .addEventListener("click", (event) => {
+            forceParams.nodeFixed = !forceParams.nodeFixed;
+            const btn = event.target;
+            if (forceParams.nodeFixed) {
+              btn.classList.add("active");
+              btn.textContent = "📌 Pin ON";
+            } else {
+              btn.classList.remove("active");
+              btn.textContent = "📌 Pin Mode";
+              // Unpin all nodes
+              unpinAllNodes();
+            }
+          });
+
+        // Toggle highlight mode
+        document
+          .getElementById("highlight-toggle-btn")
+          .addEventListener("click", (event) => {
+            forceParams.highlightEnabled = !forceParams.highlightEnabled;
+            const btn = event.target;
+            if (forceParams.highlightEnabled) {
+              btn.classList.add("active");
+              btn.textContent = "💡 Highlight";
+            } else {
+              btn.classList.remove("active");
+              btn.textContent = "💡 Highlight OFF";
+              // Reset any current highlighting
+              resetHighlighting();
+            }
+            saveParams();
+          });
+
+        // Zoom controls
+        document.getElementById("zoom-in-btn").addEventListener("click", () => {
+          smoothZoom(zoom, svg, 1.3, 350);
+        });
+
+        document
+          .getElementById("zoom-out-btn")
+          .addEventListener("click", () => {
+            smoothZoom(zoom, svg, 0.7, 350);
+          });
+
+        // Keyboard shortcuts
+        document.addEventListener("keydown", (event) => {
+          // Only trigger if not typing in an input
+          if (event.target.tagName === "INPUT") return;
+
+          switch (event.key.toLowerCase()) {
+            case " ":
+            case "spacebar":
+              event.preventDefault();
+              // Toggle freeze/unfreeze
+              if (forceParams.simulationRunning) {
+                document.getElementById("freeze-btn").click();
+              } else {
+                document.getElementById("unfreeze-btn").click();
+              }
+              break;
+            case "f":
+              event.preventDefault();
+              document.getElementById("fit-btn").click();
+              break;
+            case "p":
+              event.preventDefault();
+              document.getElementById("pin-toggle-btn").click();
+              break;
+            case "h":
+              event.preventDefault();
+              document.getElementById("highlight-toggle-btn").click();
+              break;
+            case "+":
+            case "=":
+              event.preventDefault();
+              document.getElementById("zoom-in-btn").click();
+              break;
+            case "-":
+            case "_":
+              event.preventDefault();
+              document.getElementById("zoom-out-btn").click();
+              break;
+          }
+        });
+      }
+
+      function zoomToFit(zoom, container, svg, padding = 0.9, duration = 500) {
+        const bounds = container.node().getBBox();
+        const parent = svg.node().parentElement || svg.node();
+        const fullWidth =
+          parent.clientWidth || parent.getBoundingClientRect().width;
+        const fullHeight =
+          parent.clientHeight || parent.getBoundingClientRect().height;
+
+        if (bounds.width === 0 || bounds.height === 0) return;
+
+        const width = bounds.width;
+        const height = bounds.height;
+        const midX = bounds.x + width / 2;
+        const midY = bounds.y + height / 2;
+
+        const scale =
+          padding / Math.max(width / fullWidth, height / fullHeight);
+        const translate = [
+          fullWidth / 2 - scale * midX,
+          fullHeight / 2 - scale * midY,
+        ];
+
+        svg
+          .transition()
+          .duration(duration)
+          .call(
+            zoom.transform,
+            d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale)
+          );
+      }
+
+      function smoothZoom(zoom, svg, scaleFactor, duration = 350) {
+        const currentTransform = d3.zoomTransform(svg.node());
+        const newScale = currentTransform.k * scaleFactor;
+
+        // Get center point
+        const bounds = svg.node().getBoundingClientRect();
+        const centerX = bounds.width / 2;
+        const centerY = bounds.height / 2;
+
+        // Calculate new position to zoom toward center
+        const newTranslateX =
+          centerX - (centerX - currentTransform.x) * scaleFactor;
+        const newTranslateY =
+          centerY - (centerY - currentTransform.y) * scaleFactor;
+
+        svg
+          .transition()
+          .duration(duration)
+          .call(
+            zoom.transform,
+            d3.zoomIdentity
+              .translate(newTranslateX, newTranslateY)
+              .scale(newScale)
+          );
+      }
+
+      function unpinAllNodes() {
+        if (window.currentSimulation) {
+          window.currentSimulation.nodes().forEach((node) => {
+            node.fx = null;
+            node.fy = null;
+          });
+          // Remove visual feedback from all nodes
+          d3.selectAll("circle")
+            .attr("stroke", null)
+            .attr("stroke-width", null);
+        }
+      }
+
+      function resetHighlighting() {
+        // Reset all visual highlighting when highlight mode is disabled
+        d3.selectAll("circle").style("opacity", 1.0).attr("stroke-width", 1.5);
+
+        d3.selectAll("line").style("opacity", 0.6).attr("stroke-width", 2);
+
+        d3.selectAll("text").style("opacity", 1.0);
+
+        d3.select("#node-tooltip").classed("visible", false);
+      }
+
+      function initializeTooltips(
+        nodeSelection,
+        linkSelection,
+        nodeTextSelection,
+        linkTextSelection,
+        linksData
+      ) {
+        const tooltip = d3.select("#node-tooltip");
+
+        // Create a lookup for connections
+        const connectionMap = new Map();
+        linksData.forEach((link) => {
+          if (!connectionMap.has(link.source.id || link.source)) {
+            connectionMap.set(link.source.id || link.source, []);
+          }
+          if (!connectionMap.has(link.target.id || link.target)) {
+            connectionMap.set(link.target.id || link.target, []);
+          }
+          connectionMap.get(link.source.id || link.source).push({
+            target: link.target.id || link.target,
+            predicate: link.predicate,
+            direction: "out",
+          });
+          connectionMap.get(link.target.id || link.target).push({
+            target: link.source.id || link.source,
+            predicate: link.predicate,
+            direction: "in",
+          });
+        });
+
+        nodeSelection
+          .on("mouseover", function (event, d) {
+            const connections = connectionMap.get(d.id) || [];
+            const connectedNodes = new Set();
+
+            // Collect connected node IDs
+            connections.forEach((conn) => connectedNodes.add(conn.target));
+            connectedNodes.add(d.id); // Include the hovered node itself
+
+            // Only apply highlighting if it's enabled
+            if (forceParams.highlightEnabled) {
+              // Highlight connected nodes and dim others
+              nodeSelection
+                .style("opacity", (node) =>
+                  connectedNodes.has(node.id) ? 1.0 : 0.3
+                )
+                .attr("stroke-width", (node) => (node.id === d.id ? 3 : 1.5));
+
+              // Highlight connected links and dim others
+              linkSelection
+                .style("opacity", (link) => {
+                  const sourceId = link.source.id || link.source;
+                  const targetId = link.target.id || link.target;
+                  return sourceId === d.id || targetId === d.id ? 1.0 : 0.1;
+                })
+                .attr("stroke-width", (link) => {
+                  const sourceId = link.source.id || link.source;
+                  const targetId = link.target.id || link.target;
+                  return sourceId === d.id || targetId === d.id ? 3 : 2;
+                });
+
+              // Highlight connected node and link text
+              nodeTextSelection.style("opacity", (node) =>
+                connectedNodes.has(node.id) ? 1.0 : 0.2
+              );
+
+              linkTextSelection.style("opacity", (link) => {
+                const sourceId = link.source.id || link.source;
+                const targetId = link.target.id || link.target;
+                return sourceId === d.id || targetId === d.id ? 1.0 : 0.1;
+              });
+            }
+
+            // Create detailed tooltip content
+            const nodeType = d.id.startsWith('"')
+              ? "Literal"
+              : d.id.startsWith("_:")
+                ? "Blank Node"
+                : "Named Node";
+            const connectionCount = connections.length;
+            const outgoingCount = connections.filter(
+              (c) => c.direction === "out"
+            ).length;
+            const incomingCount = connections.filter(
+              (c) => c.direction === "in"
+            ).length;
+
+            let tooltipContent = `<strong>${d.id}</strong>\n`;
+            tooltipContent += `Type: ${nodeType}\n`;
+            tooltipContent += `Connections: ${connectionCount} total`;
+            if (connectionCount > 0) {
+              tooltipContent += ` (${outgoingCount} out, ${incomingCount} in)`;
+            }
+
+            // Show first few connections as examples
+            if (connections.length > 0) {
+              tooltipContent += `\n\nConnections:`;
+              connections.slice(0, 5).forEach((conn) => {
+                const arrow = conn.direction === "out" ? "→" : "←";
+                tooltipContent += `\n${arrow} ${conn.predicate} ${conn.target}`;
+              });
+              if (connections.length > 5) {
+                tooltipContent += `\n... and ${connections.length - 5} more`;
+              }
+            }
+
+            tooltip
+              .style("left", event.pageX + 10 + "px")
+              .style("top", event.pageY - 10 + "px")
+              .classed("visible", true)
+              .html(tooltipContent);
+          })
+          .on("mousemove", function (event) {
+            tooltip
+              .style("left", event.pageX + 10 + "px")
+              .style("top", event.pageY - 10 + "px");
+          })
+          .on("mouseout", function () {
+            // Reset all visual highlighting only if highlighting is enabled
+            if (forceParams.highlightEnabled) {
+              nodeSelection.style("opacity", 1.0).attr("stroke-width", 1.5);
+              linkSelection.style("opacity", 0.6).attr("stroke-width", 2);
+              nodeTextSelection.style("opacity", 1.0);
+              linkTextSelection.style("opacity", 1.0);
+            }
+            tooltip.classed("visible", false);
+          });
+      }
+
+      function initializeWindowResize(simulation, zoom, container, svg) {
+        let resizeTimeout;
+        window.addEventListener("resize", () => {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(() => {
+            forceParams.width = window.innerWidth;
+            forceParams.height = window.innerHeight;
+
+            svg
+              .attr("width", forceParams.width)
+              .attr("height", forceParams.height);
+
+            simulation
+              .force(
+                "center",
+                d3.forceCenter(forceParams.width / 2, forceParams.height / 2)
+              )
+              .restart();
+
+            // Auto-fit after resize
+            setTimeout(() => {
+              zoomToFit(zoom, container, svg, 0.9, 500);
+            }, 500);
+          }, 250);
+        });
+      }
+
+      function makeDraggable(el) {
+        let offsetX = 0;
+        let offsetY = 0;
+        let isDown = false;
+
+        const header = document.getElementById("ui-header");
+
+        const startDrag = (e) => {
+          // Only allow dragging from header or when clicking on the main element
+          const target = e.target;
+          const isHeaderClick = header.contains(target) || target === el;
+          const isControlClick =
+            target.tagName === "INPUT" ||
+            target.tagName === "SELECT" ||
+            target.tagName === "BUTTON";
+
+          if (!isHeaderClick || isControlClick) return;
+
+          isDown = true;
+          offsetX = e.clientX - el.offsetLeft;
+          offsetY = e.clientY - el.offsetTop;
+          el.style.cursor = "grabbing";
+          header.style.cursor = "grabbing";
+        };
+
+        const endDrag = () => {
+          isDown = false;
+          el.style.cursor = "grab";
+          header.style.cursor = "grab";
+        };
+
+        const drag = (e) => {
+          if (!isDown) return;
+          el.style.left = `${e.clientX - offsetX}px`;
+          el.style.top = `${e.clientY - offsetY}px`;
+        };
+
+        el.addEventListener("mousedown", startDrag);
+        document.addEventListener("mouseup", endDrag);
+        document.addEventListener("mousemove", drag);
+      }
+
+      function initializeButtonStates() {
+        // Set highlight button initial state
+        const highlightBtn = document.getElementById("highlight-toggle-btn");
+        if (forceParams.highlightEnabled) {
+          highlightBtn.classList.add("active");
+          highlightBtn.textContent = "💡 Highlight";
+        } else {
+          highlightBtn.classList.remove("active");
+          highlightBtn.textContent = "💡 Highlight OFF";
+        }
+      }
+
+      parseURLParameters(); // Parse URL parameters first
+      loadSavedParams();
+      populateFontSelector();
+
+      // Initialize the application
+      (async function initializeApplication() {
+        try {
+          await populateOntologySelector();
+          updateDisplay();
+          initializeButtonStates(); // Initialize button states
+          document.body.style.backgroundColor = forceParams.backgroundColor;
+          loadGoogleFont(forceParams.fontFamily);
+          bindInputs();
+
+          // Load and render the graph
+          const { triples, prefixMap } = await loadTTL(forceParams.dataSource);
+          const graphData = projectTriples(triples, prefixMap);
+          renderGraph(graphData);
+
+          makeDraggable(document.getElementById("floating-ui"));
+
+          // Add collapse/expand functionality
+          setupCollapseToggle();
+        } catch (error) {
+          console.error("Failed to initialize application:", error);
+        }
+      })();
+    </script>
+    <style>
+      #floating-ui {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #ccc;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        cursor: grab;
+        z-index: 1000;
+        user-select: none;
+        max-width: 350px;
+        width: 350px;
+        max-height: 80vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        word-wrap: break-word;
+        backdrop-filter: blur(5px);
+      }
+
+      #floating-ui.collapsed {
+        width: auto;
+        max-width: 200px;
+        overflow: hidden;
+      }
+
+      #floating-ui.collapsed #ui-content {
+        display: none;
+      }
+
+      #ui-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+        cursor: grab;
+      }
+
+      #ui-title {
+        font-weight: bold;
+        font-size: 14px;
+        color: #333;
+        pointer-events: none;
+      }
+
+      #collapse-toggle {
+        background: none;
+        border: none;
+        font-size: 14px;
+        cursor: pointer;
+        padding: 2px 6px;
+        border-radius: 3px;
+        transition: background-color 0.2s ease;
+        user-select: none;
+      }
+
+      #collapse-toggle:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      #floating-ui ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      #floating-ui li {
+        margin-bottom: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      #floating-ui li strong {
+        font-size: 12px;
+        color: #333;
+        font-weight: 600;
+      }
+
+      #floating-ui input,
+      #floating-ui select {
+        max-width: 100%;
+        width: auto;
+        padding: 4px 6px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-size: 12px;
+      }
+
+      #floating-ui input[type="text"],
+      #floating-ui select {
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      #floating-ui input[type="number"] {
+        width: 80px;
+      }
+
+      #floating-ui input[type="color"] {
+        width: 40px;
+        height: 25px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      #floating-ui button {
+        padding: 4px 8px;
+        font-size: 11px;
+        border: 1px solid #ccc;
+        background: white;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-left: 5px;
+      }
+
+      #floating-ui button:hover {
+        background: #f0f0f0;
+      }
+
+      #floating-ui small {
+        color: #666;
+        font-size: 10px;
+        font-style: italic;
+      }
+
+      #graph-controls {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: flex;
+        gap: 8px;
+        z-index: 1000;
+      }
+
+      #zoom-controls {
+        position: absolute;
+        top: 60px;
+        right: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        z-index: 1000;
+      }
+
+      #graph-controls button,
+      #zoom-controls button {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.2s ease;
+        backdrop-filter: blur(5px);
+      }
+
+      #graph-controls button:hover,
+      #zoom-controls button:hover {
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transform: translateY(-1px);
+      }
+
+      #pin-toggle-btn.active {
+        background: rgba(255, 200, 0, 0.9);
+        border-color: #ff8800;
+      }
+
+      #highlight-toggle-btn.active {
+        background: rgba(0, 255, 100, 0.9);
+        border-color: #00cc44;
+      }
+
+      #node-tooltip {
+        position: absolute;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        pointer-events: none;
+        z-index: 1001;
+        max-width: 300px;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+
+      #node-tooltip.visible {
+        visibility: visible;
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="viz"></div>
+    <div id="floating-ui">
+      <div id="ui-header">
+        <span id="ui-title">Graph Controls</span>
+        <button id="collapse-toggle" type="button" title="Collapse/Expand panel"
+          >−</button
+        >
+      </div>
+      <div id="ui-content">
+        <ul>
+          <li>
+            <strong>Width (px):</strong>
+            <input id="val-width" type="number" step="10" />
+            <strong>or (%) of window:</strong>
+            <input id="val-width-pct" type="number" step="1" />
+          </li>
+          <li>
+            <strong>Height (px):</strong>
+            <input id="val-height" type="number" step="10" />
+            <strong>or (%) of window:</strong>
+            <input id="val-height-pct" type="number" step="1" />
+          </li>
+          <li>
+            <strong>Link Distance:</strong>
+            <input id="val-linkDistance" type="number" step="1" />
+          </li>
+          <li>
+            <strong>Charge Strength:</strong>
+            <input id="val-chargeStrength" type="number" step="1" />
+          </li>
+          <li>
+            <strong>Label Font Size:</strong>
+            <input id="val-labelFontSize" type="number" step="1" />
+          </li>
+          <li>
+            <strong>Node Radius:</strong>
+            <input id="val-nodeRadius" type="number" step="1" />
+          </li>
+          <li>
+            <strong>Node Collision Radius:</strong>
+            <input id="val-nodeCollisionRadius" type="number" step="1" />
+          </li>
+          <li>
+            <strong>Text Avoidance Radius:</strong>
+            <input id="val-textAvoidanceRadius" type="number" step="1" />
+          </li>
+          <li>
+            <strong>Edge-Node Avoidance:</strong>
+            <input id="val-edgeNodeAvoidance" type="checkbox" />
+          </li>
+          <li>
+            <strong>Adaptive Node Spacing:</strong>
+            <input id="val-adaptiveNodeSpacing" type="checkbox" />
+          </li>
+          <li>
+            <strong>Edge Text Spacing:</strong>
+            <input id="val-edgeTextSpacing" type="checkbox" />
+          </li>
+          <li>
+            <strong>Edge Text Spacing Strength:</strong>
+            <input id="val-edgeTextSpacingStrength" type="number" step="0.1" />
+          </li>
+          <li>
+            <strong>Smart Text Positioning:</strong>
+            <input id="val-smartTextPositioning" type="checkbox" />
+          </li>
+          <li>
+            <strong>Text Color:</strong>
+            <input id="val-textColor" type="color" />
+          </li>
+          <li>
+            <strong>Background Color:</strong>
+            <input id="val-backgroundColor" type="color" />
+          </li>
+          <!-- Color Theme Generator -->
+          <li id="color-theme-section">
+            <strong>Generate Color Theme:</strong>
+            <div
+              style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;"
+            >
+              <select id="color-scheme-type">
+                <option value="monochrome">Monochrome</option>
+                <option value="analogic">Analogic</option>
+                <option value="complement">Complement</option>
+                <option value="triad">Triad</option>
+                <option value="quad">Quad</option>
+              </select>
+              <input
+                id="base-color-picker"
+                type="color"
+                value="#4A90E2"
+                title="Base color for theme generation"
+              />
+              <button id="generate-theme-btn" type="button"
+                >Generate Theme</button
+              >
+              <button id="randomize-theme-btn" type="button"
+                >Random Theme</button
+              >
+            </div>
+          </li>
+          <!-- Node Colors -->
+          <li>
+            <strong>Class Node Color:</strong>
+            <input id="val-classNodeColor" type="color" />
+          </li>
+          <li>
+            <strong>Instance Node Color:</strong>
+            <input id="val-instanceNodeColor" type="color" />
+          </li>
+          <li>
+            <strong>Literal Node Color:</strong>
+            <input id="val-literalNodeColor" type="color" />
+          </li>
+          <li>
+            <strong>Blank Node Color:</strong>
+            <input id="val-blankNodeColor" type="color" />
+          </li>
+          <!-- Edge Colors -->
+          <li>
+            <strong>Object Property Color:</strong>
+            <input id="val-objectPropertyColor" type="color" />
+          </li>
+          <li>
+            <strong>Datatype Property Color:</strong>
+            <input id="val-datatypePropertyColor" type="color" />
+          </li>
+          <li>
+            <strong>RDF Property Color:</strong>
+            <input id="val-rdfPropertyColor" type="color" />
+          </li>
+          <li>
+            <strong>Font Family:</strong>
+            <select id="val-fontFamily">
+              <!-- Options will be populated by JavaScript -->
+            </select>
+          </li>
+          <li>
+            <strong>Font Weight:</strong>
+            <input
+              id="val-fontWeight"
+              type="range"
+              min="200"
+              max="800"
+              step="50"
+            />
+            <span id="fontWeight-display">400</span>
+          </li>
+          <li>
+            <strong>Font Stretch:</strong>
+            <input
+              id="val-fontStretch"
+              type="range"
+              min="75"
+              max="125"
+              step="5"
+            />
+            <span id="fontStretch-display">100%</span>
+          </li>
+          <li>
+            <strong>Font Slant:</strong>
+            <input id="val-fontSlant" type="range" min="-15" max="0" step="1" />
+            <span id="fontSlant-display">0°</span>
+          </li>
+          <li>
+            <strong>Local Ontology:</strong>
+            <select id="val-localOntology">
+              <!-- Options will be populated by JavaScript -->
+            </select>
+          </li>
+          <li>
+            <strong>External URL:</strong>
+            <input
+              id="val-externalURL"
+              type="text"
+              placeholder="https://example.com/data.ttl"
+            />
+            <button id="load-external-btn" type="button">Load</button>
+          </li>
+          <li>
+            <strong>Node Filter (by edge count):</strong>
+            <select id="node-filter-select">
+              <option value="">Select node to toggle visibility...</option>
+            </select>
+          </li>
+          <li>
+            <button id="show-all-nodes-btn" type="button">Show All Nodes</button
+            >
+            <button id="hide-all-nodes-btn" type="button">Hide All Nodes</button
+            >
+          </li>
+          <li>
+            <strong>Zoom Scale (k):</strong>
+            <input id="val-zoom-k" type="number" step="0.1" />
+          </li>
+          <li>
+            <strong>Pan X:</strong>
+            <input id="val-pan-x" type="number" step="10" />
+          </li>
+          <li>
+            <strong>Pan Y:</strong>
+            <input id="val-pan-y" type="number" step="10" />
+          </li>
+          <!-- Performance Controls -->
+          <li
+            style="border-top: 1px solid #ccc; margin-top: 10px; padding-top: 10px;"
+          >
+            <strong>Performance Settings:</strong>
+          </li>
+          <li>
+            <strong>Max Node Count:</strong>
+            <input
+              id="val-maxNodeCount"
+              type="number"
+              step="10"
+              min="10"
+              max="1000"
+            />
+            <small>(Auto-filter when exceeded)</small>
+          </li>
+          <li>
+            <strong>Show TBox (Classes):</strong>
+            <input id="val-showClasses" type="checkbox" />
+          </li>
+          <li>
+            <strong>Show ABox (Instances):</strong>
+            <input id="val-showInstances" type="checkbox" />
+          </li>
+          <li>
+            <strong>Show Literals:</strong>
+            <input id="val-showLiterals" type="checkbox" />
+          </li>
+          <li>
+            <strong>Min Node Degree:</strong>
+            <input
+              id="val-minNodeDegree"
+              type="number"
+              step="1"
+              min="0"
+              max="20"
+            />
+            <small>(Hide nodes with fewer connections)</small>
+          </li>
+          <li>
+            <strong>Performance Mode:</strong>
+            <input id="val-performanceMode" type="checkbox" disabled />
+            <small>(Auto-enabled for large graphs)</small>
+          </li>
+          <li>
+            <strong>FPS Throttling:</strong>
+            <input id="val-useFPSThrottling" type="checkbox" />
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Graph Control Buttons -->
+    <div id="graph-controls">
+      <button
+        id="freeze-btn"
+        type="button"
+        title="Freeze/Stop simulation (Spacebar)">⏸️ Freeze</button
+      >
+      <button
+        id="unfreeze-btn"
+        type="button"
+        title="Resume simulation (Spacebar)"
+        style="display: none;">▶️ Resume</button
+      >
+      <button id="fit-btn" type="button" title="Fit graph to screen (F)"
+        >🔍 Fit</button
+      >
+      <button
+        id="pin-toggle-btn"
+        type="button"
+        title="Toggle node pinning on drag (P)">📌 Pin Mode</button
+      >
+      <button
+        id="highlight-toggle-btn"
+        type="button"
+        title="Toggle hover highlighting (H)"
+        class="active">💡 Highlight</button
+      >
+    </div>
+
+    <!-- Zoom Control Buttons -->
+    <div id="zoom-controls">
+      <button id="zoom-in-btn" type="button" title="Zoom In (+)">➕</button>
+      <button id="zoom-out-btn" type="button" title="Zoom Out (-)">➖</button>
+    </div>
+
+    <!-- Node Tooltip -->
+    <div id="node-tooltip"></div>
+  </body>
+</html>
