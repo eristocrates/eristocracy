@@ -3,6 +3,9 @@ import { readFile, stat } from "fs/promises";
 import { join } from "path";
 import { Parser, Store, DataFactory } from "n3";
 
+// Enable server-side rendering for dynamic routes
+export const prerender = false;
+
 // Cache for parsed graph data
 const graphCache = new Map();
 
@@ -40,30 +43,66 @@ interface GraphData {
   };
 }
 
-export const GET: APIRoute = async ({ url }) => {
+export const GET: APIRoute = async ({ params, request }) => {
   try {
-    // For now, hardcode arcaea.ttl as requested
-    const filename = "arcaea.ttl";
+    // Extract filename from path parameters, default to arcaea.ttl
+    const filename = params.filename || "arcaea.ttl";
+
+    console.log("🔍 Debug URL info:");
+    console.log("  - Request URL:", request.url);
+    console.log("  - Path params:", params);
+    console.log("  - Requested filename:", params.filename);
+    console.log("  - Final filename:", filename);
+
+    // Validate filename to prevent path traversal attacks
+    const allowedFiles = [
+      "arcaea.ttl",
+      "arcaea-one.ttl",
+      "semiotic-core.ttl",
+      "pizza.ttl",
+      "example.ttl",
+      "test.ttl",
+    ];
+    if (!allowedFiles.includes(filename)) {
+      return new Response(JSON.stringify({ error: "Invalid filename" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     const filePath = join(process.cwd(), "public", "ontology", filename);
+    console.log("📂 Loading ontology:", filename, "from path:", filePath);
+
+    // TEMPORARY: Clear cache to debug issue
+    console.log("🗑️ Clearing cache for debugging");
+    graphCache.clear();
 
     // Check cache first
     const cacheKey = filename;
     const fileStat = await stat(filePath);
     const fileModTime = fileStat.mtime.getTime();
+    const fileSize = fileStat.size;
+
+    console.log(
+      `📊 File stats for ${filename}: size=${fileSize} bytes, modTime=${fileModTime}`
+    );
 
     const cached = graphCache.get(cacheKey);
     if (cached && cached.modTime >= fileModTime) {
-      console.log(`Cache hit for ${filename}`);
+      console.log(`🔄 Cache hit for ${filename}`);
       return new Response(JSON.stringify(cached.data), {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
     }
 
-    console.log(`Parsing ${filename}...`);
+    console.log(`🔧 Parsing ${filename}... (cache miss or file modified)`);
 
     // Read and parse the RDF file
     const rdfContent = await readFile(filePath, "utf-8");
+    console.log(`📄 Read ${rdfContent.length} characters from ${filename}`);
+    console.log(`📝 First 200 chars: ${rdfContent.substring(0, 200)}...`);
+
     const parser = new Parser();
     const store = new Store();
 

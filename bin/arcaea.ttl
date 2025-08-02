@@ -484,8 +484,7 @@
 @prefix yourvoiceso: <https://eristocrates.dev/externalism/ontology/arcaea/yourvoiceso/> .
 @prefix yozakurafubuki: <https://eristocrates.dev/externalism/ontology/arcaea/yozakurafubuki/> .
 arcaea:songlist
-  a json:file ;
-  has:songs arcaea:abstrusedilemma, arcaea:aegleseeker, arcaea:aethercrest, arcaea:aidrew, arcaea:aiueoon, arcaea:akinokagerou, arcaea:alephzero, arcaea:alexandrite, arcaea:alicealamode, arcaea:alicessuitcase, arcaea:aloneandlorn, arcaea:altair, arcaea:altale, arcaea:alterale, arcaea:alterego, arcaea:amazingmightyyyy, arcaea:amekagura, arcaea:amygdata, arcaea:andrevivemelody, arcaea:anokumene, arcaea:antagonism, arcaea:antithese, arcaea:aprilshowers, arcaea:arcahv, arcaea:arcanaeden, arcaea:arghena, arcaea:ascent, arcaea:ashenboundary, arcaea:astralexe, arcaea:astralquant, arcaea:astraltale, arcaea:astrawalkthrough, arcaea:aterlbus, arcaea:attraqtia, arcaea:aurgelmir, arcaea:auxesia, arcaea:avantraze, arcaea:avril, arcaea:awakeninruins, arcaea:axiumcrisis, arcaea:babaroque, arcaea:backtobasics, arcaea:badtek, arcaea:bassline, arcaea:battlenoone, arcaea:bbkkbkk, arcaea:beautifuldreamer, arcaea:besideyou, arcaea:bethere, arcaea:blacklotus, arcaea:blackmind, arcaea:blackmirror, arcaea:blackterritory, arcaea:blaster, arcaea:blazingair, arcaea:blockedlibrary, arcaea:blossoms, arcaea:blrink, arcaea:bluecomet, arcaea:bluerose, arcaea:blythe, arcaea:bookmaker, arcaea:brandnewworld, arcaea:breachoffaith, arcaea:breakbreak, arcaea:buchigireberserker, arcaea:bulletwaiting, arcaea:callimakarma, arcaea:callmyname, arcaea:capella, arcaea:carminescythe, arcaea:chaos, arcaea:chelsea, arcaea:chromafill, arcaea:chronicle, arcaea:chronostasis, arcaea:climax, arcaea:clotho, arcaea:coastalhighway, arcaea:cocorocosmetic, arcaea:conflict, arcaea:corpssansorganes, arcaea:corruption, arcaea:cosmica, arcaea:cosmopop, arcaea:crimsonquartz, arcaea:crimsonthrone, arcaea:crossover, arcaea:crosssoul, arcaea:crystalgravity, arcaea:cyaegha, arcaea:cyanine, arcaea:cyberneciacatharsis, arcaea:cycles, arcaea:daat, arcaea:dandelion, arcaea:dantalion, arcaea:darakunosono, arcaea:dataerror, arcaea:dazzlehop, arcaea:ddd, arcaea:deathbyglamour, arcaea:defection, arcaea:dement, arcaea:designant, arcaea:desive, arcaea:devillicsphere, arcaea:dialnote, arcaea:diesirae, arcaea:diode, arcaea:distortedfate, arcaea:distortionhuman, arcaea:divinelight, arcaea:dontdie, arcaea:dontfightmusic, arcaea:dottodot, arcaea:dreadnought, arcaea:dreamgoeson, arcaea:dreaminattraction, arcaea:drg, arcaea:dropdead, arcaea:dualdoom, arcaea:dullblade, arcaea:dxfullmetal, arcaea:dynitikos, arcaea:eccentrictale, arcaea:edenwacca, arcaea:egoeimi, arcaea:eightem, arcaea:einherjar, arcaea:empireofwinter, arcaea:enchantedlove, arcaea:endmoonlight, arcaea:energysynergymatrix, arcaea:epicurus, arcaea:epitaxy, arcaea:equilibrium, arcaea:espebranch, arcaea:essenceoftwilight, arcaea:etherstrike, arcaea:eveninginscarlet, arcaea:evoltex, arcaea:faintlight, arcaea:fairytale, arcaea:fallensquare, arcaea:fantasy, arcaea:farawaylight, arcaea:feelssoright, arcaea:felis, arcaea:felys, arcaea:filament, arcaea:finalstep, arcaea:firstsnow, arcaea:flashback, arcaea:floatingworld, arcaea:fluffyflash, arcaea:flyburg, arcaea:fractureray, arcaea:freefall, arcaea:freemyself, arcaea:furetemitai, arcaea:galacticlove, arcaea:galaxyfriends, arcaea:garakuta, arcaea:gekka, arcaea:genesis, arcaea:genesischunithm, arcaea:gengaozo, arcaea:genocider, arcaea:gensounosatellite, arcaea:gimmedablood, arcaea:gimmick, arcaea:givemeanightmare, arcaea:gloryroad, arcaea:glow, arcaea:goldenslaughterer, arcaea:goodbyemerry, arcaea:goodtek, arcaea:gothiveofra, arcaea:gou, arcaea:grievouslady, arcaea:grimheart, arcaea:guardina, arcaea:hailstone, arcaea:halcyon, arcaea:hallofmirrors, arcaea:harutopia, arcaea:headbonkache, arcaea:hearditsaid, arcaea:heartache, arcaea:heartjackin, arcaea:heavenlycaress, arcaea:heavensdoor, arcaea:hellohell, arcaea:hiirogekka, arcaea:hikari, arcaea:hivemind, arcaea:hotarubinoyuki, arcaea:hybris, arcaea:hypervision, arcaea:hypnotize, arcaea:ichirin, arcaea:iconoclast, arcaea:ifi, arcaea:ignition, arcaea:ignotus, arcaea:ii, arcaea:ikazuchi, arcaea:impact, arcaea:impurebird, arcaea:infinitestrife, arcaea:infinity, arcaea:infinityheaven, arcaea:init, arcaea:inkarusi, arcaea:innocence, arcaea:internetoverdose, arcaea:internetyamero, arcaea:invain, arcaea:invertedworld, arcaea:ionostream, arcaea:iwantyou, arcaea:izana, arcaea:jingle, arcaea:journey, arcaea:judgement, arcaea:jump, arcaea:kanagawa, arcaea:kissinglucifer, arcaea:kokoro, arcaea:kyogenkigo, arcaea:kyorenromance, arcaea:ladymadestar, arcaea:lamentrain, arcaea:lamia, arcaea:lapis, arcaea:laqryma, arcaea:last, arcaea:lastcelebration, arcaea:lastendconductor, arcaea:lasteternity, arcaea:lastgoodbye, arcaea:lawlesspoint, arcaea:lazyaddiction, arcaea:leaveallbehind, arcaea:lethaeus, arcaea:lethalvoltage, arcaea:letsrock, arcaea:letyoudivermx, arcaea:liar, arcaea:libertas, arcaea:lifeispiano, arcaea:liftoff, arcaea:lightmyway, arcaea:lightningscrew, arcaea:lightsofmuse, arcaea:linearaccelerator, arcaea:livefastdieyoung, arcaea:logos, arcaea:loschen, arcaea:lostcivilization, arcaea:lostdesire, arcaea:lostemotion, arcaea:lostintheabyss, arcaea:lovelessdress, arcaea:lucidtraveler, arcaea:lucifer, arcaea:lumia, arcaea:lunarossa, arcaea:macromod, arcaea:magnolia, arcaea:mahoroba, arcaea:maliciousmischance, arcaea:manicjeer, arcaea:mantis, arcaea:masqueradelegion, arcaea:matenrou, arcaea:maxrage, arcaea:mazenine, arcaea:mazymetroplex, arcaea:medusa, arcaea:megalovania, arcaea:megalovaniarmx, arcaea:melodyoflove, arcaea:memoryfactory, arcaea:memoryforest, arcaea:merlin, arcaea:metallicpunisher, arcaea:metamysteria, arcaea:miles, arcaea:mirinae, arcaea:mirzam, arcaea:modelista, arcaea:monochromeprincess, arcaea:moonheart, arcaea:moonlightofsandcastle, arcaea:morningloom, arcaea:mu, arcaea:mukishitsu, arcaea:mvurbd, arcaea:namelesspassion, arcaea:nekonote, arcaea:neokosmo, arcaea:neowings, arcaea:newyorkbackraise, arcaea:nexttoyou, arcaea:nhelv, arcaea:nightmare, arcaea:nirvluce, arcaea:nnglooms, arcaea:nulctrl, arcaea:nullapophenia, arcaea:oblivia, arcaea:oblivion, arcaea:odysseia, arcaea:oldschoolsalvage, arcaea:omakeno, arcaea:omegafour, arcaea:onandon, arcaea:onefr, arcaea:onelastdrive, arcaea:oracle, arcaea:oshamascramble, arcaea:ouroboros, arcaea:ouverture, arcaea:overdrive, arcaea:overwhelm, arcaea:paperwitch, arcaea:paradise, arcaea:particlearts, arcaea:partyvinyl, arcaea:pentiment, arcaea:phantasia, arcaea:picopicotranslation, arcaea:placebobattler, arcaea:pragmatism, arcaea:prayer, arcaea:primevaltexture, arcaea:primitivelights, arcaea:prism, arcaea:protoflicker, arcaea:pupa, arcaea:purgatorium, arcaea:purpleverse, arcaea:qovat, arcaea:qualia, arcaea:quon, arcaea:quonwacca, arcaea:rabbitintheblackroom, arcaea:rainofconflict, arcaea:ravenspride, arcaea:raysofremnant, arcaea:reconstruction, arcaea:redandblue, arcaea:redolentshape, arcaea:reinvent, arcaea:rekkaresonance, arcaea:relentless, arcaea:remindthesouls, arcaea:renegade, arcaea:revixy, arcaea:rgb, arcaea:ringedgenesis, arcaea:rise, arcaea:riseoftheworld, arcaea:romancewars, arcaea:rugie, arcaea:sacrifice, arcaea:saikyostronger, arcaea:saintorsinner, arcaea:sakurafubuki, arcaea:sanskia, arcaea:satisfaction, arcaea:sayonarahatsukoi, arcaea:scarletcage, arcaea:scarletlance, arcaea:seclusion, arcaea:senkyou, arcaea:seventhsense, arcaea:shadesoflight, arcaea:sheriruth, arcaea:sheriruthrmx, arcaea:shinchoku, arcaea:shrink, arcaea:signof, arcaea:silentrush, arcaea:singularity, arcaea:smallcloud, arcaea:snowwhite, arcaea:solitarydream, arcaea:someday, arcaea:soundwitch, arcaea:specta, arcaea:spidersthread, arcaea:spiritdauntless, arcaea:stager, arcaea:stargateextreme, arcaea:stasis, arcaea:straightintolights, arcaea:stratoliner, arcaea:strongholds, arcaea:sulfur, arcaea:summerfireworks, arcaea:suomi, arcaea:superambulance, arcaea:supernova, arcaea:surrender, arcaea:swansong, arcaea:syriana, arcaea:syro, arcaea:syuten, arcaea:take, arcaea:tasogare, arcaea:tau, arcaea:technicolour, arcaea:tempestissimo, arcaea:temptation, arcaea:temptationgc, arcaea:teravolt, arcaea:teriqma, arcaea:testify, arcaea:theformula, arcaea:themessage, arcaea:thesurvivor, arcaea:theultimacy, arcaea:thirdsun, arcaea:tictactoe, arcaea:tiemedowngently, arcaea:tiferet, arcaea:toaliceliddell, arcaea:tothefurthestdream, arcaea:tothemilkyway, arcaea:transientspace, arcaea:trapcrow, arcaea:trappola, arcaea:trpno, arcaea:trrricksters, arcaea:tsukinimurakumo, arcaea:turbocharger, arcaea:uad, arcaea:ultimatetaste, arcaea:ultradiaxon, arcaea:unknownlevels, arcaea:usedtobe, arcaea:valhallazero, arcaea:vandalism, arcaea:vector, arcaea:vexaria, arcaea:viciousheroism, arcaea:vindication, arcaea:virtus, arcaea:vividtheory, arcaea:viyella, arcaea:viyellastears, arcaea:vulcanus, arcaea:waitfordawn, arcaea:waltzforlorelei, arcaea:wereallgonnadie, arcaea:wishuponasnow, arcaea:withu, arcaea:wontbackdown, arcaea:worldender, arcaea:worldexecuteme, arcaea:worldfragments, arcaea:worldvanquisher, arcaea:xanatos, arcaea:xeraphinite, arcaea:xtreme, arcaea:yomibitoshirazu, arcaea:yourbestnightmare, arcaea:yourvoiceso, arcaea:yozakurafubuki .
+  a json:file .
 arcaea:sayonarahatsukoi
   a arcaea:song, owl:NamedIndividual ;
   has:idx 0 ;
@@ -1918,7 +1917,7 @@ arcaea:partyvinyl
   has:songChart partyvinyl:byd, partyvinyl:ftr, partyvinyl:prs, partyvinyl:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/モリモリあつし>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "モリモリあつし"@en .
+  arcaea:name "morimori atsushi"@en, "モリモリあつし"@en, "모리모리 아츠시"@ko .
 arcaea:132bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "132"^^xsd:integer .
@@ -1946,8 +1945,6 @@ arcaea:party_toaster
 <https://eristocrates.dev/externalism/ontology/arcaea/アサヤ>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "アサヤ"@en .
-arcaea:モリモリあつし
-  arcaea:name "morimori atsushi"@en, "モリモリあつし"@en, "모리모리 아츠시"@ko .
 partyvinyl:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -2049,7 +2046,7 @@ arcaea:flyburg
   has:songChart flyburg:ftr, flyburg:prs, flyburg:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/アリスシャッハと魔法の楽団>
   a arcaea:artist, arcaea:jacketDesigner, owl:NamedIndividual ;
-  arcaea:name "アリスシャッハと魔法の楽団"@en .
+  arcaea:name "alice schach and the magic orchestra"@en, "arisushahha to mahou no gakudan"@en, "ありすしゃっはとまほうのがくだん"@ja, "アリスシャッハと魔法の楽団"@en, "아리스샤하토 마호노 가쿠단"@ko, "앨리스 샤하와 마법의 오케스트라"@ko .
 flyburg:49334
   a owl:NamedIndividual, time:stamp ;
   time:seconds "49334"^^xsd:integer .
@@ -2068,8 +2065,6 @@ flyburg:pst
 arcaea:n
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "N"@en .
-arcaea:アリスシャッハと魔法の楽団
-  arcaea:name "alice schach and the magic orchestra"@en, "arisushahha to mahou no gakudan"@en, "ありすしゃっはとまほうのがくだん"@ja, "アリスシャッハと魔法の楽団"@en, "아리스샤하토 마호노 가쿠단"@ko, "앨리스 샤하와 마법의 오케스트라"@ko .
 flyburg:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -2105,7 +2100,7 @@ arcaea:nirvluce
   has:songChart nirvluce:ftr, nirvluce:prs, nirvluce:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/しーけー>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "しーけー"@en .
+  arcaea:name "ck"@en, "shiikei"@en, "しーけー"@en, "시케"@ko, "시케이"@ko .
 arcaea:260bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "260"^^xsd:integer .
@@ -2127,8 +2122,6 @@ nirvluce:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/東星_紅空>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "東星※紅空"@en .
-arcaea:しーけー
-  arcaea:name "ck"@en, "shiikei"@en, "しーけー"@en, "시케"@ko, "시케이"@ko .
 nirvluce:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -2433,7 +2426,7 @@ arcaea:chronostasis
   has:songChart chronostasis:ftr, chronostasis:prs, chronostasis:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/黒皇帝>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "黒皇帝"@en .
+  arcaea:name "kurokotei"@en, "くろこうてい"@ja, "黒皇帝"@en, "쿠로코테이"@ko, "흑황제"@ko .
 arcaea:196bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "196"^^xsd:integer .
@@ -2454,8 +2447,6 @@ chronostasis:pst
 arcaea:kurorak
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "KURORAK"@en, "Kurorak"@en .
-arcaea:黒皇帝
-  arcaea:name "kurokotei"@en, "くろこうてい"@ja, "黒皇帝"@en, "쿠로코테이"@ko, "흑황제"@ko .
 chronostasis:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -2484,7 +2475,7 @@ arcaea:kanagawa
   has:songChart kanagawa:byd, kanagawa:ftr, kanagawa:prs, kanagawa:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/南ゆに>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "南ゆに"@en .
+  arcaea:name "minami yuni"@en, "みなみゆに"@ja, "南ゆに"@en, "미나미유니"@ko .
 kanagawa:67000
   a owl:NamedIndividual, time:stamp ;
   time:seconds "67000"^^xsd:integer .
@@ -2503,8 +2494,6 @@ kanagawa:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/白鳥怜>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "白鳥怜"@en .
-arcaea:南ゆに
-  arcaea:name "minami yuni"@en, "みなみゆに"@ja, "南ゆに"@en, "미나미유니"@ko .
 kanagawa:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -2553,7 +2542,7 @@ arcaea:moonlightofsandcastle
   has:songChart moonlightofsandcastle:ftr, moonlightofsandcastle:prs, moonlightofsandcastle:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/旅人e>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "旅人E"@en .
+  arcaea:name "tabibito e"@en, "たびびといー"@ja, "旅人E"@en, "타비비토 이"@ko .
 arcaea:dynamix
   a arcaea:purchase, arcaea:set, owl:NamedIndividual ;
   rdfs:label "dynamix"@en .
@@ -2581,8 +2570,6 @@ moonlightofsandcastle:pst
   has:ratingClass arcaea:ratingClass0 ;
   has:chartDesigner arcaea:kurorak ;
   has:level arcaea:level1 .
-arcaea:旅人e
-  arcaea:name "tabibito e"@en, "たびびといー"@ja, "旅人e"@en, "타비비토 이"@ko .
 moonlightofsandcastle:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -3147,7 +3134,7 @@ arcaea:moonheart
   has:songChart moonheart:byd, moonheart:ftr, moonheart:prs, moonheart:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/翡乃イスカ>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "翡乃イスカ"@en .
+  arcaea:name "hino isuka"@en, "ひのいすか"@ja, "翡乃イスカ"@en, "히노 이스카"@ko .
 moonheart:66000
   a owl:NamedIndividual, time:stamp ;
   time:seconds "66000"^^xsd:integer .
@@ -3166,8 +3153,6 @@ moonheart:pst
 arcaea:vmwt
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "VMWT"@en .
-arcaea:翡乃イスカ
-  arcaea:name "hino isuka"@en, "ひのいすか"@ja, "翡乃イスカ"@en, "히노 이스카"@ko .
 moonheart:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -4598,7 +4583,7 @@ arcaea:nexttoyou
   has:songChart nexttoyou:byd, nexttoyou:ftr, nexttoyou:prs, nexttoyou:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/uma_feat_橘花音>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "uma feat. 橘花音"@en .
+  arcaea:name "tachibana kanon"@en, "uma feat. 橘花音"@en, "uma"@en, "たちばなかのん"@ja, "ゆうま"@ja, "ゆーま"@ja, "우마"@ko, "타치바나 카논"@ko .
 nexttoyou:51636
   a owl:NamedIndividual, time:stamp ;
   time:seconds "51636"^^xsd:integer .
@@ -4614,8 +4599,6 @@ nexttoyou:pst
   has:chartDesigner arcaea:nitro ;
   has:jacketDesigner arcaea:mins ;
   has:level arcaea:level4 .
-arcaea:uma_feat_橘花音
-  arcaea:name "tachibana kanon"@en, "uma"@en, "uma_feat_橘花音"@en, "たちばなかのん"@ja, "ゆうま"@ja, "ゆーま"@ja, "우마"@ko, "타치바나 카논"@ko .
 nexttoyou:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -4806,7 +4789,7 @@ arcaea:carminescythe
   has:songChart carminescythe:ftr, carminescythe:prs, carminescythe:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/かゆき>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "かゆき"@en .
+  arcaea:name "kayuki"@en, "かゆき"@en, "카유키"@ko .
 carminescythe:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -4825,8 +4808,6 @@ carminescythe:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/未早>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "未早"@en .
-arcaea:かゆき
-  arcaea:name "kayuki"@en, "かゆき"@en, "카유키"@ko .
 carminescythe:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -5189,7 +5170,7 @@ arcaea:sulfur
   has:songChart sulfur:ftr, sulfur:prs, sulfur:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/ぺのれり>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "ぺのれり"@en .
+  arcaea:name "penoreri"@en, "ぺのれり"@en, "페노레리"@ko .
 sulfur:57414
   a owl:NamedIndividual, time:stamp ;
   time:seconds "57414"^^xsd:integer .
@@ -5211,8 +5192,6 @@ arcaea:shirorak
 <https://eristocrates.dev/externalism/ontology/arcaea/すずなし>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "すずなし"@en .
-arcaea:ぺのれり
-  arcaea:name "penoreri"@en, "ぺのれり"@en, "페노레리"@ko .
 sulfur:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -5770,7 +5749,7 @@ arcaea:espebranch
   has:songChart espebranch:ftr, espebranch:prs, espebranch:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/apo11o_program_ft_大瀬良あい>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "Apo11o program ft. 大瀬良あい"@en .
+  arcaea:name "Apo11o program ft. 大瀬良あい"@en, "oosera ai"@en, "あぽろぷろぐらむ"@ja, "おおせらあい"@ja, "아폴로 프로그램"@ko, "오오세라 아이"@ko .
 arcaea:192bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "192"^^xsd:integer .
@@ -5795,8 +5774,6 @@ espebranch:pst
 arcaea:hideo
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "hideo"@en .
-arcaea:apo11o_program_ft_大瀬良あい
-  arcaea:name "apo11o_program_ft_大瀬良あい"@en, "oosera ai"@en, "あぽろぷろぐらむ"@ja, "おおせらあい"@ja, "아폴로 프로그램"@ko, "오오세라 아이"@ko .
 espebranch:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -5827,7 +5804,7 @@ arcaea:purgatorium
   has:songChart purgatorium:byd, purgatorium:ftr, purgatorium:prs, purgatorium:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/お月さま交響曲>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "お月さま交響曲"@en .
+  arcaea:name "otsukisamakoukyoukyoku"@en, "おつきさまこうきょうきょく"@ja, "お月さま交響曲"@en, "달님 교향곡"@ko, "오츠키사마 코우쿄쿄쿠"@ko, "오츠키사마코우쿄우쿄쿠"@ko .
 purgatorium:66800
   a owl:NamedIndividual, time:stamp ;
   time:seconds "66800"^^xsd:integer .
@@ -5846,8 +5823,6 @@ purgatorium:pst
 arcaea:michele
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "michele"@en .
-arcaea:お月さま交響曲
-  arcaea:name "otsukisamakoukyoukyoku"@en, "おつきさまこうきょうきょく"@ja, "お月さま交響曲"@en, "달님 교향곡"@ko, "오츠키사마 코우쿄쿄쿠"@ko, "오츠키사마코우쿄우쿄쿠"@ko .
 purgatorium:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -6469,7 +6444,7 @@ arcaea:dxfullmetal
   has:songChart dxfullmetal:ftr, dxfullmetal:prs, dxfullmetal:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/iosys_trax_uno_with_ちよこ>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "IOSYS TRAX (uno with.ちよこ)"@en .
+  arcaea:name "IOSYS TRAX (uno with.ちよこ)"@en, "chiyoko"@en, "いおしすとらっくす"@ja, "うの"@ja, "우노"@ko, "이오시스 트랙스"@ko .
 dxfullmetal:15603
   a owl:NamedIndividual, time:stamp ;
   time:seconds "15603"^^xsd:integer .
@@ -6487,8 +6462,6 @@ dxfullmetal:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/dx譜面作者フルメタルnitro>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "DX譜面作者フルメタルNitro"@en .
-arcaea:iosys_trax_uno_with_ちよこ
-  arcaea:name "chiyoko"@en, "iosys_trax_uno_with_ちよこ"@en, "いおしすとらっくす"@ja, "うの"@ja, "우노"@ko, "이오시스 트랙스"@ko .
 dxfullmetal:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -7365,7 +7338,7 @@ arcaea:ikazuchi
   has:songChart ikazuchi:ftr, ikazuchi:prs, ikazuchi:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/光吉猛修>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "光吉猛修"@en .
+  arcaea:name "takenobu mitsuyoshi"@en, "みつよしたけのぶ"@ja, "光吉猛修"@en, "타케노부 미츠요시"@ko .
 ikazuchi:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -7383,8 +7356,6 @@ ikazuchi:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/先史の機械神_夜浪>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "先史の機械神【夜浪】"@en .
-arcaea:光吉猛修
-  arcaea:name "takenobu mitsuyoshi"@en, "みつよしたけのぶ"@ja, "光吉猛修"@en, "타케노부 미츠요시"@ko .
 ikazuchi:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -7795,7 +7766,7 @@ arcaea:melodyoflove
   has:songChart melodyoflove:ftr, melodyoflove:prs, melodyoflove:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/からとpαnchii少年_feat_はるの>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "からとPαnchii少年 feat.はるの"@en .
+  arcaea:name "haruno"@en, "karatop"@en, "panchii shounen"@en, "かぷちー"@ja, "からと"@ja, "からとPαnchii少年 feat.はるの"@en, "からとぱんちーしょうねん"@ja, "たけのこしょうねん"@ja, "はるの"@ja, "ぱん"@ja, "카라토"@ko, "판치쇼넨"@ko, "하루노"@ko .
 melodyoflove:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -7811,8 +7782,6 @@ melodyoflove:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/恋のtoaster>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "恋のToaster"@en .
-arcaea:からとpαnchii少年_feat_はるの
-  arcaea:name "haruno"@en, "karatop"@en, "panchii shounen"@en, "かぷちー"@ja, "からと"@ja, "からとpαnchii少年_feat_はるの"@en, "からとぱんちーしょうねん"@ja, "たけのこしょうねん"@ja, "はるの"@ja, "ぱん"@ja, "카라토"@ko, "판치쇼넨"@ko, "하루노"@ko .
 melodyoflove:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -7844,7 +7813,7 @@ arcaea:tiemedowngently
   has:songChart tiemedowngently:ftr, tiemedowngently:prs, tiemedowngently:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/溝口ゆうま_feat_大瀬良あい>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "溝口ゆうま feat. 大瀬良あい"@en .
+  arcaea:name "mizonokuchi yuuma"@en, "oosera ai"@en, "おおせらあい"@ja, "みぞのくちゆうま"@ja, "溝口ゆうま feat. 大瀬良あい"@en, "미조노쿠치 유우마"@ko, "오오세라 아이"@ko .
 tiemedowngently:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -7860,8 +7829,6 @@ tiemedowngently:pst
 arcaea:kobuta
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "kobuta"@en .
-arcaea:溝口ゆうま_feat_大瀬良あい
-  arcaea:name "mizonokuchi yuuma"@en, "oosera ai"@en, "おおせらあい"@ja, "みぞのくちゆうま"@ja, "溝口ゆうま_feat_大瀬良あい"@en, "미조노쿠치 유우마"@ko, "오오세라 아이"@ko .
 tiemedowngently:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -8106,7 +8073,7 @@ arcaea:gloryroad
   has:songChart gloryroad:ftr, gloryroad:prs, gloryroad:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/uma_vs_モリモリあつし>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "uma vs. モリモリあつし"@en .
+  arcaea:name "morimori atsushi"@en, "uma vs. モリモリあつし"@en, "ゆうま"@ja, "ゆーま"@ja, "모리모리 아츠시"@ko, "유마"@ko .
 arcaea:250bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "250"^^xsd:integer .
@@ -8125,8 +8092,6 @@ gloryroad:pst
   has:chartDesigner <https://eristocrates.dev/externalism/ontology/arcaea/東星_紅空> ;
   has:jacketDesigner <https://eristocrates.dev/externalism/ontology/arcaea/シエラ> ;
   has:level arcaea:level4 .
-arcaea:uma_vs_モリモリあつし
-  arcaea:name "morimori atsushi"@en, "uma_vs_モリモリあつし"@en, "ゆうま"@ja, "ゆーま"@ja, "모리모리 아츠시"@ko, "유마"@ko .
 gloryroad:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -9166,7 +9131,7 @@ arcaea:ifi
   has:songChart ifi:ftr, ifi:prs, ifi:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/かめりあ_edp>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "かめりあ(EDP)"@en .
+  arcaea:name "camellia"@en, "kameria"@en, "かめりあ(EDP)"@en, "카메리아"@ko .
 arcaea:181bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "181"^^xsd:integer .
@@ -9188,8 +9153,6 @@ ifi:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/望月けい>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "望月けい"@en .
-arcaea:かめりあ_edp
-  arcaea:name "camellia"@en, "kameria"@en, "かめりあ_edp"@en, "카메리아"@ko .
 ifi:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -10613,7 +10576,7 @@ arcaea:besideyou
   has:songChart besideyou:ftr, besideyou:prs, besideyou:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/江口孝宏>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "江口孝宏"@en .
+  arcaea:name "takahiro eguchi"@en, "えぐちたかひろ"@ja, "江口孝宏"@en, "타카히로 에구치"@ko .
 arcaea:alice_append_1
   a arcaea:purchase, arcaea:set, owl:NamedIndividual ;
   rdfs:label "alice_append_1"@en .
@@ -10632,8 +10595,6 @@ besideyou:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/にもし>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "にもし"@en .
-arcaea:江口孝宏
-  arcaea:name "takahiro eguchi"@en, "えぐちたかひろ"@ja, "江口孝宏"@en, "타카히로 에구치"@ko .
 besideyou:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -10899,7 +10860,7 @@ arcaea:omegafour
   has:songChart omegafour:ftr, omegafour:prs, omegafour:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/穴山大輔_vs_光吉猛修_vs_kai>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "穴山大輔 VS 光吉猛修 VS Kai"@en .
+  arcaea:name "あなやまだいすけ"@ja, "かい"@ja, "みつよしたけのぶ"@ja, "穴山大輔 VS 光吉猛修 VS Kai"@en, "미츠요시 타케노부"@ko, "아나야마 다이스케"@ko, "카이"@ko .
 omegafour:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -10914,8 +10875,6 @@ omegafour:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/τ0>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "τ0"@en .
-arcaea:穴山大輔_vs_光吉猛修_vs_kai
-  arcaea:name "あなやまだいすけ"@ja, "かい"@ja, "みつよしたけのぶ"@ja, "穴山大輔_vs_光吉猛修_vs_kai"@en, "미츠요시 타케노부"@ko, "아나야마 다이스케"@ko, "카이"@ko .
 omegafour:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -11005,7 +10964,7 @@ arcaea:seventhsense
   has:songChart seventhsense:ftr, seventhsense:prs, seventhsense:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/削除>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "削除"@en .
+  arcaea:name "sakuzyo"@en, "さくじょ"@ja, "削除"@en, "사쿠죠"@ko .
 seventhsense:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -11017,8 +10976,6 @@ seventhsense:pst
   has:ratingClass arcaea:ratingClass0 ;
   has:chartDesigner <https://eristocrates.dev/externalism/ontology/arcaea/石樂> ;
   has:level arcaea:level3 .
-arcaea:削除
-  arcaea:name "sakuzyo"@en, "さくじょ"@ja, "削除"@en, "사쿠죠"@ko .
 seventhsense:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -11235,7 +11192,7 @@ arcaea:gou
   has:songChart gou:ftr, gou:prs, gou:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/光吉猛修_vs_穴山大輔>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "光吉猛修 VS 穴山大輔"@en .
+  arcaea:name "anayama daisuke"@en, "takenobu mitsuyoshi"@en, "あなやまだいすけ"@ja, "みつよしたけのぶ"@ja, "光吉猛修 VS 穴山大輔"@en, "아나야마 다이스케"@ko, "타케노부 미츠요시"@ko .
 gou:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -11250,8 +11207,6 @@ gou:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/神の啓示_人類の限界>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "神の啓示「人類の限界」"@en .
-arcaea:光吉猛修_vs_穴山大輔
-  arcaea:name "anayama daisuke"@en, "takenobu mitsuyoshi"@en, "あなやまだいすけ"@ja, "みつよしたけのぶ"@ja, "光吉猛修_vs_穴山大輔"@en, "아나야마 다이스케"@ko, "타케노부 미츠요시"@ko .
 gou:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -11335,7 +11290,7 @@ arcaea:attraqtia
   has:songChart attraqtia:ftr, attraqtia:prs, attraqtia:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/かめりあ>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "かめりあ"@en .
+  arcaea:name "camellia"@en, "kameria"@en, "かめりあ"@en, "카메리아"@ko .
 attraqtia:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -11354,8 +11309,6 @@ arcaea:toaster_affected_by_chunithm
 arcaea:enji
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "Enji"@en .
-arcaea:かめりあ
-  arcaea:name "camellia"@en, "kameria"@en, "かめりあ"@en, "카메리아"@ko .
 attraqtia:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -11431,7 +11384,7 @@ arcaea:take
   has:songChart take:ftr, take:prs, take:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/立秋_feat_ちょこ>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "立秋 feat.ちょこ"@en .
+  arcaea:name "choco"@en, "rish"@en, "rissyuu"@en, "りっしゅう"@ja, "立秋 feat.ちょこ"@en, "릿슈"@ko, "초코"@ko, "쵸코"@ko .
 arcaea:219bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "219"^^xsd:integer .
@@ -11453,8 +11406,6 @@ take:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/石王マサト>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "石王マサト"@en .
-arcaea:立秋_feat_ちょこ
-  arcaea:name "choco"@en, "rish"@en, "rissyuu"@en, "りっしゅう"@ja, "立秋_feat_ちょこ"@en, "릿슈"@ko, "초코"@ko, "쵸코"@ko .
 take:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -11535,7 +11486,7 @@ arcaea:bassline
   has:songChart bassline:ftr, bassline:prs, bassline:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/かめりあ_feat_ななひら>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "かめりあ feat. ななひら"@en .
+  arcaea:name "camellia"@en, "kameria"@en, "nanahira"@en, "かめりあ feat. ななひら"@en, "나나히라"@ko, "카메리아"@ko .
 bassline:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -11550,8 +11501,6 @@ bassline:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/トースト食べる_笑>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "トースト食べる？笑"@en .
-arcaea:かめりあ_feat_ななひら
-  arcaea:name "camellia"@en, "kameria"@en, "nanahira"@en, "かめりあ_feat_ななひら"@en, "나나히라"@ko, "카메리아"@ko .
 bassline:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -11726,7 +11675,7 @@ arcaea:farawaylight
   has:songChart farawaylight:ftr, farawaylight:prs, farawaylight:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/technoplanet_feat_はるの_黒沢ダイスケ>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "technoplanet feat. はるの & 黒沢ダイスケ"@en .
+  arcaea:name "haruno"@en, "kurosawa daisuke"@en, "technoplanet feat. はるの & 黒沢ダイスケ"@en, "くろさわだいすけ"@ja, "てくのぷらねっと"@ja, "はるの"@ja, "쿠로사와 다이스케"@ko, "테크노플래닛"@ko, "하루노"@ko .
 arcaea:216bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "216"^^xsd:integer .
@@ -11745,8 +11694,6 @@ farawaylight:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/梅まろ>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "梅まろ"@en .
-arcaea:technoplanet_feat_はるの_黒沢ダイスケ
-  arcaea:name "haruno"@en, "kurosawa daisuke"@en, "technoplanet_feat_はるの_黒沢ダイスケ"@en, "くろさわだいすけ"@ja, "てくのぷらねっと"@ja, "はるの"@ja, "쿠로사와 다이스케"@ko, "테크노플래닛"@ko, "하루노"@ko .
 farawaylight:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -12225,7 +12172,7 @@ arcaea:kyogenkigo
   has:songChart kyogenkigo:ftr, kyogenkigo:prs, kyogenkigo:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/影虎_ikaruga_nex>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "影虎。 & ikaruga_nex"@en .
+  arcaea:name "kagetora"@en, "いかるがねっくす"@ja, "かげとら"@ja, "影虎。 & ikaruga_nex"@en, "이카구라 넥스"@ko, "카게토라"@ko .
 kyogenkigo:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -12244,8 +12191,6 @@ kyogenkigo:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/あすだ>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "あすだ"@en .
-arcaea:影虎_ikaruga_nex
-  arcaea:name "kagetora"@en, "いかるがねっくす"@ja, "かげとら"@ja, "影虎_ikaruga_nex"@en, "이카구라 넥스"@ko, "카게토라"@ko .
 kyogenkigo:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -12277,7 +12222,7 @@ arcaea:hivemind
   has:songChart hivemind:ftr, hivemind:prs, hivemind:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/かたぎり>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "かたぎり"@en .
+  arcaea:name "katagiri"@en, "かたぎり"@en, "카타기리"@ko .
 arcaea:252bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "252"^^xsd:integer .
@@ -12296,8 +12241,6 @@ hivemind:pst
 arcaea:nitro_unconnected
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "NITRO -unconnected-"@en .
-arcaea:かたぎり
-  arcaea:name "katagiri"@en, "かたぎり"@en, "카타기리"@ko .
 hivemind:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -12379,7 +12322,7 @@ arcaea:smallcloud
   has:songChart smallcloud:ftr, smallcloud:prs, smallcloud:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/テヅカ_x_aoi_feat_桃雛なの>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "テヅカ x Aoi feat.桃雛なの"@en .
+  arcaea:name "momohina nano"@en, "tezuka"@en, "あおい"@ja, "ももひななの"@ja, "テヅカ x Aoi feat.桃雛なの"@en, "모모히나 나노"@ko, "아오이"@ko, "테즈카"@ko .
 arcaea:observer_append_2
   a arcaea:purchase, arcaea:set, owl:NamedIndividual ;
   rdfs:label "observer_append_2"@en .
@@ -12401,8 +12344,6 @@ smallcloud:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/のう>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "のう"@en .
-arcaea:テヅカ_x_aoi_feat_桃雛なの
-  arcaea:name "momohina nano"@en, "tezuka"@en, "あおい"@ja, "ももひななの"@ja, "テヅカ_x_aoi_feat_桃雛なの"@en, "모모히나 나노"@ko, "아오이"@ko, "테즈카"@ko .
 smallcloud:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -12434,7 +12375,7 @@ arcaea:alterale
   has:songChart alterale:ftr, alterale:prs, alterale:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/arik_kau_delay_アラ_かゆき_でり>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "Arik Kau Delay (アラ＆かゆき＆でり）"@en .
+  arcaea:name "Arik Kau Delay (アラ＆かゆき＆でり）"@en, "ara"@en, "deli"@en, "kayuki"@en, "데리"@ko, "아라"@ko, "카유키"@ko .
 arcaea:245bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "245"^^xsd:integer .
@@ -12453,8 +12394,6 @@ alterale:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/ちょこ庵>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "ちょこ庵"@en .
-arcaea:arik_kau_delay_アラ_かゆき_でり
-  arcaea:name "ara"@en, "arik_kau_delay_アラ_かゆき_でり"@en, "deli"@en, "kayuki"@en, "데리"@ko, "아라"@ko, "카유키"@ko .
 alterale:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -12633,7 +12572,7 @@ arcaea:withu
   has:songChart withu:ftr, withu:prs, withu:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/t_pazolite_massive_new_krew_feat_リリィ_cv_青木志貴>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "t+pazolite & Massive New Krew feat. リリィ(CV:青木志貴)"@en .
+  arcaea:name "aoki shiki"@en, "lily"@en, "t+pazolite & Massive New Krew feat. リリィ(CV:青木志貴)"@en, "あおきしき"@ja, "とぱぞらいと"@ja, "まっしぶにゅーくるー"@ja, "리리"@ko, "매시브 뉴 크루"@ko, "매시브 뉴 크류"@ko, "아오키 시키"@ko, "토파졸라이트"@ko .
 withu:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -12645,8 +12584,6 @@ withu:pst
   has:ratingClass arcaea:ratingClass0 ;
   has:chartDesigner <https://eristocrates.dev/externalism/ontology/arcaea/én> ;
   has:level arcaea:level2 .
-arcaea:t_pazolite_massive_new_krew_feat_リリィ_cv_青木志貴
-  arcaea:name "aoki shiki"@en, "lily"@en, "t_pazolite_massive_new_krew_feat_リリィ_cv_青木志貴"@en, "あおきしき"@ja, "とぱぞらいと"@ja, "まっしぶにゅーくるー"@ja, "리리"@ko, "매시브 뉴 크루"@ko, "매시브 뉴 크류"@ko, "아오키 시키"@ko, "토파졸라이트"@ko .
 withu:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -12804,7 +12741,7 @@ arcaea:eveninginscarlet
   has:songChart eveninginscarlet:ftr, eveninginscarlet:prs, eveninginscarlet:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/freezer_feat_妃苺>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "Freezer feat.妃苺"@en .
+  arcaea:name "Freezer feat.妃苺"@en, "kiichigo"@en, "きいちご"@ja, "ふりーざー"@ja, "키이치고"@ko, "프리저"@ko .
 eveninginscarlet:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -12820,8 +12757,6 @@ eveninginscarlet:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/シエラ_yusi>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "シエラ + yusi."@en .
-arcaea:freezer_feat_妃苺
-  arcaea:name "freezer_feat_妃苺"@en, "kiichigo"@en, "きいちご"@ja, "ふりーざー"@ja, "키이치고"@ko, "프리저"@ko .
 eveninginscarlet:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -12853,7 +12788,7 @@ arcaea:bluecomet
   has:songChart bluecomet:ftr, bluecomet:prs, bluecomet:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/ああああ>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "ああああ"@en .
+  arcaea:name "aaaa"@en, "ああああ"@en, "아아아아"@ko .
 bluecomet:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -12869,8 +12804,6 @@ bluecomet:pst
 arcaea:bison
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "Bison"@en .
-arcaea:ああああ
-  arcaea:name "aaaa"@en, "ああああ"@en, "아아아아"@ko .
 bluecomet:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -13311,7 +13244,7 @@ arcaea:summerfireworks
   has:songChart summerfireworks:ftr, summerfireworks:prs, summerfireworks:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/karatopαnchii_feat_はるの>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "karatoPαnchii feat.はるの"@en .
+  arcaea:name "haruno"@en, "karatoPαnchii feat.はるの"@en, "かぷちー"@ja, "からと"@ja, "からとぱんちー"@ja, "はるの"@ja, "ぱん"@ja, "카라토"@ko, "카라토판치"@ko, "카푸치"@ko, "판"@ko, "하루노"@ko .
 summerfireworks:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -13327,8 +13260,6 @@ summerfireworks:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/夏のnitro>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "夏のNitro"@en .
-arcaea:karatopαnchii_feat_はるの
-  arcaea:name "haruno"@en, "karatopαnchii_feat_はるの"@en, "かぷちー"@ja, "からと"@ja, "からとぱんちー"@ja, "はるの"@ja, "ぱん"@ja, "카라토"@ko, "카라토판치"@ko, "카푸치"@ko, "판"@ko, "하루노"@ko .
 summerfireworks:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -13360,7 +13291,7 @@ arcaea:firstsnow
   has:songChart firstsnow:ftr, firstsnow:prs, firstsnow:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/黒魔>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "黒魔"@en .
+  arcaea:name "chroma"@en, "kuroma"@en, "くろま"@ja, "黒魔"@en, "쿠로마"@ko, "크로마"@ko .
 arcaea:88bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "88"^^xsd:integer .
@@ -13395,8 +13326,6 @@ firstsnow:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/ヒトこもる>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "ヒトこもる"@en .
-arcaea:黒魔
-  arcaea:name "chroma"@en, "kuroma"@en, "くろま"@ja, "黒魔"@en, "쿠로마"@ko, "크로마"@ko .
 firstsnow:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -13478,7 +13407,7 @@ arcaea:blockedlibrary
   has:songChart blockedlibrary:ftr, blockedlibrary:prs, blockedlibrary:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/影虎>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "影虎。"@en .
+  arcaea:name "kagetora"@en, "かげとら"@ja, "影虎。"@en, "카게토라"@ko .
 arcaea:148bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "148"^^xsd:integer .
@@ -13500,8 +13429,6 @@ blockedlibrary:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/めとこ>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "めとこ"@en .
-arcaea:影虎
-  arcaea:name "kagetora"@en, "かげとら"@ja, "影虎"@en, "카게토라"@ko .
 blockedlibrary:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -14151,7 +14078,7 @@ arcaea:avril
   has:songChart avril:ftr, avril:prs, avril:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/rigël_theatre>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "Rigël Theatre"@en .
+  arcaea:name "Rigël Theatre"@en, "らいじぇるしあたー"@ja, "리젤 시어터"@ko .
 avril:28047
   a owl:NamedIndividual, time:stamp ;
   time:seconds "28047"^^xsd:integer .
@@ -14173,8 +14100,6 @@ avril:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/しいたけ>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "しいたけ"@en .
-arcaea:rigël_theatre
-  arcaea:name "rigël_theatre"@en, "らいじぇるしあたー"@ja, "리젤 시어터"@ko .
 avril:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -14292,7 +14217,7 @@ arcaea:ddd
   has:songChart ddd:ftr, ddd:prs, ddd:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/はがね>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "はがね"@en .
+  arcaea:name "hagane"@en, "はがね"@en, "하가네"@ko .
 ddd:43478
   a owl:NamedIndividual, time:stamp ;
   time:seconds "43478"^^xsd:integer .
@@ -14311,8 +14236,6 @@ ddd:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/わっふゑ>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "わっふゑ"@en .
-arcaea:はがね
-  arcaea:name "hagane"@en, "はがね"@en, "하가네"@ko .
 ddd:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -14471,7 +14394,7 @@ arcaea:picopicotranslation
   has:songChart picopicotranslation:ftr, picopicotranslation:prs, picopicotranslation:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/t_pazolite_ななひら_cranky_pico>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "t+pazolite,ななひら,Cranky,Pico*"@en .
+  arcaea:name "nanahira"@en, "t+pazolite,ななひら,Cranky,Pico*"@en, "くらんきー"@ja, "とぱぞらいと"@ja, "ぴこ"@ja, "나나히라"@ko, "크랭키"@ko, "토파졸라이트"@ko, "피코"@ko .
 picopicotranslation:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -14490,8 +14413,6 @@ picopicotranslation:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/九鳥ぱんや_t_pazolite>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "九鳥ぱんや & t+pazolite"@en .
-arcaea:t_pazolite_ななひら_cranky_pico
-  arcaea:name "nanahira"@en, "t_pazolite_ななひら_cranky_pico"@en, "くらんきー"@ja, "とぱぞらいと"@ja, "ぴこ"@ja, "나나히라"@ko, "크랭키"@ko, "토파졸라이트"@ko, "피코"@ko .
 picopicotranslation:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -14616,7 +14537,7 @@ arcaea:sanskia
   has:songChart sanskia:ftr, sanskia:prs, sanskia:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/ユアミトス>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "ユアミトス"@en .
+  arcaea:name "yourmythos"@en, "yuamitosu"@en, "ユアミトス"@en, "유아미토스"@ko .
 sanskia:48705
   a owl:NamedIndividual, time:stamp ;
   time:seconds "48705"^^xsd:integer .
@@ -14632,8 +14553,6 @@ sanskia:pst
   has:chartDesigner arcaea:cering ;
   has:jacketDesigner arcaea:ancy ;
   has:level arcaea:level3 .
-arcaea:ユアミトス
-  arcaea:name "yourmythos"@en, "yuamitosu"@en, "ユアミトス"@en, "유아미토스"@ko .
 sanskia:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -15162,7 +15081,7 @@ arcaea:testify
   has:songChart testify:byd, testify:ftr, testify:prs, testify:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/void_mournfinale_feat_星熊南巫>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "void (Mournfinale) feat. 星熊南巫"@en .
+  arcaea:name "hoshikuma minami"@en, "void (Mournfinale) feat. 星熊南巫"@en, "ほしくまみなみ"@ja, "ぼいど"@ja, "ゔぉいど"@ja, "보이드"@ko, "호시쿠마 미나미"@ko .
 testify:66067
   a owl:NamedIndividual, time:stamp ;
   time:seconds "66067"^^xsd:integer .
@@ -15184,8 +15103,6 @@ testify:pst
 arcaea:eternal_past
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "Eternal¦PAST"@en .
-arcaea:void_mournfinale_feat_星熊南巫
-  arcaea:name "hoshikuma minami"@en, "void_mournfinale_feat_星熊南巫"@en, "ほしくまみなみ"@ja, "ぼいど"@ja, "ゔぉいど"@ja, "보이드"@ko, "호시쿠마 미나미"@ko .
 testify:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -15235,7 +15152,7 @@ arcaea:lovelessdress
   has:songChart lovelessdress:ftr, lovelessdress:prs, lovelessdress:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/かねこちはる>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "かねこちはる"@en .
+  arcaea:name "kaneko chiharu"@en, "かねこちはる"@en, "카네코치하루"@ko .
 arcaea:99bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "99"^^xsd:integer .
@@ -15260,8 +15177,6 @@ lovelessdress:pst
 arcaea:final_prayer
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "Final Prayer"@en .
-arcaea:かねこちはる
-  arcaea:name "kaneko chiharu"@en, "かねこちはる"@en, "카네코치하루"@ko .
 lovelessdress:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -15449,7 +15364,7 @@ arcaea:kokoro
   has:songChart kokoro:ftr, kokoro:prs, kokoro:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/削除_violin_katali>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "削除 (Violin : Katali)"@en .
+  arcaea:name "sakuzyo"@en, "かたり"@ja, "さくじょ"@ja, "削除 (Violin : Katali)"@en, "사쿠죠"@ko, "카탈리"@ko .
 arcaea:ongeki_append_1
   a arcaea:purchase, arcaea:set, owl:NamedIndividual ;
   rdfs:label "ongeki_append_1"@en .
@@ -15467,8 +15382,6 @@ kokoro:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/écologie_from_sega>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "écologie (from SEGA)"@en .
-arcaea:削除_violin_katali
-  arcaea:name "sakuzyo"@en, "かたり"@ja, "さくじょ"@ja, "削除_violin_katali"@en, "사쿠죠"@ko, "카탈리"@ko .
 kokoro:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -15803,7 +15716,7 @@ arcaea:dialnote
   has:songChart dialnote:ftr, dialnote:prs, dialnote:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/七草くりむ>
   a arcaea:artist, arcaea:jacketDesigner, owl:NamedIndividual ;
-  arcaea:name "七草くりむ"@en .
+  arcaea:name "nanakusa crim"@en, "nanakusa kurimu"@en, "ななくさくりむ"@ja, "七草くりむ"@en, "나나쿠사 쿠리무"@ko .
 dialnote:16153
   a owl:NamedIndividual, time:stamp ;
   time:seconds "16153"^^xsd:integer .
@@ -15822,8 +15735,6 @@ dialnote:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/nitroです>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "Nitroです。"@en .
-arcaea:七草くりむ
-  arcaea:name "nanakusa crim"@en, "nanakusa kurimu"@en, "ななくさくりむ"@ja, "七草くりむ"@en, "나나쿠사 쿠리무"@ko .
 dialnote:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -15855,7 +15766,7 @@ arcaea:tsukinimurakumo
   has:songChart tsukinimurakumo:ftr, tsukinimurakumo:prs, tsukinimurakumo:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/幽閉サテライト>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "幽閉サテライト"@en .
+  arcaea:name "yuuhei satellite"@en, "yuuhei sateraito"@en, "ゆうへいさてらいと"@ja, "幽閉サテライト"@en, "유우헤이 사테라이토"@ko, "유우헤이 새틀라이트"@ko .
 arcaea:extend_2
   a arcaea:purchase, arcaea:set, owl:NamedIndividual ;
   rdfs:label "extend_2"@en .
@@ -15886,8 +15797,6 @@ tsukinimurakumo:pst
 arcaea:lovely_visitor_toaster
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "Lovely Visitor「Toaster」"@en .
-arcaea:幽閉サテライト
-  arcaea:name "yuuhei satellite"@en, "yuuhei sateraito"@en, "ゆうへいさてらいと"@ja, "幽閉サテライト"@en, "유우헤이 사테라이토"@ko, "유우헤이 새틀라이트"@ko .
 tsukinimurakumo:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -16112,7 +16021,7 @@ arcaea:nullapophenia
   has:songChart nullapophenia:ftr, nullapophenia:prs, nullapophenia:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/n²>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "N²"@en .
+  arcaea:name "N²"@en, "えぬつー"@ja, "엔투"@ko .
 arcaea:177bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "177"^^xsd:integer .
@@ -16131,8 +16040,6 @@ nullapophenia:pst
   has:chartDesigner <https://eristocrates.dev/externalism/ontology/arcaea/夜浪> ;
   has:jacketDesigner arcaea:softmode ;
   has:level arcaea:level4 .
-arcaea:n²
-  arcaea:name "n²"@en, "えぬつー"@ja, "엔투"@ko .
 nullapophenia:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -16213,7 +16120,7 @@ arcaea:manicjeer
   has:songChart manicjeer:ftr, manicjeer:prs, manicjeer:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/ルゼ>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "ルゼ"@en .
+  arcaea:name "luze"@en, "ルゼ"@en, "루제"@ko .
 manicjeer:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -16229,8 +16136,6 @@ manicjeer:pst
 arcaea:nitr_o
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "NITR<O>"@en .
-arcaea:ルゼ
-  arcaea:name "luze"@en, "ルゼ"@en, "루제"@ko .
 manicjeer:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -16263,7 +16168,7 @@ arcaea:hiirogekka
   has:songChart hiirogekka:ftr, hiirogekka:prs, hiirogekka:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/nayuta_x_黒鳥_eastnewsound>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "nayuta x 黒鳥(EastNewSound)"@en .
+  arcaea:name "kokuchou"@en, "nayuta x 黒鳥(EastNewSound)"@en, "いーすとにゅーさうんど"@ja, "こくちょう"@ja, "なゆた"@ja, "나유타"@ko, "이스트 뉴 사운드"@ko, "코쿠쵸"@ko, "흑조"@ko .
 hiirogekka:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -16282,8 +16187,6 @@ hiirogekka:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/ぃやまと>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "ぃやまと"@en .
-arcaea:nayuta_x_黒鳥_eastnewsound
-  arcaea:name "kokuchou"@en, "nayuta_x_黒鳥_eastnewsound"@en, "いーすとにゅーさうんど"@ja, "こくちょう"@ja, "なゆた"@ja, "나유타"@ko, "이스트 뉴 사운드"@ko, "코쿠쵸"@ko, "흑조"@ko .
 hiirogekka:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -16365,7 +16268,7 @@ arcaea:cycles
   has:songChart cycles:ftr, cycles:prs, cycles:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/masayoshi_minoshima_feat_綾倉盟>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "Masayoshi Minoshima feat. 綾倉盟"@en .
+  arcaea:name "Masayoshi Minoshima feat. 綾倉盟"@en, "ayakura mei"@en, "あやくらめい"@ja, "まさよしみのしま"@ja, "마사요시 미노시마"@ko, "아야쿠라 메이"@ko .
 arcaea:maimai_append_1
   a arcaea:purchase, arcaea:set, owl:NamedIndividual ;
   rdfs:label "maimai_append_1"@en .
@@ -16380,8 +16283,6 @@ cycles:pst
   has:ratingClass arcaea:ratingClass0 ;
   has:chartDesigner arcaea:nitro ;
   has:level arcaea:level2 .
-arcaea:masayoshi_minoshima_feat_綾倉盟
-  arcaea:name "ayakura mei"@en, "masayoshi_minoshima_feat_綾倉盟"@en, "あやくらめい"@ja, "まさよしみのしま"@ja, "마사요시 미노시마"@ko, "아야쿠라 메이"@ko .
 cycles:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -16583,7 +16484,7 @@ arcaea:cosmopop
   has:songChart cosmopop:ftr, cosmopop:prs, cosmopop:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/ナユタン星人>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "ナユタン星人"@en .
+  arcaea:name "nayutalien"@en, "nayutan seijin"@en, "なゆたんせいじん"@ja, "ナユタン星人"@en, "나유탄 성인"@ko, "나유탄 세이진"@ko .
 arcaea:129bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "129"^^xsd:integer .
@@ -16614,8 +16515,6 @@ cosmopop:pst
 arcaea:nitro_new
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "Nitro NEW!!"@en .
-arcaea:ナユタン星人
-  arcaea:name "nayutalien"@en, "nayutan seijin"@en, "なゆたんせいじん"@ja, "ナユタン星人"@en, "나유탄 성인"@ko, "나유탄 세이진"@ko .
 cosmopop:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -16645,7 +16544,7 @@ arcaea:impact
   has:songChart impact:byd, impact:ftr, impact:prs, impact:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/usao_feat_光吉猛修>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "USAO feat. 光吉猛修"@en .
+  arcaea:name "USAO feat. 光吉猛修"@en, "takenobu mitsuyoshi"@en, "うさお"@ja, "みつよしたけのぶ"@ja, "우사오"@ko, "타케노부 미츠요시"@ko .
 impact:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -16660,8 +16559,6 @@ impact:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/écologie_impact>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "ÉCOLOGIE IMPACT"@en .
-arcaea:usao_feat_光吉猛修
-  arcaea:name "takenobu mitsuyoshi"@en, "usao_feat_光吉猛修"@en, "うさお"@ja, "みつよしたけのぶ"@ja, "우사오"@ko, "타케노부 미츠요시"@ko .
 impact:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -16746,7 +16643,7 @@ arcaea:trrricksters
   has:songChart trrricksters:ftr, trrricksters:prs, trrricksters:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/s_don_vs_翡乃イスカ>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "s-don vs. 翡乃イスカ"@en .
+  arcaea:name "hino isuka"@en, "s-don vs. 翡乃イスカ"@en, "すうどん"@ja, "ひのいすか"@ja, "에스돈"@ko, "히노스이카"@ko .
 trrricksters:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -16758,8 +16655,6 @@ trrricksters:pst
   has:ratingClass arcaea:ratingClass0 ;
   has:chartDesigner <https://eristocrates.dev/externalism/ontology/arcaea/絶滅> ;
   has:level arcaea:level4 .
-arcaea:s_don_vs_翡乃イスカ
-  arcaea:name "hino isuka"@en, "s_don_vs_翡乃イスカ"@en, "すうどん"@ja, "ひのいすか"@ja, "에스돈"@ko, "히노스이카"@ko .
 trrricksters:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -16790,7 +16685,7 @@ arcaea:spidersthread
   has:songChart spidersthread:ftr, spidersthread:prs, spidersthread:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/きくお_cosmo_暴走p_feat_影縫英>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "きくお×cosMo＠暴走P feat.影縫英"@en .
+  arcaea:name "bousou"@en, "kagenui hana"@en, "kikuo"@en, "かげぬいはな"@ja, "きくお×cosMo＠暴走P feat.影縫英"@en, "こすも"@ja, "こすもあっとぼうそうぴー"@ja, "こすもぼうそうぴー"@ja, "카게누이 하나"@ko, "코스모 폭주 피"@ko, "키쿠오"@ko .
 spidersthread:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -16802,8 +16697,6 @@ spidersthread:pst
   has:ratingClass arcaea:ratingClass0 ;
   has:chartDesigner <https://eristocrates.dev/externalism/ontology/arcaea/夜浪> ;
   has:level arcaea:level4 .
-arcaea:きくお_cosmo_暴走p_feat_影縫英
-  arcaea:name "bousou"@en, "kagenui hana"@en, "kikuo"@en, "かげぬいはな"@ja, "きくお_cosmo_暴走p_feat_影縫英"@en, "こすも"@ja, "こすもあっとぼうそうぴー"@ja, "こすもぼうそうぴー"@ja, "카게누이 하나"@ko, "코스모 폭주 피"@ko, "키쿠오"@ko .
 spidersthread:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -16976,7 +16869,7 @@ arcaea:newyorkbackraise
   has:songChart newyorkbackraise:ftr, newyorkbackraise:prs, newyorkbackraise:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/saaa_kei_iwata_stuv_わかどり>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "saaa + kei_iwata + stuv + わかどり"@en .
+  arcaea:name "saaa + kei_iwata + stuv + わかどり"@en, "wakadori"@en, "けいいわた"@ja, "さえさん"@ja, "사에산"@ko, "스터브"@ko, "와카도리"@ko, "케이 이와타"@ko .
 newyorkbackraise:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -16995,8 +16888,6 @@ arcaea:exschwasion_check
 <https://eristocrates.dev/externalism/ontology/arcaea/すずあ>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "すずあ"@en .
-arcaea:saaa_kei_iwata_stuv_わかどり
-  arcaea:name "saaa_kei_iwata_stuv_わかどり"@en, "wakadori"@en, "けいいわた"@ja, "さえさん"@ja, "사에산"@ko, "스터브"@ko, "와카도리"@ko, "케이 이와타"@ko .
 newyorkbackraise:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -17035,7 +16926,7 @@ arcaea:galacticlove
   has:songChart galacticlove:ftr, galacticlove:prs, galacticlove:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/la_prière>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "La prière"@en .
+  arcaea:name "La prière"@en, "la priere"@en, "らぷりえーる"@ja, "라 피에르"@ko .
 galacticlove:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -17047,8 +16938,6 @@ galacticlove:pst
   has:ratingClass arcaea:ratingClass0 ;
   has:chartDesigner <https://eristocrates.dev/externalism/ontology/arcaea/én> ;
   has:level arcaea:level3 .
-arcaea:la_prière
-  arcaea:name "la priere"@en, "la_prière"@en, "らぷりえーる"@ja, "라 피에르"@ko .
 galacticlove:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -17164,7 +17053,7 @@ arcaea:hybris
   has:songChart hybris:ftr, hybris:prs, hybris:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/qfeileadh_feat_のあ>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "qfeileadh feat.のあ"@en .
+  arcaea:name "noa"@en, "qfeileadh feat.のあ"@en, "のあ"@ja, "ふぇいりあ"@ja, "노아"@ko, "페일리아"@ko .
 hybris:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -17176,8 +17065,6 @@ hybris:pst
   has:ratingClass arcaea:ratingClass0 ;
   has:chartDesigner arcaea:exschwasion ;
   has:level arcaea:level4 .
-arcaea:qfeileadh_feat_のあ
-  arcaea:name "noa"@en, "qfeileadh_feat_のあ"@en, "のあ"@ja, "ふぇいりあ"@ja, "노아"@ko, "페일리아"@ko .
 hybris:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -17440,7 +17327,7 @@ arcaea:chaos
   arcaea:name "_CHAOS"@en .
 <https://eristocrates.dev/externalism/ontology/arcaea/æsir>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "Æsir"@en .
+  arcaea:name "aesir"@en, "Æsir"@en, "あしーる"@ja, "あーしる"@ja, "えしーる"@ja, "えーしる"@ja, "애시르"@ko, "에시르"@ko .
 chaos:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -17455,8 +17342,6 @@ chaos:pst
   has:ratingClass arcaea:ratingClass0 ;
   has:chartDesigner <https://eristocrates.dev/externalism/ontology/arcaea/絶滅> ;
   has:level arcaea:level5 .
-arcaea:æsir
-  arcaea:name "aesir"@en, "æsir"@en, "あしーる"@ja, "あーしる"@ja, "えしーる"@ja, "えーしる"@ja, "애시르"@ko, "에시르"@ko .
 chaos:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -17486,7 +17371,7 @@ arcaea:usedtobe
   has:songChart usedtobe:ftr, usedtobe:prs, usedtobe:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/kivλ>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "KIVΛ"@en .
+  arcaea:name "KIVΛ"@en, "kiva"@en, "きば"@ja, "きゔぁ"@ja, "키바"@ko .
 usedtobe:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -17498,8 +17383,6 @@ usedtobe:pst
   has:ratingClass arcaea:ratingClass0 ;
   has:chartDesigner arcaea:luxance ;
   has:level arcaea:level4 .
-arcaea:kivλ
-  arcaea:name "kiva"@en, "kivλ"@en, "きば"@ja, "きゔぁ"@ja, "키바"@ko .
 usedtobe:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -17532,7 +17415,7 @@ arcaea:ultimatetaste
   has:songChart ultimatetaste:ftr, ultimatetaste:prs, ultimatetaste:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/ぱらどっと>
   a arcaea:artist, arcaea:jacketDesigner, owl:NamedIndividual ;
-  arcaea:name "ぱらどっと"@en .
+  arcaea:name "paradot"@en, "paradotto"@en, "ぱらどっと"@en, "파라돗토"@ko .
 ultimatetaste:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -17551,8 +17434,6 @@ ultimatetaste:pst
 arcaea:arcaea_charting_team
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "Arcaea Charting Team"@en .
-arcaea:ぱらどっと
-  arcaea:name "paradot"@en, "paradotto"@en, "ぱらどっと"@en, "파라돗토"@ko .
 ultimatetaste:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -17587,7 +17468,7 @@ arcaea:syuten
   has:songChart syuten:ftr, syuten:prs, syuten:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/apo11o_collapsar_program_ft_大瀬良あい>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "Apo11o\"COLLAPSAR\"program ft. 大瀬良あい"@en .
+  arcaea:name "Apo11o\"COLLAPSAR\"program ft. 大瀬良あい"@en, "apollo collapsar program"@en, "oosera ai"@en, "あぽろこらぷさーぷろぐらむ"@ja, "おおせらあい"@ja, "아폴로 콜랍사 프로그램"@ko, "오오세라 아이"@ko .
 arcaea:96bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "96"^^xsd:integer .
@@ -17608,8 +17489,6 @@ syuten:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/antymīs>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "antymīs"@en .
-arcaea:apo11o_collapsar_program_ft_大瀬良あい
-  arcaea:name "apo11o_collapsar_program_ft_大瀬良あい"@en, "apollo collapsar program"@en, "oosera ai"@en, "あぽろこらぷさーぷろぐらむ"@ja, "おおせらあい"@ja, "아폴로 콜랍사 프로그램"@ko, "오오세라 아이"@ko .
 syuten:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -17914,7 +17793,7 @@ arcaea:waitfordawn
   has:songChart waitfordawn:ftr, waitfordawn:prs, waitfordawn:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/u_ske_feat_棗いつき>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "U-ske feat. 棗いつき"@en .
+  arcaea:name "U-ske feat. 棗いつき"@en, "natsume itsuki"@en, "なつめいつき"@ja, "ゆうすけ"@ja, "ゆーすけ"@ja, "나츠메 이츠키"@ko, "유스케"@ko .
 arcaea:eden
   a arcaea:purchase, arcaea:set, owl:NamedIndividual ;
   rdfs:label "eden"@en .
@@ -17943,8 +17822,6 @@ waitfordawn:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/子期安nana_ann>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "子期安NANA_ANN"@en .
-arcaea:u_ske_feat_棗いつき
-  arcaea:name "natsume itsuki"@en, "u_ske_feat_棗いつき"@en, "なつめいつき"@ja, "ゆうすけ"@ja, "ゆーすけ"@ja, "나츠메 이츠키"@ko, "유스케"@ko .
 waitfordawn:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -17976,7 +17853,7 @@ arcaea:ravenspride
   has:songChart ravenspride:ftr, ravenspride:prs, ravenspride:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/みーに_feat_はらもりよしな>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "みーに feat. はらもりよしな"@en .
+  arcaea:name "haramori yoshina"@en, "mini"@en, "みーに feat. はらもりよしな"@en, "미니"@ko, "하라모리 요시나"@ko .
 ravenspride:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -17989,8 +17866,6 @@ ravenspride:pst
   has:chartDesigner arcaea:exschwasion ;
   has:jacketDesigner <https://eristocrates.dev/externalism/ontology/arcaea/めとこ> ;
   has:level arcaea:level3 .
-arcaea:みーに_feat_はらもりよしな
-  arcaea:name "haramori yoshina"@en, "mini"@en, "みーに_feat_はらもりよしな"@en, "미니"@ko, "하라모리 요시나"@ko .
 ravenspride:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -18022,7 +17897,7 @@ arcaea:riseoftheworld
   has:songChart riseoftheworld:ftr, riseoftheworld:prs, riseoftheworld:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/cosmo_暴走p>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "cosMo＠暴走P"@en .
+  arcaea:name "bousou"@en, "cosMo＠暴走P"@en, "こすもあっとぼうそうぴー"@ja, "こすもぼうそうぴー"@ja, "코스모앳폭주P"@ko, "코스모앳폭주피"@ko, "코스모폭주P"@ko, "코스모폭주피"@ko .
 arcaea:212bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "212"^^xsd:integer .
@@ -18041,8 +17916,6 @@ riseoftheworld:pst
 arcaea:asgard
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "Asgard"@en .
-arcaea:cosmo_暴走p
-  arcaea:name "bousou"@en, "cosmo_暴走p"@en, "こすもあっとぼうそうぴー"@ja, "こすもぼうそうぴー"@ja, "코스모앳폭주P"@ko, "코스모앳폭주피"@ko, "코스모폭주P"@ko, "코스모폭주피"@ko .
 riseoftheworld:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -18121,7 +17994,7 @@ arcaea:abstrusedilemma
   has:songChart abstrusedilemma:ftr, abstrusedilemma:prs, abstrusedilemma:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/ashrount_vs_打打だいず>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "Ashrount vs. 打打だいず"@en .
+  arcaea:name "Ashrount vs. 打打だいず"@en, "dadadaizu"@en, "dddice"@en, "あしゅらうんと"@ja, "だだだいず"@ja, "다다다이즈"@ko, "애쉬라운트"@ko, "애쉬런트"@ko .
 abstrusedilemma:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -18143,8 +18016,6 @@ arcaea:remnant_guilt
 <https://eristocrates.dev/externalism/ontology/arcaea/おぐち>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "おぐち"@en .
-arcaea:ashrount_vs_打打だいず
-  arcaea:name "ashrount_vs_打打だいず"@en, "dadadaizu"@en, "dddice"@en, "あしゅらうんと"@ja, "だだだいず"@ja, "다다다이즈"@ko, "애쉬라운트"@ko, "애쉬런트"@ko .
 abstrusedilemma:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -18224,7 +18095,7 @@ arcaea:tothefurthestdream
   has:songChart tothefurthestdream:ftr, tothefurthestdream:prs, tothefurthestdream:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/ii_night_feat_綺良雪>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "ii/night feat. 綺良雪"@en .
+  arcaea:name "ii/night feat. 綺良雪"@en, "yuki kira"@en, "きらゆき"@ja, "とぅないと"@ja, "키라 유키"@ko, "투나이트"@ko, "투나잇"@ko .
 tothefurthestdream:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -18236,8 +18107,6 @@ tothefurthestdream:pst
   has:ratingClass arcaea:ratingClass0 ;
   has:jacketDesigner arcaea:bison ;
   has:level arcaea:level4 .
-arcaea:ii_night_feat_綺良雪
-  arcaea:name "ii_night_feat_綺良雪"@en, "yuki kira"@en, "きらゆき"@ja, "とぅないと"@ja, "키라 유키"@ko, "투나이트"@ko, "투나잇"@ko .
 tothefurthestdream:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -18360,7 +18229,7 @@ arcaea:amekagura
   has:songChart amekagura:ftr, amekagura:prs, amekagura:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/荒谷サトル>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "荒谷サトル"@en .
+  arcaea:name "satoru aratani"@en, "あらたにさとる"@ja, "荒谷サトル"@en, "아라타니 사토루"@ko .
 amekagura:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -18376,8 +18245,6 @@ amekagura:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/英エイスト>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "英エイスト"@en .
-arcaea:荒谷サトル
-  arcaea:name "satoru aratani"@en, "あらたにさとる"@ja, "荒谷サトル"@en, "아라타니 사토루"@ko .
 amekagura:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -18454,7 +18321,7 @@ arcaea:primevaltexture
   has:songChart primevaltexture:ftr, primevaltexture:prs, primevaltexture:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/くるぶっこちゃん>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "くるぶっこちゃん"@en .
+  arcaea:name "kurubukkochan"@en, "くるぶっこちゃん"@en, "쿠루보코짱"@ko, "쿠루보코쨩"@ko, "쿠루봇코짱"@ko, "쿠루봇코쨩"@ko .
 arcaea:120bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "120"^^xsd:integer .
@@ -18483,8 +18350,6 @@ primevaltexture:pst
   has:chartDesigner arcaea:cering ;
   has:jacketDesigner arcaea:lowrise ;
   has:level arcaea:level3 .
-arcaea:くるぶっこちゃん
-  arcaea:name "kurubukkochan"@en, "くるぶっこちゃん"@en, "쿠루보코짱"@ko, "쿠루보코쨩"@ko, "쿠루봇코짱"@ko, "쿠루봇코쨩"@ko .
 primevaltexture:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -18563,7 +18428,7 @@ arcaea:logos
   has:songChart logos:ftr, logos:prs, logos:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/polysha_feat_高城みよ>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "polysha feat. 高城みよ"@en .
+  arcaea:name "miyo takashiro"@en, "polysha feat. 高城みよ"@en, "たかしろみよ"@ja, "ぽりしゃ"@ja, "타카시로 미요"@ko, "폴리샤"@ko .
 logos:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -18579,8 +18444,6 @@ logos:pst
 arcaea:majamari
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "majamari"@en .
-arcaea:polysha_feat_高城みよ
-  arcaea:name "miyo takashiro"@en, "polysha_feat_高城みよ"@en, "たかしろみよ"@ja, "ぽりしゃ"@ja, "타카시로 미요"@ko, "폴리샤"@ko .
 logos:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -18817,7 +18680,7 @@ arcaea:namelesspassion
   has:songChart namelesspassion:ftr, namelesspassion:prs, namelesspassion:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/天束_feat_sennzai>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "天束 feat.Sennzai"@en .
+  arcaea:name "amatsuka"@en, "あまつか"@ja, "せんざい"@ja, "天束 feat.Sennzai"@en, "센자이"@ko, "아마츠카"@ko .
 namelesspassion:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -18833,8 +18696,6 @@ namelesspassion:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/こたろう>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "こたろう"@en .
-arcaea:天束_feat_sennzai
-  arcaea:name "amatsuka"@en, "あまつか"@ja, "せんざい"@ja, "天束_feat_sennzai"@en, "센자이"@ko, "아마츠카"@ko .
 namelesspassion:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -18960,7 +18821,7 @@ arcaea:ouverture
   has:songChart ouverture:ftr, ouverture:prs, ouverture:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/usao_dj_genki_feat_ルーン_cv_河瀬茉希>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "USAO & DJ Genki feat. ルーン(CV:河瀬茉希)"@en .
+  arcaea:name "USAO & DJ Genki feat. ルーン(CV:河瀬茉希)"@en, "luin"@en, "maki kawase"@en, "うさお"@ja, "かわせまき"@ja, "でぃーじぇいげんき"@ja, "でぃーじぇーげんき"@ja, "디제이 겐키"@ko, "룬"@ko, "우사오"@ko, "카와세 마키"@ko .
 ouverture:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -18975,8 +18836,6 @@ ouverture:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/るくあんす>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "るくあんす"@en .
-arcaea:usao_dj_genki_feat_ルーン_cv_河瀬茉希
-  arcaea:name "luin"@en, "maki kawase"@en, "usao_dj_genki_feat_ルーン_cv_河瀬茉希"@en, "うさお"@ja, "かわせまき"@ja, "でぃーじぇいげんき"@ja, "でぃーじぇーげんき"@ja, "디제이 겐키"@ko, "룬"@ko, "우사오"@ko, "카와세 마키"@ko .
 ouverture:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -19044,7 +18903,7 @@ arcaea:edenwacca
   has:songChart edenwacca:ftr, edenwacca:prs, edenwacca:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/漆黒_の堕天使_gram_versus_聖刻_の熾天使_gram>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "\"漆黒\"の堕天使《Gram》†Versus†\"聖刻\"の熾天使《Gram》"@en .
+  arcaea:name "\"漆黒\"の堕天使《Gram》†Versus†\"聖刻\"の熾天使《Gram》"@en, "seikoku no shitenshi"@en, "shikkoku no datenshi"@en, "しっこくのだてんしぐらむ"@ja, "せいこくのしてんしぐらむ"@ja, "성각의 치천사 그람"@ko, "성각의 치천사 그램"@ko, "세이코쿠노 시텐시 그라무"@ko, "싯코쿠노 다텐시 그라무"@ko, "칠흑의 타천사 그람"@ko, "칠흑의 타천사 그램"@ko .
 arcaea:246bpm
   a arcaea:bpm, owl:NamedIndividual ;
   rdfs:label "246"^^xsd:integer .
@@ -19062,8 +18921,6 @@ edenwacca:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/反水>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "反水"@en .
-arcaea:漆黒_の堕天使_gram_versus_聖刻_の熾天使_gram
-  arcaea:name "seikoku no shitenshi"@en, "shikkoku no datenshi"@en, "しっこくのだてんしぐらむ"@ja, "せいこくのしてんしぐらむ"@ja, "漆黒_の堕天使_gram_versus_聖刻_の熾天使_gram"@en, "성각의 치천사 그람"@ko, "성각의 치천사 그램"@ko, "세이코쿠노 시텐시 그라무"@ko, "싯코쿠노 다텐시 그라무"@ko, "칠흑의 타천사 그람"@ko, "칠흑의 타천사 그램"@ko .
 edenwacca:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -19141,7 +18998,7 @@ arcaea:aloneandlorn
   has:songChart aloneandlorn:ftr, aloneandlorn:prs, aloneandlorn:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/ponchi_feat_はぁち>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "Ponchi♪ feat.はぁち"@en .
+  arcaea:name "Ponchi♪ feat.はぁち"@en, "haachi"@en, "haxchi"@en, "ぽんち"@ja, "폰치"@ko, "하아치"@ko .
 aloneandlorn:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -19157,8 +19014,6 @@ aloneandlorn:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/のり恋>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "のり恋"@en .
-arcaea:ponchi_feat_はぁち
-  arcaea:name "haachi"@en, "haxchi"@en, "ponchi_feat_はぁち"@en, "ぽんち"@ja, "폰치"@ko, "하아치"@ko .
 aloneandlorn:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -19194,7 +19049,7 @@ arcaea:wishuponasnow
   has:songChart wishuponasnow:ftr, wishuponasnow:prs, wishuponasnow:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/打打だいず>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "打打だいず"@en .
+  arcaea:name "dadadaizu"@en, "dddice"@en, "だだだいず"@ja, "打打だいず"@en, "다다다이즈"@ko .
 wishuponasnow:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -19210,8 +19065,6 @@ wishuponasnow:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/0_絶滅>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "0°絶滅"@en .
-arcaea:打打だいず
-  arcaea:name "dadadaizu"@en, "dddice"@en, "だだだいず"@ja, "打打だいず"@en, "다다다이즈"@ko .
 wishuponasnow:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -19244,7 +19097,7 @@ arcaea:overdrive
   has:songChart overdrive:ftr, overdrive:prs, overdrive:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/arm_夕野ヨシミ_iosys_feat_miko>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "ARM＋夕野ヨシミ (IOSYS) feat. miko"@en .
+  arcaea:name "ARM＋夕野ヨシミ (IOSYS) feat. miko"@en, "yuuno yoshimi"@en, "あーむ"@ja, "いおしす"@ja, "みこ"@ja, "ゆうのよしみ"@ja, "미코"@ko, "암"@ko, "유우노 요시미"@ko, "이오시스"@ko .
 overdrive:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -19263,8 +19116,6 @@ overdrive:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/モタ>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "モタ"@en .
-arcaea:arm_夕野ヨシミ_iosys_feat_miko
-  arcaea:name "arm_夕野ヨシミ_iosys_feat_miko"@en, "yuuno yoshimi"@en, "あーむ"@ja, "いおしす"@ja, "みこ"@ja, "ゆうのよしみ"@ja, "미코"@ko, "암"@ko, "유우노 요시미"@ko, "이오시스"@ko .
 overdrive:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -19388,7 +19239,7 @@ arcaea:lightmyway
   has:songChart lightmyway:ftr, lightmyway:prs, lightmyway:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/かめりあ_feat_stδrlivht>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "かめりあ feat. STΔRLIVHT"@en .
+  arcaea:name "camellia"@en, "kameria"@en, "starlight"@en, "かめりあ feat. STΔRLIVHT"@en, "すたーらいと"@ja, "스타라이트"@ko, "카메리아"@ko, "카멜리아"@ko .
 lightmyway:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -19407,8 +19258,6 @@ arcaea:k_eternal_nitro_ephemeral_past
 arcaea:fruitsrabbit
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "fruitsrabbit"@en .
-arcaea:かめりあ_feat_stδrlivht
-  arcaea:name "camellia"@en, "kameria"@en, "starlight"@en, "かめりあ_feat_stδrlivht"@en, "すたーらいと"@ja, "스타라이트"@ko, "카메리아"@ko, "카멜리아"@ko .
 lightmyway:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -19933,7 +19782,7 @@ arcaea:hellohell
   has:songChart hellohell:etr, hellohell:ftr, hellohell:prs, hellohell:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/暁records>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "暁Records"@en .
+  arcaea:name "akatsuki records"@en, "あかつきれこーず"@ja, "暁Records"@en, "아카츠키 레코드"@ko .
 arcaea:extend_3
   a arcaea:purchase, arcaea:set, owl:NamedIndividual ;
   rdfs:label "extend_3"@en .
@@ -19955,8 +19804,6 @@ hellohell:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/原之>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "原之"@en .
-arcaea:暁records
-  arcaea:name "akatsuki records"@en, "あかつきれこーず"@ja, "暁records"@en, "아카츠키 레코드"@ko .
 hellohell:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -19994,7 +19841,7 @@ arcaea:ichirin
   has:songChart ichirin:ftr, ichirin:prs, ichirin:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/kolaa_熊子>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "Kolaa & 熊子"@en .
+  arcaea:name "Kolaa & 熊子"@en, "くまこ"@ja, "こーらー"@ja, "콜라아"@ko .
 ichirin:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -20010,8 +19857,6 @@ ichirin:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/毛腿猪兔子_kolaa>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "毛腿猪兔子 & Kolaa"@en .
-arcaea:kolaa_熊子
-  arcaea:name "kolaa_熊子"@en, "くまこ"@ja, "こーらー"@ja, "콜라아"@ko .
 ichirin:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -20451,7 +20296,7 @@ arcaea:chromafill
   has:songChart chromafill:ftr, chromafill:prs, chromafill:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/ていぬ>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "ていぬ"@en .
+  arcaea:name "teinu"@en, "ていぬ"@en, "테이누"@ko .
 chromafill:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -20470,8 +20315,6 @@ chromafill:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/イチゼンリュウ>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "イチゼンリュウ"@en .
-arcaea:ていぬ
-  arcaea:name "teinu"@en, "ていぬ"@en, "테이누"@ko .
 chromafill:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -20863,7 +20706,7 @@ arcaea:signof
   has:songChart signof:ftr, signof:prs, signof:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/渡部恭久>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "渡部恭久"@en .
+  arcaea:name "わたなべやすひさ"@ja, "渡部恭久"@en, "와타나베 야스히사"@ko .
 arcaea:groovecoaster_append_1
   a arcaea:purchase, arcaea:set, owl:NamedIndividual ;
   rdfs:label "groovecoaster_append_1"@en .
@@ -20878,8 +20721,6 @@ signof:pst
   has:ratingClass arcaea:ratingClass0 ;
   has:chartDesigner arcaea:dec18 ;
   has:level arcaea:level3 .
-arcaea:渡部恭久
-  arcaea:name "わたなべやすひさ"@ja, "渡部恭久"@en, "와타나베 야스히사"@ko .
 signof:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -21464,7 +21305,7 @@ arcaea:waltzforlorelei
   has:songChart waltzforlorelei:etr, waltzforlorelei:ftr, waltzforlorelei:prs, waltzforlorelei:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/sobrem_庭師>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "Sobrem & 庭師"@en .
+  arcaea:name "Sobrem & 庭師"@en, "niwashi"@en, "そぶれむ"@ja, "にわし"@ja, "니와시"@ko, "소브렘"@ko .
 arcaea:rotaeno
   a arcaea:purchase, arcaea:set, owl:NamedIndividual ;
   rdfs:label "rotaeno"@en .
@@ -21483,8 +21324,6 @@ waltzforlorelei:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/夕西>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "夕西"@en .
-arcaea:sobrem_庭師
-  arcaea:name "niwashi"@en, "sobrem_庭師"@en, "そぶれむ"@ja, "にわし"@ja, "니와시"@ko, "소브렘"@ko .
 waltzforlorelei:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -21880,7 +21719,7 @@ arcaea:furetemitai
   has:songChart furetemitai:etr, furetemitai:ftr, furetemitai:prs, furetemitai:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/みきとp>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "みきとP"@en .
+  arcaea:name "mikitop"@en, "みきとP"@en, "みきとぴー"@ja, "미키토피"@ko .
 furetemitai:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -21895,8 +21734,6 @@ furetemitai:pst
 arcaea:nora_neko
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "nora::neko"@en .
-arcaea:みきとp
-  arcaea:name "mikitop"@en, "みきとp"@en, "みきとぴー"@ja, "미키토피"@ko .
 furetemitai:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -21932,7 +21769,7 @@ arcaea:gensounosatellite
   has:songChart gensounosatellite:etr, gensounosatellite:ftr, gensounosatellite:prs, gensounosatellite:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/豚乙女>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "豚乙女"@en .
+  arcaea:name "ぶたおとめ"@ja, "豚乙女"@en, "부타오토메"@ko .
 gensounosatellite:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -21948,8 +21785,6 @@ gensounosatellite:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/ランコの姉_豚乙女>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "ランコの姉 (豚乙女)"@en .
-arcaea:豚乙女
-  arcaea:name "ぶたおとめ"@ja, "豚乙女"@en, "부타오토메"@ko .
 gensounosatellite:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -21987,7 +21822,7 @@ arcaea:prayer
   has:songChart prayer:etr, prayer:ftr, prayer:prs, prayer:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/qfeileadh_レゾナンスもえこ>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "qfeileadh&レゾナンスもえこ"@en .
+  arcaea:name "qfeileadh&レゾナンスもえこ"@en, "resonance moeko"@en, "rezonansumoeko"@en, "ふぇいりあ"@ja, "레조넌스 모에코"@ko .
 prayer:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -22003,8 +21838,6 @@ prayer:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/自動車_原付_なぎのにちこ>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "自動車 原付&なぎのにちこ"@en .
-arcaea:qfeileadh_レゾナンスもえこ
-  arcaea:name "qfeileadh_レゾナンスもえこ"@en, "resonance moeko"@en, "rezonansumoeko"@en, "ふぇいりあ"@ja, "레조넌스 모에코"@ko .
 prayer:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -22043,7 +21876,7 @@ arcaea:crimsonquartz
   has:songChart crimsonquartz:etr, crimsonquartz:ftr, crimsonquartz:prs, crimsonquartz:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/digital_wing_with_空音>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "DiGiTAL WiNG with 空音"@en .
+  arcaea:name "DiGiTAL WiNG with 空音"@en, "sorane"@en, "そらね"@ja, "でじたるうぃんぐ"@ja, "디지털 윙"@ko, "소라네"@ko .
 crimsonquartz:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -22059,8 +21892,6 @@ crimsonquartz:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/雨音くるみ>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "雨音くるみ"@en .
-arcaea:digital_wing_with_空音
-  arcaea:name "digital_wing_with_空音"@en, "sorane"@en, "そらね"@ja, "でじたるうぃんぐ"@ja, "디지털 윙"@ko, "소라네"@ko .
 crimsonquartz:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -22876,7 +22707,7 @@ arcaea:ignition
   has:songChart ignition:ftr, ignition:prs, ignition:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/パソコン音楽クラブ>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "パソコン音楽クラブ"@en .
+  arcaea:name "pasocom music club"@en, "pasocom ongaku kurabu"@en, "pasocon ongaku kurabu"@en, "ぱそこんおんがくくらぶ"@ja, "パソコン音楽クラブ"@en, "파소콘 온가쿠 쿠라부"@ko .
 arcaea:chunithm_append_3
   a arcaea:purchase, arcaea:set, owl:NamedIndividual ;
   rdfs:label "chunithm_append_3"@en .
@@ -22894,8 +22725,6 @@ ignition:pst
   has:ratingClass arcaea:ratingClass0 ;
   has:chartDesigner <https://eristocrates.dev/externalism/ontology/arcaea/るくあんす> ;
   has:level arcaea:level3 .
-arcaea:パソコン音楽クラブ
-  arcaea:name "pasocom music club"@en, "pasocom ongaku kurabu"@en, "pasocon ongaku kurabu"@en, "ぱそこんおんがくくらぶ"@ja, "パソコン音楽クラブ"@en, "파소콘 온가쿠 쿠라부"@ko .
 ignition:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -23026,7 +22855,7 @@ arcaea:daat
   has:songChart daat:ftr, daat:prs, daat:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/水野健治_vs_大国奏音>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "水野健治 VS 大国奏音"@en .
+  arcaea:name "mizuno kenji"@en, "oguni kanon"@en, "おおぐにかのん"@ja, "みずのけんじ"@ja, "水野健治 VS 大国奏音"@en, "미즈노 켄지"@ko, "오오구니 카논"@ko .
 daat:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -23041,8 +22870,6 @@ daat:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/夜浪_revolutions>
   a arcaea:chartDesigner, owl:NamedIndividual ;
   arcaea:name "夜浪 -Revolutions-"@en .
-arcaea:水野健治_vs_大国奏音
-  arcaea:name "mizuno kenji"@en, "oguni kanon"@en, "おおぐにかのん"@ja, "みずのけんじ"@ja, "水野健治_vs_大国奏音"@en, "미즈노 켄지"@ko, "오오구니 카논"@ko .
 daat:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -23224,7 +23051,7 @@ arcaea:yomibitoshirazu
   has:songChart yomibitoshirazu:ftr, yomibitoshirazu:prs, yomibitoshirazu:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/limonène_サノカモメ_月島春果>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "Limonène (サノカモメ+月島春果)"@en .
+  arcaea:name "Limonène (サノカモメ+月島春果)"@en, "kamome sano"@en, "limonene"@en, "sano kamome"@en, "tsukishima haruka"@en, "つきしまはるか"@ja, "りもねん"@ja, "리모네네"@ko, "사노 카모메"@ko, "츠키시마 하루카"@ko, "카모메 사노"@ko .
 yomibitoshirazu:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -23236,8 +23063,6 @@ yomibitoshirazu:pst
   has:ratingClass arcaea:ratingClass0 ;
   has:chartDesigner arcaea:raycast ;
   has:level arcaea:level4 .
-arcaea:limonène_サノカモメ_月島春果
-  arcaea:name "kamome sano"@en, "limonene"@en, "limonène_サノカモメ_月島春果"@en, "sano kamome"@en, "tsukishima haruka"@en, "つきしまはるか"@ja, "りもねん"@ja, "리모네네"@ko, "사노 카모메"@ko, "츠키시마 하루카"@ko, "카모메 사노"@ko .
 yomibitoshirazu:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -23269,7 +23094,7 @@ arcaea:aethercrest
   has:songChart aethercrest:etr, aethercrest:ftr, aethercrest:prs, aethercrest:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/void_mournfinale_水野健治>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "void (Mournfinale) × 水野健治"@en .
+  arcaea:name "mizuno kenji"@en, "void (Mournfinale) × 水野健治"@en, "ぼいど"@ja, "みずのけんじ"@ja, "ゔぉいど"@ja, "미즈노 켄지"@ko, "보이드"@ko .
 aethercrest:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -23282,8 +23107,6 @@ aethercrest:pst
   has:chartDesigner arcaea:nitro ;
   has:jacketDesigner <https://eristocrates.dev/externalism/ontology/arcaea/すずなし> ;
   has:level arcaea:level6 .
-arcaea:void_mournfinale_水野健治
-  arcaea:name "mizuno kenji"@en, "void_mournfinale_水野健治"@en, "ぼいど"@ja, "みずのけんじ"@ja, "ゔぉいど"@ja, "미즈노 켄지"@ko, "보이드"@ko .
 aethercrest:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -23757,7 +23580,7 @@ arcaea:shinchoku
   has:songChart shinchoku:etr, shinchoku:ftr, shinchoku:prs, shinchoku:pst .
 <https://eristocrates.dev/externalism/ontology/arcaea/sumijun_feat_ななひら>
   a arcaea:artist, owl:NamedIndividual ;
-  arcaea:name "sumijun feat. ななひら"@en .
+  arcaea:name "sumijun feat. ななひら"@en, "すみじゅん"@ja, "ななひら"@ja, "나나히라"@ko, "스미쥰"@ko .
 shinchoku:0
   a owl:NamedIndividual, time:stamp ;
   time:seconds "0"^^xsd:integer .
@@ -23776,8 +23599,6 @@ shinchoku:pst
 <https://eristocrates.dev/externalism/ontology/arcaea/とろ美>
   a arcaea:jacketDesigner, owl:NamedIndividual ;
   arcaea:name "とろ美"@en .
-arcaea:sumijun_feat_ななひら
-  arcaea:name "sumijun_feat_ななひら"@en, "すみじゅん"@ja, "ななひら"@ja, "나나히라"@ko, "스미쥰"@ko .
 shinchoku:prs
   a arcaea:songChart, owl:NamedIndividual ;
   has:ratingClass arcaea:ratingClass1 ;
@@ -24767,7 +24588,7 @@ has:artist
   rdfs:range arcaea:artist .
 arcaea:name
   a owl:DatatypeProperty ;
-  rdfs:domain arcaea:artist ;
+  rdfs:domain arcaea:artist, arcaea:jacketDesigner, arcaea:chartDesigner ;
   rdfs:range xsd:string .
 has:bpmRange
   a owl:DatatypeProperty ;

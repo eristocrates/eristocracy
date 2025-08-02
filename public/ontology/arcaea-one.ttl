@@ -1,0 +1,722 @@
+@prefix json: <https://eristocrates.dev/externalism/ontology/json/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix arcaea: <https://eristocrates.dev/externalism/ontology/arcaea/> .
+@prefix date: <https://eristocrates.dev/externalism/ontology/date/> .
+@prefix time: <https://eristocrates.dev/externalism/ontology/time/> .
+@prefix from: <https://eristocrates.dev/externalism/ontology/from/> .
+@prefix has: <https://eristocrates.dev/externalism/ontology/has/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix preview: <https://eristocrates.dev/externalism/ontology/preview/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+
+@prefix abstrusedilemma: <https://eristocrates.dev/externalism/ontology/arcaea/abstrusedilemma/> .
+@prefix aegleseeker: <https://eristocrates.dev/externalism/ontology/arcaea/aegleseeker/> .
+@prefix aethercrest: <https://eristocrates.dev/externalism/ontology/arcaea/aethercrest/> .
+@prefix aidrew: <https://eristocrates.dev/externalism/ontology/arcaea/aidrew/> .
+@prefix aiueoon: <https://eristocrates.dev/externalism/ontology/arcaea/aiueoon/> .
+@prefix akinokagerou: <https://eristocrates.dev/externalism/ontology/arcaea/akinokagerou/> .
+@prefix alephzero: <https://eristocrates.dev/externalism/ontology/arcaea/alephzero/> .
+@prefix alexandrite: <https://eristocrates.dev/externalism/ontology/arcaea/alexandrite/> .
+@prefix alicealamode: <https://eristocrates.dev/externalism/ontology/arcaea/alicealamode/> .
+@prefix alicessuitcase: <https://eristocrates.dev/externalism/ontology/arcaea/alicessuitcase/> .
+@prefix aloneandlorn: <https://eristocrates.dev/externalism/ontology/arcaea/aloneandlorn/> .
+@prefix altair: <https://eristocrates.dev/externalism/ontology/arcaea/altair/> .
+@prefix altale: <https://eristocrates.dev/externalism/ontology/arcaea/altale/> .
+@prefix alterale: <https://eristocrates.dev/externalism/ontology/arcaea/alterale/> .
+@prefix alterego: <https://eristocrates.dev/externalism/ontology/arcaea/alterego/> .
+@prefix amazingmightyyyy: <https://eristocrates.dev/externalism/ontology/arcaea/amazingmightyyyy/> .
+@prefix amekagura: <https://eristocrates.dev/externalism/ontology/arcaea/amekagura/> .
+@prefix amygdata: <https://eristocrates.dev/externalism/ontology/arcaea/amygdata/> .
+@prefix andrevivemelody: <https://eristocrates.dev/externalism/ontology/arcaea/andrevivemelody/> .
+@prefix anokumene: <https://eristocrates.dev/externalism/ontology/arcaea/anokumene/> .
+@prefix antagonism: <https://eristocrates.dev/externalism/ontology/arcaea/antagonism/> .
+@prefix antithese: <https://eristocrates.dev/externalism/ontology/arcaea/antithese/> .
+@prefix aprilshowers: <https://eristocrates.dev/externalism/ontology/arcaea/aprilshowers/> .
+@prefix arcahv: <https://eristocrates.dev/externalism/ontology/arcaea/arcahv/> .
+@prefix arcanaeden: <https://eristocrates.dev/externalism/ontology/arcaea/arcanaeden/> .
+@prefix arghena: <https://eristocrates.dev/externalism/ontology/arcaea/arghena/> .
+@prefix ascent: <https://eristocrates.dev/externalism/ontology/arcaea/ascent/> .
+@prefix ashenboundary: <https://eristocrates.dev/externalism/ontology/arcaea/ashenboundary/> .
+@prefix astralexe: <https://eristocrates.dev/externalism/ontology/arcaea/astralexe/> .
+@prefix astralquant: <https://eristocrates.dev/externalism/ontology/arcaea/astralquant/> .
+@prefix astraltale: <https://eristocrates.dev/externalism/ontology/arcaea/astraltale/> .
+@prefix astrawalkthrough: <https://eristocrates.dev/externalism/ontology/arcaea/astrawalkthrough/> .
+@prefix aterlbus: <https://eristocrates.dev/externalism/ontology/arcaea/aterlbus/> .
+@prefix attraqtia: <https://eristocrates.dev/externalism/ontology/arcaea/attraqtia/> .
+@prefix aurgelmir: <https://eristocrates.dev/externalism/ontology/arcaea/aurgelmir/> .
+@prefix auxesia: <https://eristocrates.dev/externalism/ontology/arcaea/auxesia/> .
+@prefix avantraze: <https://eristocrates.dev/externalism/ontology/arcaea/avantraze/> .
+@prefix avril: <https://eristocrates.dev/externalism/ontology/arcaea/avril/> .
+@prefix awakeninruins: <https://eristocrates.dev/externalism/ontology/arcaea/awakeninruins/> .
+@prefix axiumcrisis: <https://eristocrates.dev/externalism/ontology/arcaea/axiumcrisis/> .
+@prefix babaroque: <https://eristocrates.dev/externalism/ontology/arcaea/babaroque/> .
+@prefix backtobasics: <https://eristocrates.dev/externalism/ontology/arcaea/backtobasics/> .
+@prefix badtek: <https://eristocrates.dev/externalism/ontology/arcaea/badtek/> .
+@prefix bassline: <https://eristocrates.dev/externalism/ontology/arcaea/bassline/> .
+@prefix battlenoone: <https://eristocrates.dev/externalism/ontology/arcaea/battlenoone/> .
+@prefix bbkkbkk: <https://eristocrates.dev/externalism/ontology/arcaea/bbkkbkk/> .
+@prefix beautifuldreamer: <https://eristocrates.dev/externalism/ontology/arcaea/beautifuldreamer/> .
+@prefix besideyou: <https://eristocrates.dev/externalism/ontology/arcaea/besideyou/> .
+@prefix bethere: <https://eristocrates.dev/externalism/ontology/arcaea/bethere/> .
+@prefix blacklotus: <https://eristocrates.dev/externalism/ontology/arcaea/blacklotus/> .
+@prefix blackmind: <https://eristocrates.dev/externalism/ontology/arcaea/blackmind/> .
+@prefix blackmirror: <https://eristocrates.dev/externalism/ontology/arcaea/blackmirror/> .
+@prefix blackterritory: <https://eristocrates.dev/externalism/ontology/arcaea/blackterritory/> .
+@prefix blaster: <https://eristocrates.dev/externalism/ontology/arcaea/blaster/> .
+@prefix blazingair: <https://eristocrates.dev/externalism/ontology/arcaea/blazingair/> .
+@prefix blockedlibrary: <https://eristocrates.dev/externalism/ontology/arcaea/blockedlibrary/> .
+@prefix blossoms: <https://eristocrates.dev/externalism/ontology/arcaea/blossoms/> .
+@prefix blrink: <https://eristocrates.dev/externalism/ontology/arcaea/blrink/> .
+@prefix bluecomet: <https://eristocrates.dev/externalism/ontology/arcaea/bluecomet/> .
+@prefix bluerose: <https://eristocrates.dev/externalism/ontology/arcaea/bluerose/> .
+@prefix blythe: <https://eristocrates.dev/externalism/ontology/arcaea/blythe/> .
+@prefix bookmaker: <https://eristocrates.dev/externalism/ontology/arcaea/bookmaker/> .
+@prefix brandnewworld: <https://eristocrates.dev/externalism/ontology/arcaea/brandnewworld/> .
+@prefix breachoffaith: <https://eristocrates.dev/externalism/ontology/arcaea/breachoffaith/> .
+@prefix breakbreak: <https://eristocrates.dev/externalism/ontology/arcaea/breakbreak/> .
+@prefix buchigireberserker: <https://eristocrates.dev/externalism/ontology/arcaea/buchigireberserker/> .
+@prefix bulletwaiting: <https://eristocrates.dev/externalism/ontology/arcaea/bulletwaiting/> .
+@prefix callimakarma: <https://eristocrates.dev/externalism/ontology/arcaea/callimakarma/> .
+@prefix callmyname: <https://eristocrates.dev/externalism/ontology/arcaea/callmyname/> .
+@prefix capella: <https://eristocrates.dev/externalism/ontology/arcaea/capella/> .
+@prefix carminescythe: <https://eristocrates.dev/externalism/ontology/arcaea/carminescythe/> .
+@prefix chaos: <https://eristocrates.dev/externalism/ontology/arcaea/chaos/> .
+@prefix chelsea: <https://eristocrates.dev/externalism/ontology/arcaea/chelsea/> .
+@prefix chromafill: <https://eristocrates.dev/externalism/ontology/arcaea/chromafill/> .
+@prefix chronicle: <https://eristocrates.dev/externalism/ontology/arcaea/chronicle/> .
+@prefix chronostasis: <https://eristocrates.dev/externalism/ontology/arcaea/chronostasis/> .
+@prefix climax: <https://eristocrates.dev/externalism/ontology/arcaea/climax/> .
+@prefix clotho: <https://eristocrates.dev/externalism/ontology/arcaea/clotho/> .
+@prefix coastalhighway: <https://eristocrates.dev/externalism/ontology/arcaea/coastalhighway/> .
+@prefix cocorocosmetic: <https://eristocrates.dev/externalism/ontology/arcaea/cocorocosmetic/> .
+@prefix conflict: <https://eristocrates.dev/externalism/ontology/arcaea/conflict/> .
+@prefix corpssansorganes: <https://eristocrates.dev/externalism/ontology/arcaea/corpssansorganes/> .
+@prefix corruption: <https://eristocrates.dev/externalism/ontology/arcaea/corruption/> .
+@prefix cosmica: <https://eristocrates.dev/externalism/ontology/arcaea/cosmica/> .
+@prefix cosmopop: <https://eristocrates.dev/externalism/ontology/arcaea/cosmopop/> .
+@prefix crimsonquartz: <https://eristocrates.dev/externalism/ontology/arcaea/crimsonquartz/> .
+@prefix crimsonthrone: <https://eristocrates.dev/externalism/ontology/arcaea/crimsonthrone/> .
+@prefix crossover: <https://eristocrates.dev/externalism/ontology/arcaea/crossover/> .
+@prefix crosssoul: <https://eristocrates.dev/externalism/ontology/arcaea/crosssoul/> .
+@prefix crystalgravity: <https://eristocrates.dev/externalism/ontology/arcaea/crystalgravity/> .
+@prefix cyaegha: <https://eristocrates.dev/externalism/ontology/arcaea/cyaegha/> .
+@prefix cyanine: <https://eristocrates.dev/externalism/ontology/arcaea/cyanine/> .
+@prefix cyberneciacatharsis: <https://eristocrates.dev/externalism/ontology/arcaea/cyberneciacatharsis/> .
+@prefix cycles: <https://eristocrates.dev/externalism/ontology/arcaea/cycles/> .
+@prefix daat: <https://eristocrates.dev/externalism/ontology/arcaea/daat/> .
+@prefix dandelion: <https://eristocrates.dev/externalism/ontology/arcaea/dandelion/> .
+@prefix dantalion: <https://eristocrates.dev/externalism/ontology/arcaea/dantalion/> .
+@prefix darakunosono: <https://eristocrates.dev/externalism/ontology/arcaea/darakunosono/> .
+@prefix dataerror: <https://eristocrates.dev/externalism/ontology/arcaea/dataerror/> .
+@prefix dazzlehop: <https://eristocrates.dev/externalism/ontology/arcaea/dazzlehop/> .
+@prefix ddd: <https://eristocrates.dev/externalism/ontology/arcaea/ddd/> .
+@prefix deathbyglamour: <https://eristocrates.dev/externalism/ontology/arcaea/deathbyglamour/> .
+@prefix defection: <https://eristocrates.dev/externalism/ontology/arcaea/defection/> .
+@prefix dement: <https://eristocrates.dev/externalism/ontology/arcaea/dement/> .
+@prefix designant: <https://eristocrates.dev/externalism/ontology/arcaea/designant/> .
+@prefix desive: <https://eristocrates.dev/externalism/ontology/arcaea/desive/> .
+@prefix devillicsphere: <https://eristocrates.dev/externalism/ontology/arcaea/devillicsphere/> .
+@prefix dialnote: <https://eristocrates.dev/externalism/ontology/arcaea/dialnote/> .
+@prefix diesirae: <https://eristocrates.dev/externalism/ontology/arcaea/diesirae/> .
+@prefix diode: <https://eristocrates.dev/externalism/ontology/arcaea/diode/> .
+@prefix distortedfate: <https://eristocrates.dev/externalism/ontology/arcaea/distortedfate/> .
+@prefix distortionhuman: <https://eristocrates.dev/externalism/ontology/arcaea/distortionhuman/> .
+@prefix divinelight: <https://eristocrates.dev/externalism/ontology/arcaea/divinelight/> .
+@prefix dontdie: <https://eristocrates.dev/externalism/ontology/arcaea/dontdie/> .
+@prefix dontfightmusic: <https://eristocrates.dev/externalism/ontology/arcaea/dontfightmusic/> .
+@prefix dottodot: <https://eristocrates.dev/externalism/ontology/arcaea/dottodot/> .
+@prefix dreadnought: <https://eristocrates.dev/externalism/ontology/arcaea/dreadnought/> .
+@prefix dreamgoeson: <https://eristocrates.dev/externalism/ontology/arcaea/dreamgoeson/> .
+@prefix dreaminattraction: <https://eristocrates.dev/externalism/ontology/arcaea/dreaminattraction/> .
+@prefix drg: <https://eristocrates.dev/externalism/ontology/arcaea/drg/> .
+@prefix dropdead: <https://eristocrates.dev/externalism/ontology/arcaea/dropdead/> .
+@prefix dualdoom: <https://eristocrates.dev/externalism/ontology/arcaea/dualdoom/> .
+@prefix dullblade: <https://eristocrates.dev/externalism/ontology/arcaea/dullblade/> .
+@prefix dxfullmetal: <https://eristocrates.dev/externalism/ontology/arcaea/dxfullmetal/> .
+@prefix dynitikos: <https://eristocrates.dev/externalism/ontology/arcaea/dynitikos/> .
+@prefix eccentrictale: <https://eristocrates.dev/externalism/ontology/arcaea/eccentrictale/> .
+@prefix edenwacca: <https://eristocrates.dev/externalism/ontology/arcaea/edenwacca/> .
+@prefix egoeimi: <https://eristocrates.dev/externalism/ontology/arcaea/egoeimi/> .
+@prefix eightem: <https://eristocrates.dev/externalism/ontology/arcaea/eightem/> .
+@prefix einherjar: <https://eristocrates.dev/externalism/ontology/arcaea/einherjar/> .
+@prefix empireofwinter: <https://eristocrates.dev/externalism/ontology/arcaea/empireofwinter/> .
+@prefix enchantedlove: <https://eristocrates.dev/externalism/ontology/arcaea/enchantedlove/> .
+@prefix endmoonlight: <https://eristocrates.dev/externalism/ontology/arcaea/endmoonlight/> .
+@prefix energysynergymatrix: <https://eristocrates.dev/externalism/ontology/arcaea/energysynergymatrix/> .
+@prefix epicurus: <https://eristocrates.dev/externalism/ontology/arcaea/epicurus/> .
+@prefix epitaxy: <https://eristocrates.dev/externalism/ontology/arcaea/epitaxy/> .
+@prefix equilibrium: <https://eristocrates.dev/externalism/ontology/arcaea/equilibrium/> .
+@prefix espebranch: <https://eristocrates.dev/externalism/ontology/arcaea/espebranch/> .
+@prefix essenceoftwilight: <https://eristocrates.dev/externalism/ontology/arcaea/essenceoftwilight/> .
+@prefix etherstrike: <https://eristocrates.dev/externalism/ontology/arcaea/etherstrike/> .
+@prefix eveninginscarlet: <https://eristocrates.dev/externalism/ontology/arcaea/eveninginscarlet/> .
+@prefix evoltex: <https://eristocrates.dev/externalism/ontology/arcaea/evoltex/> .
+@prefix faintlight: <https://eristocrates.dev/externalism/ontology/arcaea/faintlight/> .
+@prefix fairytale: <https://eristocrates.dev/externalism/ontology/arcaea/fairytale/> .
+@prefix fallensquare: <https://eristocrates.dev/externalism/ontology/arcaea/fallensquare/> .
+@prefix fantasy: <https://eristocrates.dev/externalism/ontology/arcaea/fantasy/> .
+@prefix farawaylight: <https://eristocrates.dev/externalism/ontology/arcaea/farawaylight/> .
+@prefix feelssoright: <https://eristocrates.dev/externalism/ontology/arcaea/feelssoright/> .
+@prefix felis: <https://eristocrates.dev/externalism/ontology/arcaea/felis/> .
+@prefix felys: <https://eristocrates.dev/externalism/ontology/arcaea/felys/> .
+@prefix filament: <https://eristocrates.dev/externalism/ontology/arcaea/filament/> .
+@prefix finalstep: <https://eristocrates.dev/externalism/ontology/arcaea/finalstep/> .
+@prefix firstsnow: <https://eristocrates.dev/externalism/ontology/arcaea/firstsnow/> .
+@prefix flashback: <https://eristocrates.dev/externalism/ontology/arcaea/flashback/> .
+@prefix floatingworld: <https://eristocrates.dev/externalism/ontology/arcaea/floatingworld/> .
+@prefix fluffyflash: <https://eristocrates.dev/externalism/ontology/arcaea/fluffyflash/> .
+@prefix flyburg: <https://eristocrates.dev/externalism/ontology/arcaea/flyburg/> .
+@prefix fractureray: <https://eristocrates.dev/externalism/ontology/arcaea/fractureray/> .
+@prefix freefall: <https://eristocrates.dev/externalism/ontology/arcaea/freefall/> .
+@prefix freemyself: <https://eristocrates.dev/externalism/ontology/arcaea/freemyself/> .
+@prefix furetemitai: <https://eristocrates.dev/externalism/ontology/arcaea/furetemitai/> .
+@prefix galacticlove: <https://eristocrates.dev/externalism/ontology/arcaea/galacticlove/> .
+@prefix galaxyfriends: <https://eristocrates.dev/externalism/ontology/arcaea/galaxyfriends/> .
+@prefix garakuta: <https://eristocrates.dev/externalism/ontology/arcaea/garakuta/> .
+@prefix gekka: <https://eristocrates.dev/externalism/ontology/arcaea/gekka/> .
+@prefix genesis: <https://eristocrates.dev/externalism/ontology/arcaea/genesis/> .
+@prefix genesischunithm: <https://eristocrates.dev/externalism/ontology/arcaea/genesischunithm/> .
+@prefix gengaozo: <https://eristocrates.dev/externalism/ontology/arcaea/gengaozo/> .
+@prefix genocider: <https://eristocrates.dev/externalism/ontology/arcaea/genocider/> .
+@prefix gensounosatellite: <https://eristocrates.dev/externalism/ontology/arcaea/gensounosatellite/> .
+@prefix gimmedablood: <https://eristocrates.dev/externalism/ontology/arcaea/gimmedablood/> .
+@prefix gimmick: <https://eristocrates.dev/externalism/ontology/arcaea/gimmick/> .
+@prefix givemeanightmare: <https://eristocrates.dev/externalism/ontology/arcaea/givemeanightmare/> .
+@prefix gloryroad: <https://eristocrates.dev/externalism/ontology/arcaea/gloryroad/> .
+@prefix glow: <https://eristocrates.dev/externalism/ontology/arcaea/glow/> .
+@prefix goldenslaughterer: <https://eristocrates.dev/externalism/ontology/arcaea/goldenslaughterer/> .
+@prefix goodbyemerry: <https://eristocrates.dev/externalism/ontology/arcaea/goodbyemerry/> .
+@prefix goodtek: <https://eristocrates.dev/externalism/ontology/arcaea/goodtek/> .
+@prefix gothiveofra: <https://eristocrates.dev/externalism/ontology/arcaea/gothiveofra/> .
+@prefix gou: <https://eristocrates.dev/externalism/ontology/arcaea/gou/> .
+@prefix grievouslady: <https://eristocrates.dev/externalism/ontology/arcaea/grievouslady/> .
+@prefix grimheart: <https://eristocrates.dev/externalism/ontology/arcaea/grimheart/> .
+@prefix guardina: <https://eristocrates.dev/externalism/ontology/arcaea/guardina/> .
+@prefix hailstone: <https://eristocrates.dev/externalism/ontology/arcaea/hailstone/> .
+@prefix halcyon: <https://eristocrates.dev/externalism/ontology/arcaea/halcyon/> .
+@prefix hallofmirrors: <https://eristocrates.dev/externalism/ontology/arcaea/hallofmirrors/> .
+@prefix harutopia: <https://eristocrates.dev/externalism/ontology/arcaea/harutopia/> .
+@prefix headbonkache: <https://eristocrates.dev/externalism/ontology/arcaea/headbonkache/> .
+@prefix hearditsaid: <https://eristocrates.dev/externalism/ontology/arcaea/hearditsaid/> .
+@prefix heartache: <https://eristocrates.dev/externalism/ontology/arcaea/heartache/> .
+@prefix heartjackin: <https://eristocrates.dev/externalism/ontology/arcaea/heartjackin/> .
+@prefix heavenlycaress: <https://eristocrates.dev/externalism/ontology/arcaea/heavenlycaress/> .
+@prefix heavensdoor: <https://eristocrates.dev/externalism/ontology/arcaea/heavensdoor/> .
+@prefix hellohell: <https://eristocrates.dev/externalism/ontology/arcaea/hellohell/> .
+@prefix hiirogekka: <https://eristocrates.dev/externalism/ontology/arcaea/hiirogekka/> .
+@prefix hikari: <https://eristocrates.dev/externalism/ontology/arcaea/hikari/> .
+@prefix hivemind: <https://eristocrates.dev/externalism/ontology/arcaea/hivemind/> .
+@prefix hotarubinoyuki: <https://eristocrates.dev/externalism/ontology/arcaea/hotarubinoyuki/> .
+@prefix hybris: <https://eristocrates.dev/externalism/ontology/arcaea/hybris/> .
+@prefix hypervision: <https://eristocrates.dev/externalism/ontology/arcaea/hypervision/> .
+@prefix hypnotize: <https://eristocrates.dev/externalism/ontology/arcaea/hypnotize/> .
+@prefix ichirin: <https://eristocrates.dev/externalism/ontology/arcaea/ichirin/> .
+@prefix iconoclast: <https://eristocrates.dev/externalism/ontology/arcaea/iconoclast/> .
+@prefix ifi: <https://eristocrates.dev/externalism/ontology/arcaea/ifi/> .
+@prefix ignition: <https://eristocrates.dev/externalism/ontology/arcaea/ignition/> .
+@prefix ignotus: <https://eristocrates.dev/externalism/ontology/arcaea/ignotus/> .
+@prefix ii: <https://eristocrates.dev/externalism/ontology/arcaea/ii/> .
+@prefix ikazuchi: <https://eristocrates.dev/externalism/ontology/arcaea/ikazuchi/> .
+@prefix impact: <https://eristocrates.dev/externalism/ontology/arcaea/impact/> .
+@prefix impurebird: <https://eristocrates.dev/externalism/ontology/arcaea/impurebird/> .
+@prefix infinitestrife: <https://eristocrates.dev/externalism/ontology/arcaea/infinitestrife/> .
+@prefix infinity: <https://eristocrates.dev/externalism/ontology/arcaea/infinity/> .
+@prefix infinityheaven: <https://eristocrates.dev/externalism/ontology/arcaea/infinityheaven/> .
+@prefix init: <https://eristocrates.dev/externalism/ontology/arcaea/init/> .
+@prefix inkarusi: <https://eristocrates.dev/externalism/ontology/arcaea/inkarusi/> .
+@prefix innocence: <https://eristocrates.dev/externalism/ontology/arcaea/innocence/> .
+@prefix internetoverdose: <https://eristocrates.dev/externalism/ontology/arcaea/internetoverdose/> .
+@prefix internetyamero: <https://eristocrates.dev/externalism/ontology/arcaea/internetyamero/> .
+@prefix invain: <https://eristocrates.dev/externalism/ontology/arcaea/invain/> .
+@prefix invertedworld: <https://eristocrates.dev/externalism/ontology/arcaea/invertedworld/> .
+@prefix ionostream: <https://eristocrates.dev/externalism/ontology/arcaea/ionostream/> .
+@prefix iwantyou: <https://eristocrates.dev/externalism/ontology/arcaea/iwantyou/> .
+@prefix izana: <https://eristocrates.dev/externalism/ontology/arcaea/izana/> .
+@prefix jingle: <https://eristocrates.dev/externalism/ontology/arcaea/jingle/> .
+@prefix journey: <https://eristocrates.dev/externalism/ontology/arcaea/journey/> .
+@prefix judgement: <https://eristocrates.dev/externalism/ontology/arcaea/judgement/> .
+@prefix jump: <https://eristocrates.dev/externalism/ontology/arcaea/jump/> .
+@prefix kanagawa: <https://eristocrates.dev/externalism/ontology/arcaea/kanagawa/> .
+@prefix kissinglucifer: <https://eristocrates.dev/externalism/ontology/arcaea/kissinglucifer/> .
+@prefix kokoro: <https://eristocrates.dev/externalism/ontology/arcaea/kokoro/> .
+@prefix kyogenkigo: <https://eristocrates.dev/externalism/ontology/arcaea/kyogenkigo/> .
+@prefix kyorenromance: <https://eristocrates.dev/externalism/ontology/arcaea/kyorenromance/> .
+@prefix ladymadestar: <https://eristocrates.dev/externalism/ontology/arcaea/ladymadestar/> .
+@prefix lamentrain: <https://eristocrates.dev/externalism/ontology/arcaea/lamentrain/> .
+@prefix lamia: <https://eristocrates.dev/externalism/ontology/arcaea/lamia/> .
+@prefix lapis: <https://eristocrates.dev/externalism/ontology/arcaea/lapis/> .
+@prefix laqryma: <https://eristocrates.dev/externalism/ontology/arcaea/laqryma/> .
+@prefix last: <https://eristocrates.dev/externalism/ontology/arcaea/last/> .
+@prefix lastcelebration: <https://eristocrates.dev/externalism/ontology/arcaea/lastcelebration/> .
+@prefix lastendconductor: <https://eristocrates.dev/externalism/ontology/arcaea/lastendconductor/> .
+@prefix lasteternity: <https://eristocrates.dev/externalism/ontology/arcaea/lasteternity/> .
+@prefix lastgoodbye: <https://eristocrates.dev/externalism/ontology/arcaea/lastgoodbye/> .
+@prefix lawlesspoint: <https://eristocrates.dev/externalism/ontology/arcaea/lawlesspoint/> .
+@prefix lazyaddiction: <https://eristocrates.dev/externalism/ontology/arcaea/lazyaddiction/> .
+@prefix leaveallbehind: <https://eristocrates.dev/externalism/ontology/arcaea/leaveallbehind/> .
+@prefix lethaeus: <https://eristocrates.dev/externalism/ontology/arcaea/lethaeus/> .
+@prefix lethalvoltage: <https://eristocrates.dev/externalism/ontology/arcaea/lethalvoltage/> .
+@prefix letsrock: <https://eristocrates.dev/externalism/ontology/arcaea/letsrock/> .
+@prefix letyoudivermx: <https://eristocrates.dev/externalism/ontology/arcaea/letyoudivermx/> .
+@prefix liar: <https://eristocrates.dev/externalism/ontology/arcaea/liar/> .
+@prefix libertas: <https://eristocrates.dev/externalism/ontology/arcaea/libertas/> .
+@prefix lifeispiano: <https://eristocrates.dev/externalism/ontology/arcaea/lifeispiano/> .
+@prefix liftoff: <https://eristocrates.dev/externalism/ontology/arcaea/liftoff/> .
+@prefix lightmyway: <https://eristocrates.dev/externalism/ontology/arcaea/lightmyway/> .
+@prefix lightningscrew: <https://eristocrates.dev/externalism/ontology/arcaea/lightningscrew/> .
+@prefix lightsofmuse: <https://eristocrates.dev/externalism/ontology/arcaea/lightsofmuse/> .
+@prefix linearaccelerator: <https://eristocrates.dev/externalism/ontology/arcaea/linearaccelerator/> .
+@prefix livefastdieyoung: <https://eristocrates.dev/externalism/ontology/arcaea/livefastdieyoung/> .
+@prefix logos: <https://eristocrates.dev/externalism/ontology/arcaea/logos/> .
+@prefix loschen: <https://eristocrates.dev/externalism/ontology/arcaea/loschen/> .
+@prefix lostcivilization: <https://eristocrates.dev/externalism/ontology/arcaea/lostcivilization/> .
+@prefix lostdesire: <https://eristocrates.dev/externalism/ontology/arcaea/lostdesire/> .
+@prefix lostemotion: <https://eristocrates.dev/externalism/ontology/arcaea/lostemotion/> .
+@prefix lostintheabyss: <https://eristocrates.dev/externalism/ontology/arcaea/lostintheabyss/> .
+@prefix lovelessdress: <https://eristocrates.dev/externalism/ontology/arcaea/lovelessdress/> .
+@prefix lucidtraveler: <https://eristocrates.dev/externalism/ontology/arcaea/lucidtraveler/> .
+@prefix lucifer: <https://eristocrates.dev/externalism/ontology/arcaea/lucifer/> .
+@prefix lumia: <https://eristocrates.dev/externalism/ontology/arcaea/lumia/> .
+@prefix lunarossa: <https://eristocrates.dev/externalism/ontology/arcaea/lunarossa/> .
+@prefix macromod: <https://eristocrates.dev/externalism/ontology/arcaea/macromod/> .
+@prefix magnolia: <https://eristocrates.dev/externalism/ontology/arcaea/magnolia/> .
+@prefix mahoroba: <https://eristocrates.dev/externalism/ontology/arcaea/mahoroba/> .
+@prefix maliciousmischance: <https://eristocrates.dev/externalism/ontology/arcaea/maliciousmischance/> .
+@prefix manicjeer: <https://eristocrates.dev/externalism/ontology/arcaea/manicjeer/> .
+@prefix mantis: <https://eristocrates.dev/externalism/ontology/arcaea/mantis/> .
+@prefix masqueradelegion: <https://eristocrates.dev/externalism/ontology/arcaea/masqueradelegion/> .
+@prefix matenrou: <https://eristocrates.dev/externalism/ontology/arcaea/matenrou/> .
+@prefix maxrage: <https://eristocrates.dev/externalism/ontology/arcaea/maxrage/> .
+@prefix mazenine: <https://eristocrates.dev/externalism/ontology/arcaea/mazenine/> .
+@prefix mazymetroplex: <https://eristocrates.dev/externalism/ontology/arcaea/mazymetroplex/> .
+@prefix medusa: <https://eristocrates.dev/externalism/ontology/arcaea/medusa/> .
+@prefix megalovania: <https://eristocrates.dev/externalism/ontology/arcaea/megalovania/> .
+@prefix megalovaniarmx: <https://eristocrates.dev/externalism/ontology/arcaea/megalovaniarmx/> .
+@prefix melodyoflove: <https://eristocrates.dev/externalism/ontology/arcaea/melodyoflove/> .
+@prefix memoryfactory: <https://eristocrates.dev/externalism/ontology/arcaea/memoryfactory/> .
+@prefix memoryforest: <https://eristocrates.dev/externalism/ontology/arcaea/memoryforest/> .
+@prefix merlin: <https://eristocrates.dev/externalism/ontology/arcaea/merlin/> .
+@prefix metallicpunisher: <https://eristocrates.dev/externalism/ontology/arcaea/metallicpunisher/> .
+@prefix metamysteria: <https://eristocrates.dev/externalism/ontology/arcaea/metamysteria/> .
+@prefix miles: <https://eristocrates.dev/externalism/ontology/arcaea/miles/> .
+@prefix mirinae: <https://eristocrates.dev/externalism/ontology/arcaea/mirinae/> .
+@prefix mirzam: <https://eristocrates.dev/externalism/ontology/arcaea/mirzam/> .
+@prefix modelista: <https://eristocrates.dev/externalism/ontology/arcaea/modelista/> .
+@prefix monochromeprincess: <https://eristocrates.dev/externalism/ontology/arcaea/monochromeprincess/> .
+@prefix moonheart: <https://eristocrates.dev/externalism/ontology/arcaea/moonheart/> .
+@prefix moonlightofsandcastle: <https://eristocrates.dev/externalism/ontology/arcaea/moonlightofsandcastle/> .
+@prefix morningloom: <https://eristocrates.dev/externalism/ontology/arcaea/morningloom/> .
+@prefix mu: <https://eristocrates.dev/externalism/ontology/arcaea/mu/> .
+@prefix mukishitsu: <https://eristocrates.dev/externalism/ontology/arcaea/mukishitsu/> .
+@prefix mvurbd: <https://eristocrates.dev/externalism/ontology/arcaea/mvurbd/> .
+@prefix namelesspassion: <https://eristocrates.dev/externalism/ontology/arcaea/namelesspassion/> .
+@prefix nekonote: <https://eristocrates.dev/externalism/ontology/arcaea/nekonote/> .
+@prefix neokosmo: <https://eristocrates.dev/externalism/ontology/arcaea/neokosmo/> .
+@prefix neowings: <https://eristocrates.dev/externalism/ontology/arcaea/neowings/> .
+@prefix newyorkbackraise: <https://eristocrates.dev/externalism/ontology/arcaea/newyorkbackraise/> .
+@prefix nexttoyou: <https://eristocrates.dev/externalism/ontology/arcaea/nexttoyou/> .
+@prefix nhelv: <https://eristocrates.dev/externalism/ontology/arcaea/nhelv/> .
+@prefix nightmare: <https://eristocrates.dev/externalism/ontology/arcaea/nightmare/> .
+@prefix nirvluce: <https://eristocrates.dev/externalism/ontology/arcaea/nirvluce/> .
+@prefix nnglooms: <https://eristocrates.dev/externalism/ontology/arcaea/nnglooms/> .
+@prefix nulctrl: <https://eristocrates.dev/externalism/ontology/arcaea/nulctrl/> .
+@prefix nullapophenia: <https://eristocrates.dev/externalism/ontology/arcaea/nullapophenia/> .
+@prefix oblivia: <https://eristocrates.dev/externalism/ontology/arcaea/oblivia/> .
+@prefix oblivion: <https://eristocrates.dev/externalism/ontology/arcaea/oblivion/> .
+@prefix odysseia: <https://eristocrates.dev/externalism/ontology/arcaea/odysseia/> .
+@prefix oldschoolsalvage: <https://eristocrates.dev/externalism/ontology/arcaea/oldschoolsalvage/> .
+@prefix omakeno: <https://eristocrates.dev/externalism/ontology/arcaea/omakeno/> .
+@prefix omegafour: <https://eristocrates.dev/externalism/ontology/arcaea/omegafour/> .
+@prefix onandon: <https://eristocrates.dev/externalism/ontology/arcaea/onandon/> .
+@prefix onefr: <https://eristocrates.dev/externalism/ontology/arcaea/onefr/> .
+@prefix onelastdrive: <https://eristocrates.dev/externalism/ontology/arcaea/onelastdrive/> .
+@prefix oracle: <https://eristocrates.dev/externalism/ontology/arcaea/oracle/> .
+@prefix oshamascramble: <https://eristocrates.dev/externalism/ontology/arcaea/oshamascramble/> .
+@prefix ouroboros: <https://eristocrates.dev/externalism/ontology/arcaea/ouroboros/> .
+@prefix ouverture: <https://eristocrates.dev/externalism/ontology/arcaea/ouverture/> .
+@prefix overdrive: <https://eristocrates.dev/externalism/ontology/arcaea/overdrive/> .
+@prefix overwhelm: <https://eristocrates.dev/externalism/ontology/arcaea/overwhelm/> .
+@prefix paperwitch: <https://eristocrates.dev/externalism/ontology/arcaea/paperwitch/> .
+@prefix paradise: <https://eristocrates.dev/externalism/ontology/arcaea/paradise/> .
+@prefix partyvinyl: <https://eristocrates.dev/externalism/ontology/arcaea/partyvinyl/> .
+@prefix pentiment: <https://eristocrates.dev/externalism/ontology/arcaea/pentiment/> .
+@prefix phantasia: <https://eristocrates.dev/externalism/ontology/arcaea/phantasia/> .
+@prefix picopicotranslation: <https://eristocrates.dev/externalism/ontology/arcaea/picopicotranslation/> .
+@prefix placebobattler: <https://eristocrates.dev/externalism/ontology/arcaea/placebobattler/> .
+@prefix pragmatism: <https://eristocrates.dev/externalism/ontology/arcaea/pragmatism/> .
+@prefix prayer: <https://eristocrates.dev/externalism/ontology/arcaea/prayer/> .
+@prefix primevaltexture: <https://eristocrates.dev/externalism/ontology/arcaea/primevaltexture/> .
+@prefix primitivelights: <https://eristocrates.dev/externalism/ontology/arcaea/primitivelights/> .
+@prefix prism: <https://eristocrates.dev/externalism/ontology/arcaea/prism/> .
+@prefix protoflicker: <https://eristocrates.dev/externalism/ontology/arcaea/protoflicker/> .
+@prefix pupa: <https://eristocrates.dev/externalism/ontology/arcaea/pupa/> .
+@prefix purgatorium: <https://eristocrates.dev/externalism/ontology/arcaea/purgatorium/> .
+@prefix purpleverse: <https://eristocrates.dev/externalism/ontology/arcaea/purpleverse/> .
+@prefix qovat: <https://eristocrates.dev/externalism/ontology/arcaea/qovat/> .
+@prefix qualia: <https://eristocrates.dev/externalism/ontology/arcaea/qualia/> .
+@prefix quon: <https://eristocrates.dev/externalism/ontology/arcaea/quon/> .
+@prefix quonwacca: <https://eristocrates.dev/externalism/ontology/arcaea/quonwacca/> .
+@prefix rabbitintheblackroom: <https://eristocrates.dev/externalism/ontology/arcaea/rabbitintheblackroom/> .
+@prefix rainofconflict: <https://eristocrates.dev/externalism/ontology/arcaea/rainofconflict/> .
+@prefix ravenspride: <https://eristocrates.dev/externalism/ontology/arcaea/ravenspride/> .
+@prefix raysofremnant: <https://eristocrates.dev/externalism/ontology/arcaea/raysofremnant/> .
+@prefix reconstruction: <https://eristocrates.dev/externalism/ontology/arcaea/reconstruction/> .
+@prefix redandblue: <https://eristocrates.dev/externalism/ontology/arcaea/redandblue/> .
+@prefix redolentshape: <https://eristocrates.dev/externalism/ontology/arcaea/redolentshape/> .
+@prefix reinvent: <https://eristocrates.dev/externalism/ontology/arcaea/reinvent/> .
+@prefix rekkaresonance: <https://eristocrates.dev/externalism/ontology/arcaea/rekkaresonance/> .
+@prefix relentless: <https://eristocrates.dev/externalism/ontology/arcaea/relentless/> .
+@prefix remindthesouls: <https://eristocrates.dev/externalism/ontology/arcaea/remindthesouls/> .
+@prefix renegade: <https://eristocrates.dev/externalism/ontology/arcaea/renegade/> .
+@prefix revixy: <https://eristocrates.dev/externalism/ontology/arcaea/revixy/> .
+@prefix rgb: <https://eristocrates.dev/externalism/ontology/arcaea/rgb/> .
+@prefix ringedgenesis: <https://eristocrates.dev/externalism/ontology/arcaea/ringedgenesis/> .
+@prefix rise: <https://eristocrates.dev/externalism/ontology/arcaea/rise/> .
+@prefix riseoftheworld: <https://eristocrates.dev/externalism/ontology/arcaea/riseoftheworld/> .
+@prefix romancewars: <https://eristocrates.dev/externalism/ontology/arcaea/romancewars/> .
+@prefix rugie: <https://eristocrates.dev/externalism/ontology/arcaea/rugie/> .
+@prefix sacrifice: <https://eristocrates.dev/externalism/ontology/arcaea/sacrifice/> .
+@prefix saikyostronger: <https://eristocrates.dev/externalism/ontology/arcaea/saikyostronger/> .
+@prefix saintorsinner: <https://eristocrates.dev/externalism/ontology/arcaea/saintorsinner/> .
+@prefix sakurafubuki: <https://eristocrates.dev/externalism/ontology/arcaea/sakurafubuki/> .
+@prefix sanskia: <https://eristocrates.dev/externalism/ontology/arcaea/sanskia/> .
+@prefix satisfaction: <https://eristocrates.dev/externalism/ontology/arcaea/satisfaction/> .
+@prefix sayonarahatsukoi: <https://eristocrates.dev/externalism/ontology/arcaea/sayonarahatsukoi/> .
+@prefix scarletcage: <https://eristocrates.dev/externalism/ontology/arcaea/scarletcage/> .
+@prefix scarletlance: <https://eristocrates.dev/externalism/ontology/arcaea/scarletlance/> .
+@prefix seclusion: <https://eristocrates.dev/externalism/ontology/arcaea/seclusion/> .
+@prefix senkyou: <https://eristocrates.dev/externalism/ontology/arcaea/senkyou/> .
+@prefix seventhsense: <https://eristocrates.dev/externalism/ontology/arcaea/seventhsense/> .
+@prefix shadesoflight: <https://eristocrates.dev/externalism/ontology/arcaea/shadesoflight/> .
+@prefix sheriruth: <https://eristocrates.dev/externalism/ontology/arcaea/sheriruth/> .
+@prefix sheriruthrmx: <https://eristocrates.dev/externalism/ontology/arcaea/sheriruthrmx/> .
+@prefix shinchoku: <https://eristocrates.dev/externalism/ontology/arcaea/shinchoku/> .
+@prefix shrink: <https://eristocrates.dev/externalism/ontology/arcaea/shrink/> .
+@prefix signof: <https://eristocrates.dev/externalism/ontology/arcaea/signof/> .
+@prefix silentrush: <https://eristocrates.dev/externalism/ontology/arcaea/silentrush/> .
+@prefix singularity: <https://eristocrates.dev/externalism/ontology/arcaea/singularity/> .
+@prefix smallcloud: <https://eristocrates.dev/externalism/ontology/arcaea/smallcloud/> .
+@prefix snowwhite: <https://eristocrates.dev/externalism/ontology/arcaea/snowwhite/> .
+@prefix solitarydream: <https://eristocrates.dev/externalism/ontology/arcaea/solitarydream/> .
+@prefix someday: <https://eristocrates.dev/externalism/ontology/arcaea/someday/> .
+@prefix soundwitch: <https://eristocrates.dev/externalism/ontology/arcaea/soundwitch/> .
+@prefix specta: <https://eristocrates.dev/externalism/ontology/arcaea/specta/> .
+@prefix spidersthread: <https://eristocrates.dev/externalism/ontology/arcaea/spidersthread/> .
+@prefix spiritdauntless: <https://eristocrates.dev/externalism/ontology/arcaea/spiritdauntless/> .
+@prefix stager: <https://eristocrates.dev/externalism/ontology/arcaea/stager/> .
+@prefix stargateextreme: <https://eristocrates.dev/externalism/ontology/arcaea/stargateextreme/> .
+@prefix stasis: <https://eristocrates.dev/externalism/ontology/arcaea/stasis/> .
+@prefix straightintolights: <https://eristocrates.dev/externalism/ontology/arcaea/straightintolights/> .
+@prefix stratoliner: <https://eristocrates.dev/externalism/ontology/arcaea/stratoliner/> .
+@prefix strongholds: <https://eristocrates.dev/externalism/ontology/arcaea/strongholds/> .
+@prefix sulfur: <https://eristocrates.dev/externalism/ontology/arcaea/sulfur/> .
+@prefix summerfireworks: <https://eristocrates.dev/externalism/ontology/arcaea/summerfireworks/> .
+@prefix suomi: <https://eristocrates.dev/externalism/ontology/arcaea/suomi/> .
+@prefix superambulance: <https://eristocrates.dev/externalism/ontology/arcaea/superambulance/> .
+@prefix supernova: <https://eristocrates.dev/externalism/ontology/arcaea/supernova/> .
+@prefix surrender: <https://eristocrates.dev/externalism/ontology/arcaea/surrender/> .
+@prefix swansong: <https://eristocrates.dev/externalism/ontology/arcaea/swansong/> .
+@prefix syriana: <https://eristocrates.dev/externalism/ontology/arcaea/syriana/> .
+@prefix syro: <https://eristocrates.dev/externalism/ontology/arcaea/syro/> .
+@prefix syuten: <https://eristocrates.dev/externalism/ontology/arcaea/syuten/> .
+@prefix take: <https://eristocrates.dev/externalism/ontology/arcaea/take/> .
+@prefix tasogare: <https://eristocrates.dev/externalism/ontology/arcaea/tasogare/> .
+@prefix tau: <https://eristocrates.dev/externalism/ontology/arcaea/tau/> .
+@prefix technicolour: <https://eristocrates.dev/externalism/ontology/arcaea/technicolour/> .
+@prefix tempestissimo: <https://eristocrates.dev/externalism/ontology/arcaea/tempestissimo/> .
+@prefix temptation: <https://eristocrates.dev/externalism/ontology/arcaea/temptation/> .
+@prefix temptationgc: <https://eristocrates.dev/externalism/ontology/arcaea/temptationgc/> .
+@prefix teravolt: <https://eristocrates.dev/externalism/ontology/arcaea/teravolt/> .
+@prefix teriqma: <https://eristocrates.dev/externalism/ontology/arcaea/teriqma/> .
+@prefix testify: <https://eristocrates.dev/externalism/ontology/arcaea/testify/> .
+@prefix theformula: <https://eristocrates.dev/externalism/ontology/arcaea/theformula/> .
+@prefix themessage: <https://eristocrates.dev/externalism/ontology/arcaea/themessage/> .
+@prefix thesurvivor: <https://eristocrates.dev/externalism/ontology/arcaea/thesurvivor/> .
+@prefix theultimacy: <https://eristocrates.dev/externalism/ontology/arcaea/theultimacy/> .
+@prefix thirdsun: <https://eristocrates.dev/externalism/ontology/arcaea/thirdsun/> .
+@prefix tictactoe: <https://eristocrates.dev/externalism/ontology/arcaea/tictactoe/> .
+@prefix tiemedowngently: <https://eristocrates.dev/externalism/ontology/arcaea/tiemedowngently/> .
+@prefix tiferet: <https://eristocrates.dev/externalism/ontology/arcaea/tiferet/> .
+@prefix toaliceliddell: <https://eristocrates.dev/externalism/ontology/arcaea/toaliceliddell/> .
+@prefix tothefurthestdream: <https://eristocrates.dev/externalism/ontology/arcaea/tothefurthestdream/> .
+@prefix tothemilkyway: <https://eristocrates.dev/externalism/ontology/arcaea/tothemilkyway/> .
+@prefix transientspace: <https://eristocrates.dev/externalism/ontology/arcaea/transientspace/> .
+@prefix trapcrow: <https://eristocrates.dev/externalism/ontology/arcaea/trapcrow/> .
+@prefix trappola: <https://eristocrates.dev/externalism/ontology/arcaea/trappola/> .
+@prefix trpno: <https://eristocrates.dev/externalism/ontology/arcaea/trpno/> .
+@prefix trrricksters: <https://eristocrates.dev/externalism/ontology/arcaea/trrricksters/> .
+@prefix tsukinimurakumo: <https://eristocrates.dev/externalism/ontology/arcaea/tsukinimurakumo/> .
+@prefix turbocharger: <https://eristocrates.dev/externalism/ontology/arcaea/turbocharger/> .
+@prefix uad: <https://eristocrates.dev/externalism/ontology/arcaea/uad/> .
+@prefix ultimatetaste: <https://eristocrates.dev/externalism/ontology/arcaea/ultimatetaste/> .
+@prefix ultradiaxon: <https://eristocrates.dev/externalism/ontology/arcaea/ultradiaxon/> .
+@prefix unknownlevels: <https://eristocrates.dev/externalism/ontology/arcaea/unknownlevels/> .
+@prefix usedtobe: <https://eristocrates.dev/externalism/ontology/arcaea/usedtobe/> .
+@prefix valhallazero: <https://eristocrates.dev/externalism/ontology/arcaea/valhallazero/> .
+@prefix vandalism: <https://eristocrates.dev/externalism/ontology/arcaea/vandalism/> .
+@prefix vector: <https://eristocrates.dev/externalism/ontology/arcaea/vector/> .
+@prefix vexaria: <https://eristocrates.dev/externalism/ontology/arcaea/vexaria/> .
+@prefix viciousheroism: <https://eristocrates.dev/externalism/ontology/arcaea/viciousheroism/> .
+@prefix vindication: <https://eristocrates.dev/externalism/ontology/arcaea/vindication/> .
+@prefix virtus: <https://eristocrates.dev/externalism/ontology/arcaea/virtus/> .
+@prefix vividtheory: <https://eristocrates.dev/externalism/ontology/arcaea/vividtheory/> .
+@prefix viyella: <https://eristocrates.dev/externalism/ontology/arcaea/viyella/> .
+@prefix viyellastears: <https://eristocrates.dev/externalism/ontology/arcaea/viyellastears/> .
+@prefix vulcanus: <https://eristocrates.dev/externalism/ontology/arcaea/vulcanus/> .
+@prefix waitfordawn: <https://eristocrates.dev/externalism/ontology/arcaea/waitfordawn/> .
+@prefix waltzforlorelei: <https://eristocrates.dev/externalism/ontology/arcaea/waltzforlorelei/> .
+@prefix wereallgonnadie: <https://eristocrates.dev/externalism/ontology/arcaea/wereallgonnadie/> .
+@prefix wishuponasnow: <https://eristocrates.dev/externalism/ontology/arcaea/wishuponasnow/> .
+@prefix withu: <https://eristocrates.dev/externalism/ontology/arcaea/withu/> .
+@prefix wontbackdown: <https://eristocrates.dev/externalism/ontology/arcaea/wontbackdown/> .
+@prefix worldender: <https://eristocrates.dev/externalism/ontology/arcaea/worldender/> .
+@prefix worldexecuteme: <https://eristocrates.dev/externalism/ontology/arcaea/worldexecuteme/> .
+@prefix worldfragments: <https://eristocrates.dev/externalism/ontology/arcaea/worldfragments/> .
+@prefix worldvanquisher: <https://eristocrates.dev/externalism/ontology/arcaea/worldvanquisher/> .
+@prefix xanatos: <https://eristocrates.dev/externalism/ontology/arcaea/xanatos/> .
+@prefix xeraphinite: <https://eristocrates.dev/externalism/ontology/arcaea/xeraphinite/> .
+@prefix xtreme: <https://eristocrates.dev/externalism/ontology/arcaea/xtreme/> .
+@prefix yomibitoshirazu: <https://eristocrates.dev/externalism/ontology/arcaea/yomibitoshirazu/> .
+@prefix yourbestnightmare: <https://eristocrates.dev/externalism/ontology/arcaea/yourbestnightmare/> .
+@prefix yourvoiceso: <https://eristocrates.dev/externalism/ontology/arcaea/yourvoiceso/> .
+@prefix yozakurafubuki: <https://eristocrates.dev/externalism/ontology/arcaea/yozakurafubuki/> .
+arcaea:songlist
+  a json:file ;
+  has:songs arcaea:sayonarahatsukoi .
+arcaea:sayonarahatsukoi
+  a arcaea:song, owl:NamedIndividual ;
+  has:idx 0 ;
+  has:id "sayonarahatsukoi" ;
+  arcaea:title "Sayonara Hatsukoi"@en, "さよならはつこい"@ja, "사요나라 하츠코이"@ko ;
+  has:artist arcaea:redshift ;
+  has:bpmRange "178" ;
+  has:bpm arcaea:178bpm ;
+  has:set arcaea:base ;
+  preview:start sayonarahatsukoi:44494 ;
+  preview:end sayonarahatsukoi:76853 ;
+  has:side arcaea:light ;
+  has:bg arcaea:base_light ;
+  has:dateTime sayonarahatsukoi:1487980800 ;
+  has:version arcaea:version1_0 ;
+  has:songChart sayonarahatsukoi:etr, sayonarahatsukoi:ftr, sayonarahatsukoi:prs, sayonarahatsukoi:pst .
+arcaea:redshift
+  a arcaea:artist, owl:NamedIndividual ;
+  arcaea:name "REDSHiFT"@en, "れっどしふと"@ja, "레드쉬프트"@ko, "레드시프트"@ko .
+arcaea:178bpm
+  a arcaea:bpm, owl:NamedIndividual ;
+  rdfs:label "178"^^xsd:integer .
+arcaea:base
+  a arcaea:set, owl:NamedIndividual ;
+  rdfs:label "base"@en .
+sayonarahatsukoi:44494
+  a owl:NamedIndividual, time:stamp ;
+  time:seconds "44494"^^xsd:integer .
+sayonarahatsukoi:76853
+  a owl:NamedIndividual, time:stamp ;
+  time:seconds "76853"^^xsd:integer .
+arcaea:light
+  a arcaea:side ;
+  arcaea:sideId "0"^^xsd:integer .
+arcaea:base_light
+  a arcaea:bg, owl:NamedIndividual ;
+  rdfs:label "base_light"@en ;
+  skos:related arcaea:light ;
+  arcaea:inverse arcaea:base_conflict .
+arcaea:base_conflict
+  a arcaea:bg, owl:NamedIndividual ;
+  rdfs:label "base_conflict"@en ;
+  skos:related arcaea:conflict ;
+  arcaea:inverse arcaea:base_light .
+sayonarahatsukoi:1487980800
+  a date:time, owl:NamedIndividual ;
+  date:unix "1487980800"^^xsd:integer .
+arcaea:version1_0
+  a arcaea:version, owl:NamedIndividual ;
+  rdfs:label "1.0"@en .
+sayonarahatsukoi:pst
+  a arcaea:songChart, owl:NamedIndividual ;
+  has:ratingClass arcaea:ratingClass0 ;
+  has:chartDesigner arcaea:nitro ;
+  has:level arcaea:level1 .
+arcaea:ratingClass0
+  a arcaea:ratingClass, owl:NamedIndividual ;
+  rdfs:label "0"^^xsd:integer .
+arcaea:nitro
+  a arcaea:artist, arcaea:chartDesigner, owl:NamedIndividual ;
+  arcaea:name "NITRO"@en, "NiTRO"@en, "Nitro"@en, "[NITRO]"@en, "_NITRO"@en, "nitro"@en, "×NITRO×"@en, "•Nitro•"@en, "ないとろ"@ja, "にとろ"@ja, "니트로"@ko .
+arcaea:level1
+  a arcaea:level, owl:NamedIndividual ;
+  rdfs:label "1"^^xsd:integer .
+sayonarahatsukoi:prs
+  a arcaea:songChart, owl:NamedIndividual ;
+  has:ratingClass arcaea:ratingClass1 ;
+  has:chartDesigner arcaea:nitro ;
+  has:level arcaea:level4 .
+arcaea:ratingClass1
+  a arcaea:ratingClass, owl:NamedIndividual ;
+  rdfs:label "1"^^xsd:integer .
+arcaea:level4
+  a arcaea:level, owl:NamedIndividual ;
+  rdfs:label "4"^^xsd:integer .
+sayonarahatsukoi:ftr
+  a arcaea:songChart, owl:NamedIndividual ;
+  has:ratingClass arcaea:ratingClass2 ;
+  has:chartDesigner arcaea:toaster ;
+  has:level arcaea:level7 .
+arcaea:ratingClass2
+  a arcaea:ratingClass, owl:NamedIndividual ;
+  rdfs:label "2"^^xsd:integer .
+arcaea:toaster
+  a arcaea:chartDesigner, owl:NamedIndividual ;
+  arcaea:name "Toaster"@en, "Toaster."@en .
+arcaea:level7
+  a arcaea:level, owl:NamedIndividual ;
+  rdfs:label "7"^^xsd:integer .
+sayonarahatsukoi:etr
+  a arcaea:songChart, owl:NamedIndividual ;
+  has:ratingClass arcaea:ratingClass4 ;
+  has:chartDesigner arcaea:luxance_exschwasion ;
+  has:level arcaea:level8 ;
+  has:dateTime arcaea:1709856000 ;
+  has:version arcaea:version5_4 .
+arcaea:ratingClass4
+  a arcaea:ratingClass, owl:NamedIndividual ;
+  rdfs:label "4"^^xsd:integer .
+arcaea:luxance_exschwasion
+  a arcaea:chartDesigner, owl:NamedIndividual ;
+  arcaea:name "Luxance + Exschwasion"@en .
+arcaea:level8
+  a arcaea:level, owl:NamedIndividual ;
+  rdfs:label "8"^^xsd:integer .
+arcaea:1709856000
+  a date:time, owl:NamedIndividual ;
+  rdfs:label "1709856000"^^xsd:integer .
+arcaea:version5_4
+  a arcaea:version, owl:NamedIndividual ;
+  rdfs:label "5.4"@en .
+
+has:audioPreview a owl:ObjectProperty ;
+rdfs:domain arcaea:song ;
+rdfs:range arcaea:audioPreview .
+arcaea:inverse a owl:SymmetricProperty ;
+rdfs:domain arcaea:bg ;
+rdfs:range arcaea:bg .
+arcaea:background owl:sameAs arcaea:bg .
+arcaea:song
+  a owl:Class .
+has:songs
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:songlist ;
+  rdfs:range arcaea:song .
+has:idx
+  a owl:DatatypeProperty ;
+  rdfs:domain arcaea:song ;
+  rdfs:range xsd:integer .
+has:id
+  a owl:DatatypeProperty ;
+  rdfs:domain arcaea:song ;
+  rdfs:range xsd:string .
+arcaea:title
+  a owl:DatatypeProperty ;
+  rdfs:domain arcaea:song ;
+  rdfs:range xsd:string .
+arcaea:artist
+  a owl:Class .
+has:artist
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:song ;
+  rdfs:range arcaea:artist .
+arcaea:name
+  a owl:DatatypeProperty ;
+  rdfs:domain arcaea:artist ;
+  rdfs:range xsd:string .
+has:bpmRange
+  a owl:DatatypeProperty ;
+  rdfs:domain arcaea:bpm ;
+  rdfs:range xsd:integer .
+arcaea:bpm
+  a owl:Class .
+has:bpm
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:song ;
+  rdfs:range arcaea:bpm .
+arcaea:set
+  a owl:Class .
+has:set
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:song ;
+  rdfs:range arcaea:set .
+arcaea:purchase
+  a owl:Class .
+has:purchase
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:song ;
+  rdfs:range arcaea:purchase .
+time:stamp
+  a owl:Class .
+preview:start
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:song ;
+  rdfs:range time:stamp .
+preview:end
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:song ;
+  rdfs:range time:stamp .
+arcaea:side
+  a owl:Class .
+has:side
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:song ;
+  rdfs:range arcaea:side .
+arcaea:bg
+  a owl:Class .
+has:bg
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:song ;
+  rdfs:range arcaea:bg .
+date:time
+  a owl:Class .
+has:dateTime
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:song, arcaea:songChart ;
+  rdfs:range date:time .
+arcaea:version
+  a owl:Class .
+has:version
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:song, arcaea:songChart ;
+  rdfs:range arcaea:version .
+arcaea:songChart
+  a owl:Class .
+has:songChart
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:song ;
+  rdfs:range arcaea:songChart .
+arcaea:ratingClass
+  a owl:Class .
+has:ratingClass
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:songChart ;
+  rdfs:range arcaea:ratingClass .
+arcaea:chartDesigner
+  a owl:Class .
+has:chartDesigner
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:songChart ;
+  rdfs:range arcaea:chartDesigner .
+arcaea:jacketDesigner
+  a owl:Class .
+has:jacketDesigner
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:songChart ;
+  rdfs:range arcaea:jacketDesigner .
+arcaea:level
+  a owl:Class .
+has:level
+  a owl:ObjectProperty ;
+  rdfs:domain arcaea:songChart ;
+  rdfs:range arcaea:level .
+
