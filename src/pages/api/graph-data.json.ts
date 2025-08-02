@@ -1,0 +1,268 @@
+import type { APIRoute } from "astro";
+import { readFile, stat } from "fs/promises";
+import { join } from "path";
+import { Parser, Store, DataFactory } from "n3";
+
+// Cache for parsed graph data
+const graphCache = new Map();
+
+// Default configuration - easy to extend later
+const defaultConfig = {
+  predicatesAs: "edges" as "edges" | "nodes",
+  literalsAs: "nodes" as "nodes" | "properties",
+  displayProperty: "http://www.w3.org/2000/01/rdf-schema#label", // rdfs:label
+  includeTypes: true,
+  // Full data granularity - ALL edges shown
+  showLiteralLinks: true, // Show all literal connections
+};
+
+interface GraphNode {
+  id: string;
+  label?: string;
+  type?: string;
+  isLiteral?: boolean;
+}
+
+interface GraphLink {
+  source: string;
+  target: string;
+  label?: string;
+  predicate: string;
+}
+
+interface GraphData {
+  nodes: GraphNode[];
+  links: GraphLink[];
+  stats: {
+    tripleCount: number;
+    nodeCount: number;
+    linkCount: number;
+  };
+}
+
+export const GET: APIRoute = async ({ request }) => {
+  try {
+    // Extract filename from query parameters, default to arcaea.ttl
+    const url = new URL(request.url);
+    const filename = url.searchParams.get("filename") || "arcaea.ttl";
+
+    console.log("🔍 Debug URL info:");
+    console.log("  - Request URL:", request.url);
+    console.log("  - Parsed URL:", url.href);
+    console.log("  - Search params:", Array.from(url.searchParams.entries()));
+    console.log("  - Requested filename:", url.searchParams.get("filename"));
+    console.log("  - Final filename:", filename);
+
+    // Validate filename to prevent path traversal attacks
+    const allowedFiles = [
+      "arcaea.ttl",
+      "arcaea-one.ttl",
+      "semiotic-core.ttl",
+      "pizza.ttl",
+      "example.ttl",
+      "test.ttl",
+    ];
+    if (!allowedFiles.includes(filename)) {
+      return new Response(JSON.stringify({ error: "Invalid filename" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const filePath = join(process.cwd(), "public", "ontology", filename);
+    console.log("📂 Loading ontology:", filename, "from path:", filePath);
+
+    // TEMPORARY: Clear cache to debug issue
+    console.log("🗑️ Clearing cache for debugging");
+    graphCache.clear();
+
+    // Check cache first
+    const cacheKey = filename;
+    const fileStat = await stat(filePath);
+    const fileModTime = fileStat.mtime.getTime();
+    const fileSize = fileStat.size;
+
+    console.log(
+      `📊 File stats for ${filename}: size=${fileSize} bytes, modTime=${fileModTime}`
+    );
+
+    const cached = graphCache.get(cacheKey);
+    if (cached && cached.modTime >= fileModTime) {
+      console.log(`🔄 Cache hit for ${filename}`);
+      return new Response(JSON.stringify(cached.data), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    console.log(`🔧 Parsing ${filename}... (cache miss or file modified)`);
+
+    // Read and parse the RDF file
+    const rdfContent = await readFile(filePath, "utf-8");
+    console.log(`📄 Read ${rdfContent.length} characters from ${filename}`);
+    console.log(`📝 First 200 chars: ${rdfContent.substring(0, 200)}...`);
+
+    const parser = new Parser();
+    const store = new Store();
+
+    // Parse triples into store
+    const quads = parser.parse(rdfContent);
+    store.addQuads(quads);
+
+    // Convert to graph format
+    const graphData = await convertToGraph(store, defaultConfig);
+
+    // Cache the result
+    graphCache.set(cacheKey, {
+      data: graphData,
+      modTime: fileModTime,
+    });
+
+    console.log(
+      `Parsed ${graphData.stats.tripleCount} triples into ${graphData.stats.nodeCount} nodes and ${graphData.stats.linkCount} links`
+    );
+
+    return new Response(JSON.stringify(graphData), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error processing RDF data:", error);
+
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: "Failed to process RDF data",
+        nodes: [],
+        links: [],
+        stats: { tripleCount: 0, nodeCount: 0, linkCount: 0 },
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+};
+
+async function convertToGraph(
+  store: Store,
+  config: typeof defaultConfig
+): Promise<GraphData> {
+  const nodes = new Map<string, GraphNode>();
+  const links: GraphLink[] = [];
+
+  // Get all quads from the store
+  const quads = store.getQuads(null, null, null, null);
+
+  // First pass: Create all nodes
+  for (const quad of quads) {
+    const subject = quad.subject.value;
+    const object = quad.object.value;
+    const isObjectLiteral = quad.object.termType === "Literal";
+
+    // Add subject as node
+    if (!nodes.has(subject)) {
+      nodes.set(subject, {
+        id: subject,
+        label: getDisplayLabel(store, subject, config.displayProperty),
+        type: getNodeType(store, subject),
+        isLiteral: false,
+      });
+    }
+
+    // Add object as node (skip literals if configured)
+    if (
+      (config.literalsAs === "nodes" || !isObjectLiteral) &&
+      (config.showLiteralLinks || !isObjectLiteral)
+    ) {
+      if (!nodes.has(object)) {
+        nodes.set(object, {
+          id: object,
+          label: isObjectLiteral
+            ? object
+            : getDisplayLabel(store, object, config.displayProperty),
+          type: isObjectLiteral ? "literal" : getNodeType(store, object),
+          isLiteral: isObjectLiteral,
+        });
+      }
+    }
+  }
+
+  // Second pass: Create ALL links - full granularity
+  for (const quad of quads) {
+    const subject = quad.subject.value;
+    const predicate = quad.predicate.value;
+    const object = quad.object.value;
+    const isObjectLiteral = quad.object.termType === "Literal";
+
+    // Skip if we're not showing literal links and this is a literal
+    if (!config.showLiteralLinks && isObjectLiteral) continue;
+
+    // Skip if object not in nodes
+    if (!nodes.has(object)) continue;
+
+    // Always show all links - no simplification
+    if (config.predicatesAs === "edges") {
+      links.push({
+        source: subject,
+        target: object,
+        label:
+          getDisplayLabel(store, predicate, config.displayProperty) ||
+          predicate.split(/[#\/]/).pop() ||
+          predicate,
+        predicate: predicate,
+      });
+    }
+  }
+
+  console.log(
+    `Full data: ${quads.length} triples → ${nodes.size} nodes, ${links.length} links`
+  );
+
+  return {
+    nodes: Array.from(nodes.values()),
+    links: links,
+    stats: {
+      tripleCount: quads.length,
+      nodeCount: nodes.size,
+      linkCount: links.length,
+    },
+  };
+}
+
+function getDisplayLabel(
+  store: Store,
+  uri: string,
+  labelProperty: string
+): string | undefined {
+  const labelQuads = store.getQuads(
+    DataFactory.namedNode(uri),
+    DataFactory.namedNode(labelProperty),
+    null,
+    null
+  );
+  if (labelQuads.length > 0) {
+    return labelQuads[0].object.value;
+  }
+
+  // Fallback to local name
+  const localName = uri.split(/[#\/]/).pop();
+  return localName && localName !== uri ? localName : undefined;
+}
+
+function getNodeType(store: Store, uri: string): string | undefined {
+  const typeQuads = store.getQuads(
+    DataFactory.namedNode(uri),
+    DataFactory.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
+    null,
+    null
+  );
+
+  if (typeQuads.length > 0) {
+    const typeUri = typeQuads[0].object.value;
+    return typeUri.split(/[#\/]/).pop() || typeUri;
+  }
+
+  return undefined;
+}

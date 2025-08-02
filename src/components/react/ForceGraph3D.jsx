@@ -1,6 +1,7 @@
 import ForceGraph3D from 'react-force-graph-3d';
 import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import * as THREE from 'three';
+import PerformanceProfiler, { createPerformanceTimer } from './PerformanceProfiler.jsx';
 
 // ENHANCED SLIDER COMPONENT with click-to-edit numerical input
 const EnhancedSlider = ({ 
@@ -699,6 +700,12 @@ export default function ReactForce3D() {
     distanceThresholds: { near: 150, far: 350 }
   });
 
+  // PERFORMANCE PROFILER REFS
+  const performanceProfilerRef = useRef();
+  const performanceTimerRef = useRef();
+  const [showProfiler, setShowProfiler] = useState(true);
+  const [geometryControlsCollapsed, setGeometryControlsCollapsed] = useState(false);
+
   // SAFE VERTEX COUNT CALCULATOR - No state updates
   const getCurrentVertexCount = useCallback(() => {
     if (cachedGeometryRef.current) {
@@ -997,6 +1004,9 @@ export default function ReactForce3D() {
         setLoading(true);
         console.log('Loading RDF data from:', ontologyFile);
         
+        // Performance timing: Start data loading
+        const loadStart = performanceTimerRef.current?.timeStart('dataLoading');
+        
         // Add cache busting for initial load too
         const cacheBuster = Date.now();
         const response = await fetch(`/api/graph-data/${ontologyFile}?t=${cacheBuster}`, {
@@ -1013,6 +1023,11 @@ export default function ReactForce3D() {
         }
         
         const graphData = await response.json();
+        
+        // Performance timing: End data loading, start data processing
+        if (loadStart) performanceTimerRef.current?.timeEnd('dataLoading', loadStart);
+        const processStart = performanceTimerRef.current?.timeStart('dataProcessing');
+        
         console.log('📊 Loaded graph data from', ontologyFile, ':', graphData.stats);
         console.log('📈 Node count:', graphData.nodes?.length || 0);
         console.log('🔗 Link count:', graphData.links?.length || 0);
@@ -1024,6 +1039,10 @@ export default function ReactForce3D() {
         setStats(graphData.stats);
         // Don't set currentOntology here to avoid conflicts with switchOntology
         setError(null);
+        
+        // Performance timing: End data processing
+        if (processStart) performanceTimerRef.current?.timeEnd('dataProcessing', processStart);
+        
         console.log('✅ Data loading complete for', ontologyFile, ', setting loading to false');
       } catch (err) {
         console.error('❌ Failed to load RDF data from', ontologyFile, ':', err);
@@ -1443,6 +1462,7 @@ export default function ReactForce3D() {
       }
       
       scene.add(instancedNodesRef.current);
+      if (performanceTimerRef.current) performanceTimerRef.current.timeEnd('instancing');
       console.log('✅ Created ADVANCED instanced nodes:', nodeCount, 'using', geometryParams.baseType);
       
       // Update render stats
@@ -1789,6 +1809,7 @@ export default function ReactForce3D() {
 
     let streamingAnimationId;
     const performStreamingUpdates = () => {
+      if (performanceTimerRef.current) performanceTimerRef.current.timeStart('culling');
       const currentTime = performance.now();
       const streamingState = streamingStateRef.current;
       const camera = graphRef.current.camera();
@@ -1796,6 +1817,9 @@ export default function ReactForce3D() {
       if (camera && streamingState.frameCounter % geometryParams.streamingChunkSize === 0) {
         // PHASE 3: Batch update only visible chunks
         const visibleNodes = getVisibleNodes(camera);
+        if (performanceTimerRef.current) performanceTimerRef.current.timeEnd('culling');
+        
+        if (performanceTimerRef.current) performanceTimerRef.current.timeStart('streaming');
         const chunksToUpdate = Math.min(geometryParams.streamingChunkSize, visibleNodes.length);
         
         if (geometryParams.temporalFrameSmoothing) {
@@ -1823,6 +1847,7 @@ export default function ReactForce3D() {
             data: { nodes: nodesToProcess }
           });
         }
+        if (performanceTimerRef.current) performanceTimerRef.current.timeEnd('streaming');
       }
 
       streamingState.frameCounter++;
@@ -1875,6 +1900,7 @@ export default function ReactForce3D() {
     let animationId;
     
     const calculateFPS = (currentTime) => {
+      if (performanceTimerRef.current) performanceTimerRef.current.timeStart('rendering');
       fpsRef.current.frameCount++;
       
       if (currentTime - fpsRef.current.lastTime >= 1000) {
@@ -1898,6 +1924,7 @@ export default function ReactForce3D() {
         fpsRef.current.lastTime = currentTime;
       }
       
+      if (performanceTimerRef.current) performanceTimerRef.current.timeEnd('rendering');
       animationId = requestAnimationFrame(calculateFPS);
     };
     
@@ -1930,6 +1957,12 @@ export default function ReactForce3D() {
       linkCount: data.links?.length || 0 
     });
   }, [loading, data]);
+
+  // Initialize performance timer
+  useEffect(() => {
+    performanceTimerRef.current = createPerformanceTimer(performanceProfilerRef);
+    console.log('🔬 Performance profiler initialized');
+  }, []);
 
   if (loading) {
     return (
@@ -1991,6 +2024,18 @@ export default function ReactForce3D() {
 
   return (
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+      {/* COMPREHENSIVE PERFORMANCE PROFILER */}
+      <PerformanceProfiler
+        ref={performanceProfilerRef}
+        renderer={graphRef.current?.renderer()}
+        scene={graphRef.current?.scene()}
+        camera={graphRef.current?.camera()}
+        data={data}
+        renderStats={renderStats}
+        geometryParams={geometryParams}
+        isVisible={showProfiler}
+      />
+
       {/* Enhanced Performance Stats */}
       {stats && (
         <div style={{
@@ -2054,11 +2099,13 @@ export default function ReactForce3D() {
               Current: {currentOntology} {loading && '(Loading...)'}
             </div>
             
-            {/* RESET BUTTON */}
-            <button
+            {/* CONTROL BUTTONS */}
+            <div style={{ display: 'flex', gap: '6px', marginTop: '6px' }}>
+              {/* RESET BUTTON */}
+              <button
               onClick={resetSettingsToDefault}
               style={{
-                width: '100%',
+                flex: 1,
                 padding: '4px 8px',
                 fontSize: '8px',
                 background: '#ff6b6b',
@@ -2066,7 +2113,6 @@ export default function ReactForce3D() {
                 border: '1px solid #ff4444',
                 borderRadius: '3px',
                 cursor: 'pointer',
-                marginTop: '6px',
                 opacity: 0.8
               }}
               onMouseOver={(e) => e.target.style.opacity = '1'}
@@ -2074,53 +2120,35 @@ export default function ReactForce3D() {
             >
               🔄 Reset All Settings
             </button>
+            
+            {/* PERFORMANCE PROFILER TOGGLE */}
+            <button
+              onClick={() => setShowProfiler(!showProfiler)}
+              style={{
+                flex: 1,
+                padding: '4px 8px',
+                fontSize: '8px',
+                background: showProfiler ? 'rgba(255,87,87,0.9)' : 'rgba(46,213,115,0.9)',
+                color: '#fff',
+                border: '1px solid #555',
+                borderRadius: '3px',
+                cursor: 'pointer',
+                opacity: 0.8
+              }}
+              onMouseOver={(e) => e.target.style.opacity = '1'}
+              onMouseOut={(e) => e.target.style.opacity = '0.8'}
+            >
+              {showProfiler ? '� Hide Profiler' : '🔬 Show Profiler'}
+            </button>
+            </div>
           </div>
           
-          <div>Nodes: {stats.nodeCount?.toLocaleString()}</div>
-          <div>Links: {stats.linkCount?.toLocaleString()}</div>
-          <div>Triples: {stats.tripleCount?.toLocaleString()}</div>
-          <div>Vertices per node: {renderStats.verticesPerNode}</div>
-          <div>Total vertices: {renderStats.totalVertices?.toLocaleString()}</div>
-          <div style={{ color: fps < 30 ? '#ff6b6b' : fps < 60 ? '#ffd93d' : '#6bcf7f' }}>
-            FPS: {fps}
-          </div>
-          <div style={{ marginTop: '10px', fontSize: '11px', color: '#aaa' }}>
-            <div>GPU Instancing: {renderStats.gpuInstancing ? '✅' : '❌'}</div>
-            <div>Custom Shaders: {renderStats.customShaders ? '✅' : '❌'}</div>
-            <div>CPU Matrix Updates: {renderStats.cpuMatrixUpdates ? '❌' : '✅'}</div>
-            <div>Low-poly Geometry: {renderStats.verticesPerNode <= 12 ? '✅' : '❌'}</div>
-            
-            {/* PHASE 2 PERFORMANCE STATS */}
-            <div style={{ marginTop: '8px', borderTop: '1px solid #444', paddingTop: '6px', color: '#00bcd4' }}>
-              <div style={{ fontSize: '10px', fontWeight: 'bold', marginBottom: '4px' }}>PHASE 2 OPTIMIZATIONS</div>
-              <div>Frustum Culling: {geometryParams.frustumCullingEnabled ? '✅' : '❌'}</div>
-              <div>Distance LOD: {geometryParams.lodEnabled ? '✅' : '❌'}</div>
-              <div>Adaptive LOD: {geometryParams.adaptiveLodEnabled ? '✅' : '❌'}</div>
-              {performanceStatsRef.current && (
-                <>
-                  <div>LOD Factor: {(performanceStatsRef.current.adaptiveLodFactor || 1.0).toFixed(2)}</div>
-                  <div>Frame Time: {(performanceStatsRef.current.frameTime || 0).toFixed(1)}ms</div>
-                </>
-              )}
+          <div style={{ marginTop: '10px', fontSize: '11px', color: '#aaa', textAlign: 'center' }}>
+            <div style={{ fontSize: '10px', color: '#4fc3f7', marginBottom: '8px' }}>
+              💡 For detailed metrics and optimization status, use the Performance Profiler
             </div>
-
-            {/* PHASE 3 PERFORMANCE STATS */}
-            <div style={{ marginTop: '8px', borderTop: '1px solid #444', paddingTop: '6px', color: '#9c27b0' }}>
-              <div style={{ fontSize: '10px', fontWeight: 'bold', marginBottom: '4px' }}>PHASE 3 OPTIMIZATIONS</div>
-              <div>Memory Pools: {geometryParams.memoryPoolOptimization ? '✅' : '❌'}</div>
-              <div>Spatial Octree: {geometryParams.spatialPartitioning ? '✅' : '❌'}</div>
-              <div>Attribute Streaming: {geometryParams.instanceAttributeStreaming ? '✅' : '❌'}</div>
-              <div>Temporal Smoothing: {geometryParams.temporalFrameSmoothing ? '✅' : '❌'}</div>
-              <div>Async Processing: {geometryParams.asyncUpdateEnabled ? '✅' : '❌'}</div>
-              {streamingStateRef.current && (
-                <>
-                  <div>Active Chunks: {streamingStateRef.current.visibleChunks?.size || 0}</div>
-                  <div>Update Queue: {streamingStateRef.current.updateQueue?.length || 0}</div>
-                </>
-              )}
-              {temporalSmoothingRef.current && (
-                <div>Low-Freq Nodes: {temporalSmoothingRef.current.lowFrequencyNodes?.size || 0}</div>
-              )}
+            <div style={{ fontSize: '10px', color: '#666' }}>
+              � Toggle profiler in the ontology section above
             </div>
           </div>
         </div>
@@ -2133,20 +2161,37 @@ export default function ReactForce3D() {
         right: '20px',
         background: 'rgba(0,0,0,0.95)',
         color: '#fff',
-        padding: '20px',
+        padding: geometryControlsCollapsed ? '15px' : '20px',
         borderRadius: '8px',
         fontSize: '11px',
         zIndex: 1000,
         fontFamily: 'monospace',
-        width: '380px',
+        width: geometryControlsCollapsed ? '320px' : '380px',
         maxHeight: '90vh',
         overflowY: 'auto',
         boxShadow: '0 4px 12px rgba(0,0,0,0.8)',
         border: '1px solid #333'
       }}>
-        <div style={{ fontSize: '14px', marginBottom: '15px', color: '#4CAF50', fontWeight: 'bold', textAlign: 'center' }}>
-          🔮 PARAMETRIC GEOMETRY SUBSTRATE
+        {/* Header with collapse toggle */}
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          marginBottom: geometryControlsCollapsed ? '0' : '15px',
+          cursor: 'pointer',
+          padding: '5px 0'
+        }} onClick={() => setGeometryControlsCollapsed(!geometryControlsCollapsed)}>
+          <div style={{ fontSize: '14px', color: '#4CAF50', fontWeight: 'bold' }}>
+            🔮 PARAMETRIC GEOMETRY SUBSTRATE
+          </div>
+          <div style={{ fontSize: '14px', color: '#4CAF50' }}>
+            {geometryControlsCollapsed ? '▶' : '▼'}
+          </div>
         </div>
+
+        {!geometryControlsCollapsed && (
+          <>
+            {/* Original content starts here */}
         
         {/* Performance Indicator */}
         <div style={{ 
@@ -3095,6 +3140,8 @@ export default function ReactForce3D() {
             </button>
           </div>
         </div>
+          </>
+        )}
       </div>
       
       <ForceGraph3D
@@ -3123,7 +3170,6 @@ export default function ReactForce3D() {
         linkResolution={4}  // Better link geometry  
         // Reasonable force settings
         numDimensions={3}
-        dagMode={false}
         d3AlphaDecay={0.0228}  // Default decay
         d3VelocityDecay={0.4}  // Default damping
         warmupTicks={0}  // Default warmup
