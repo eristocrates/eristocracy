@@ -23,6 +23,7 @@ import { initializePanelDrag } from '../panel/function/initializePanelDrag.js';
 // UI affordances
 import { updateStatus } from '../ui/function/updateStatus.js';
 import { updateMetrics } from '../ui/function/updateMetrics.js';
+import { WebGPUIntegration } from "../gpu/WebGPUIntegration.js";
 
 // Performance monitoring removed per user request
 
@@ -53,6 +54,12 @@ export class SemanticGraphComposer {
     this.currentData = null;
     this.elements = {};
     this.initialized = false;
+
+    // DISABLE WebGPU integration entirely to prevent interference
+    this.webgpuIntegration = null;
+    this.useGPUAcceleration = false;
+
+    console.log('📊 WebGPU integration DISABLED - focusing on basic performance');
 
     // Don't auto-initialize - caller must call init() when DOM is ready
   }

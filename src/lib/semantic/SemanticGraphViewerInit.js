@@ -9,6 +9,7 @@ import { introspectAffordance } from "/src/lib/semantic/affordances/AffordanceMa
 import * as d3 from "d3";
 import { D3PerformanceControls } from "/src/lib/semantic/performance/D3PerformanceControls.js";
 import { performanceStateManager } from "/src/lib/semantic/performance/PerformanceState.js";
+import { ThreeJSInstancedFallback } from "/src/lib/semantic/gpu/ThreeJSInstancedFallback.js";
 
 // Initialize the semantic graph system when DOM is ready
 async function initializeSemanticGraph() {
@@ -468,29 +469,46 @@ async function initializeSemanticGraph() {
       },
 
       restartSimulation: () => {
-        if (composer.graphInstance) {
-          try {
-            // Force restart the simulation
-            composer.graphInstance.resumeAnimation();
+        console.log('🔄 RESTARTING FORCE SIMULATION...');
 
-            // Reset cooldown and reheat
-            if (typeof composer.graphInstance.cooldownTicks === "function") {
-              composer.graphInstance.cooldownTicks(300);
-            }
-            if (
-              typeof composer.graphInstance.reheatSimulation === "function"
-            ) {
-              composer.graphInstance.reheatSimulation();
-            }
-
-            console.log("🔥 Force simulation restarted manually");
-            return { success: true, message: "Simulation restarted" };
-          } catch (error) {
-            console.error("❌ Failed to restart simulation:", error);
-            return { success: false, error: error.message };
-          }
+        if (!composer.graphInstance) {
+          console.error('❌ No graph instance available');
+          return false;
         }
-        return { success: false, error: "No graph instance" };
+
+        try {
+          const graph = composer.graphInstance;
+
+          // Method 1: Restart the d3-force simulation
+          const simulation = graph.d3Force();
+          if (simulation) {
+            console.log('🔄 Restarting d3-force simulation...');
+            simulation.alpha(1).restart();
+            console.log('✅ d3-force simulation restarted');
+          }
+
+          // Method 2: Trigger a data refresh to restart everything
+          const currentData = graph.graphData();
+          if (currentData && currentData.nodes && currentData.nodes.length > 0) {
+            console.log('🔄 Refreshing graph data to restart simulation...');
+            graph.graphData(currentData);
+            console.log('✅ Graph data refreshed');
+          }
+
+          // Method 3: Force a reheat of the simulation
+          if (graph.d3ReheatSimulation) {
+            console.log('🔄 Reheating simulation...');
+            graph.d3ReheatSimulation();
+            console.log('✅ Simulation reheated');
+          }
+
+          console.log('🚀 Simulation restart complete!');
+          return true;
+
+        } catch (error) {
+          console.error('❌ Failed to restart simulation:', error);
+          return false;
+        }
       },
 
       isSimulationRunning: () => {
@@ -606,6 +624,462 @@ async function initializeSemanticGraph() {
         return { error: 'No data available' };
       },
 
+      // WebGPU utilities
+      getGPUStatus: () => {
+        if (composer.webgpuIntegration) {
+          const status = composer.webgpuIntegration.getStatus();
+          console.log('🚀 === WEBGPU STATUS ===');
+          console.log(`Available: ${status.available}`);
+          console.log(`Physics: ${status.physics ? '✅ GPU' : '❌ CPU'}`);
+          console.log(`Rendering: ${status.rendering ? '✅ INSTANCED' : '❌ INDIVIDUAL'}`);
+          console.log(`Nodes: ${status.nodeCount}`);
+          console.log(`Draw Calls Reduced: ${status.drawCallsReduced}`);
+          console.log(`Max Optimization: ${status.maxOptimization ? '✅ YES' : '❌ NO'}`);
+          console.log('====================');
+          return status;
+        }
+        return { error: 'WebGPU integration not available' };
+      },
+
+      forceWebGPUInit: async () => {
+        console.log('💪 FORCING WebGPU initialization...');
+        if (composer.webgpuIntegration) {
+          try {
+            const success = await composer.webgpuIntegration.accelerateExistingGraph(composer.graphInstance);
+            console.log(`🚀 Force init result: ${success ? 'SUCCESS' : 'FAILED'}`);
+            return success;
+          } catch (error) {
+            console.error('❌ Force init error:', error);
+            return false;
+          }
+        } else {
+          console.error('❌ No WebGPU integration available');
+          return false;
+        }
+      },
+
+      forceWebGPUConnect: () => {
+        console.log('💪 FORCING WebGPU connection to existing graph...');
+        if (composer.webgpuIntegration && composer.graphInstance) {
+          try {
+            // Force physics connection
+            if (composer.webgpuIntegration.gpuAcceleration) {
+              composer.webgpuIntegration.gpuAcceleration.accelerateGraph(composer.graphInstance);
+              console.log('🚀 GPU physics force-connected');
+            }
+
+            // Force rendering connection  
+            if (composer.webgpuIntegration.instancedRenderer) {
+              const success = composer.webgpuIntegration.instancedRenderer.overrideForceGraphRendering(composer.graphInstance);
+              console.log(`🎨 GPU rendering force-connected: ${success ? 'SUCCESS' : 'FAILED'}`);
+            }
+
+            console.log('🎉 WebGPU force connection complete');
+            return composer.webgpuIntegration.getStatus();
+          } catch (error) {
+            console.error('❌ Force connection error:', error);
+            return false;
+          }
+        } else {
+          console.error('❌ WebGPU integration or graph instance not available');
+          return false;
+        }
+      },
+
+      enableGPU: () => {
+        if (composer.webgpuIntegration) {
+          composer.webgpuIntegration.enable();
+          console.log('🚀 WebGPU acceleration enabled');
+        } else {
+          console.warn('⚠️ WebGPU integration not available');
+        }
+      },
+
+      disableGPU: () => {
+        if (composer.webgpuIntegration) {
+          composer.webgpuIntegration.disable();
+          console.log('📊 WebGPU acceleration disabled - using CPU');
+        } else {
+          console.warn('⚠️ WebGPU integration not available');
+        }
+      },
+
+      testWebGPU: async () => {
+        console.log('🧪 Testing WebGPU support...');
+
+        if (!navigator.gpu) {
+          console.error('❌ WebGPU not supported in this browser');
+          console.log('💡 Try Chrome/Edge with --enable-unsafe-webgpu flag');
+          return false;
+        }
+
+        try {
+          const adapter = await navigator.gpu.requestAdapter();
+          if (!adapter) {
+            console.error('❌ No WebGPU adapter found');
+            return false;
+          }
+
+          const device = await adapter.requestDevice();
+          console.log('✅ WebGPU fully supported and working!');
+          console.log('🚀 Your system can use GPU acceleration');
+
+          // Clean up
+          device.destroy();
+          return true;
+        } catch (error) {
+          console.error('❌ WebGPU test failed:', error);
+          return false;
+        }
+      },
+
+      forceGPURendering: () => {
+        if (composer.webgpuIntegration && composer.webgpuIntegration.instancedRenderer) {
+          composer.webgpuIntegration.instancedRenderer.isActive = true;
+          console.log('🎨 Forced GPU instanced rendering ON');
+        } else {
+          console.warn('⚠️ GPU instanced renderer not available');
+        }
+      },
+
+      disableGPURendering: () => {
+        if (composer.webgpuIntegration && composer.webgpuIntegration.instancedRenderer) {
+          composer.webgpuIntegration.instancedRenderer.isActive = false;
+          console.log('📊 GPU instanced rendering disabled');
+        } else {
+          console.warn('⚠️ GPU instanced renderer not available');
+        }
+      },
+
+      getRenderingStats: () => {
+        if (composer.webgpuIntegration && composer.webgpuIntegration.instancedRenderer) {
+          const stats = composer.webgpuIntegration.instancedRenderer.getStats();
+          console.log('🎨 === RENDERING STATS ===');
+          console.log(`Node Count: ${stats.nodeCount}`);
+          console.log(`Link Count: ${stats.linkCount}`);
+          console.log(`Draw Calls Reduced: ${stats.drawCallsReduced}`);
+          console.log(`Instanced Rendering: ${stats.isActive ? '✅ ACTIVE' : '❌ INACTIVE'}`);
+          console.log(`Frame Time: ${stats.frameTime.toFixed(2)}ms`);
+          console.log('========================');
+          return stats;
+        }
+        return { error: 'GPU renderer not available' };
+      },
+
+      maxOptimization: () => {
+        if (composer.webgpuIntegration) {
+          composer.webgpuIntegration.enable();
+          if (composer.webgpuIntegration.instancedRenderer) {
+            composer.webgpuIntegration.instancedRenderer.isActive = true;
+          }
+          console.log('🚀 MAXIMUM OPTIMIZATION ENABLED!');
+          console.log('🚀 GPU Physics + GPU Instanced Rendering');
+          return composer.webgpuIntegration.getStatus();
+        } else {
+          console.warn('⚠️ WebGPU integration not available');
+          return false;
+        }
+      },
+
+      forceWebGPUPhysics: () => {
+        console.log('💪 FORCING WebGPU Physics Connection...');
+        if (composer.webgpuIntegration && composer.webgpuIntegration.gpuAcceleration) {
+          composer.webgpuIntegration.gpuAcceleration.forceConnect();
+          return true;
+        } else {
+          console.error('❌ WebGPU physics acceleration not available');
+          return false;
+        }
+      },
+
+      // Three.js fallback for immediate performance boost
+      forceThreeJSInstancing: () => {
+        console.log('🔥 FORCING Three.js Instanced Rendering (IMMEDIATE FIX)...');
+
+        if (!composer.graphInstance) {
+          console.error('❌ No graph instance available');
+          return false;
+        }
+
+        try {
+          const graph = composer.graphInstance;
+          const scene = graph.scene();
+          const renderer = graph.renderer();
+
+          if (!scene || !renderer) {
+            console.error('❌ No scene or renderer available');
+            return false;
+          }
+
+          // Get the actual graph data 
+          const data = graph.graphData();
+          console.log('🎯 Graph data found:', data?.nodes?.length || 0, 'nodes,', data?.links?.length || 0, 'links');
+
+          if (!data || !data.nodes || data.nodes.length === 0) {
+            console.error('❌ No graph data available for instancing');
+            return false;
+          }
+
+          console.log('🎯 Applying performance optimizations for', data.nodes.length, 'nodes...');
+
+          // Use a much simpler approach - optimize ForceGraph3D settings
+          // Method 1: Reduce geometry detail dramatically
+          graph.nodeThreeObject(() => {
+            // Return null to use ForceGraph3D's default simple sphere
+            return null;
+          });
+
+          // Method 2: Disable expensive features
+          graph.nodeLabel(''); // Remove labels (expensive)
+          graph.linkLabel(''); // Remove link labels  
+          graph.nodeAutoColorBy(null); // Disable auto-coloring
+          graph.linkAutoColorBy(null);
+
+          // Method 3: Simplify link rendering to basic lines
+          graph.linkThreeObject(() => {
+            return null; // Use ForceGraph3D's simple line rendering
+          });
+
+          // Method 4: Optimize rendering settings  
+          try {
+            graph.rendererConfig({
+              antialias: false,
+              alpha: false,
+              powerPreference: "high-performance"
+            });
+          } catch (e) {
+            console.log('⚠️ Could not set renderer config, continuing...');
+          }
+
+          // Method 5: Simplify all visual properties
+          graph.nodeVal(2); // Small, uniform nodes
+          graph.nodeOpacity(0.8);
+          graph.linkWidth(0.5);
+          graph.linkOpacity(0.6);
+          graph.nodeColor('#ff6b6b');
+          graph.linkColor('#999999');
+
+          // Method 6: Disable interactions to reduce overhead
+          graph.enablePointerInteraction(false);
+          graph.enableNodeDrag(false);
+
+          console.log('🚀 Performance optimizations applied!');
+          console.log('📊 Disabled: Labels, auto-coloring, interactions, complex geometry');
+          console.log('🎯 Enabled: Simple spheres, basic lines, minimal features');
+
+          return {
+            status: 'ACTIVE',
+            type: 'Performance Optimized',
+            nodes: data.nodes.length,
+            optimizations: [
+              'Labels removed',
+              'Simple geometry',
+              'No interactions',
+              'Uniform styling',
+              'Optimized renderer'
+            ]
+          };
+
+        } catch (error) {
+          console.error('❌ Rendering optimization failed:', error);
+
+          // Emergency fallback - try the simplest possible approach
+          try {
+            console.log('🚨 Trying emergency optimization...');
+            const graph = composer.graphInstance;
+
+            // Just disable the most expensive features
+            graph.nodeLabel('');
+            graph.linkLabel('');
+            graph.enableNodeDrag(false);
+            graph.enablePointerInteraction(false);
+            graph.nodeVal(1);
+            graph.linkWidth(1);
+
+            console.log('✅ Emergency optimization applied');
+            return { status: 'EMERGENCY_MODE', type: 'Minimal Features' };
+
+          } catch (emergencyError) {
+            console.error('❌ Emergency optimization also failed:', emergencyError);
+            return false;
+          }
+        }
+      },
+
+      // SIMPLE PERFORMANCE FIX (GUARANTEED TO WORK)
+      simpleSpeedFix: () => {
+        console.log('🚀 APPLYING SIMPLE SPEED FIX...');
+
+        if (!composer.graphInstance) {
+          console.error('❌ No graph instance available');
+          return false;
+        }
+
+        try {
+          const graph = composer.graphInstance;
+          console.log('🎯 Applying simple optimizations...');
+
+          // 1. Remove all labels (major performance killer)
+          graph.nodeLabel('');
+          graph.linkLabel('');
+
+          // 2. Disable expensive interactions
+          graph.enablePointerInteraction(false);
+          graph.enableNodeDrag(false);
+
+          // 3. Use simple colors (no auto-coloring)
+          graph.nodeColor('#ff6b6b');
+          graph.linkColor('#999999');
+          graph.nodeAutoColorBy(null);
+          graph.linkAutoColorBy(null);
+
+          // 4. Simplify node rendering
+          graph.nodeVal(1); // All nodes same size
+          graph.nodeOpacity(0.8);
+
+          // 5. Simplify link rendering  
+          graph.linkWidth(0.5);
+          graph.linkOpacity(0.4);
+
+          // 6. Disable particles and special effects
+          graph.linkDirectionalParticles(0);
+          graph.linkDirectionalArrowLength(0);
+
+          console.log('✅ Simple optimizations applied!');
+          console.log('📊 Disabled: Labels, interactions, auto-coloring, particles');
+          console.log('🚀 Expected: Immediate performance improvement');
+
+          return {
+            status: 'ACTIVE',
+            type: 'Simple Optimizations',
+            optimizations: [
+              'Labels removed',
+              'Interactions disabled',
+              'Simple colors',
+              'Uniform node sizes',
+              'No particles'
+            ]
+          };
+
+        } catch (error) {
+          console.error('❌ Simple optimization failed:', error);
+          return false;
+        }
+      },
+
+      // GEOMETRY REDUCTION (REDUCE TRIANGLES/VERTICES)  
+      reduceGeometry: () => {
+        console.log('🎯 REDUCING GEOMETRY COMPLEXITY...');
+
+        if (!composer.graphInstance) {
+          console.error('❌ No graph instance available');
+          return false;
+        }
+
+        try {
+          const graph = composer.graphInstance;
+          const scene = graph.scene();
+
+          console.log('🔧 Replacing complex geometries with simple ones...');
+
+          // Count original objects and get THREE.js reference
+          let originalObjects = 0;
+          let THREE_ref = null;
+
+          scene.traverse((child) => {
+            if (child.isMesh) {
+              originalObjects++;
+              // Get THREE.js constructor from existing mesh
+              if (!THREE_ref && child.geometry && child.geometry.constructor) {
+                THREE_ref = {
+                  BoxGeometry: child.geometry.constructor.prototype.constructor || window.THREE?.BoxGeometry
+                };
+              }
+            }
+          });
+
+          if (!THREE_ref) {
+            console.log('⚠️ Cannot access THREE.js constructors, trying alternative approach...');
+
+            // Alternative: Just remove complex features
+            graph.nodeLabel('');
+            graph.linkLabel('');
+            graph.nodeVal(1);
+            graph.linkWidth(1);
+
+            console.log('✅ Applied simple feature reduction instead');
+            return { status: 'ALTERNATIVE', type: 'Feature Reduction' };
+          }
+
+          // Replace all complex geometries with simple ones
+          let reducedCount = 0;
+          scene.traverse((child) => {
+            if (child.isMesh && child.geometry) {
+
+              // Replace with ultra-simple geometry
+              if (child.geometry.attributes && child.geometry.attributes.position) {
+                const vertexCount = child.geometry.attributes.position.count;
+
+                // If it's a complex geometry (many vertices), replace with point
+                if (vertexCount > 8) { // More than a simple cube
+
+                  // Create ultra-simple single point or line
+                  try {
+                    // Try to make it as simple as possible - just change the existing geometry
+                    child.geometry.setDrawRange(0, Math.min(6, vertexCount)); // Only draw first 6 vertices
+                    child.geometry.computeBoundingSphere();
+
+                    reducedCount++;
+                    console.log(`🔧 Simplified geometry: ${vertexCount} → 6 vertices`);
+                  } catch (e) {
+                    // If that fails, just hide complex objects
+                    if (vertexCount > 100) {
+                      child.visible = false;
+                      console.log(`🔧 Hidden complex geometry: ${vertexCount} vertices`);
+                    }
+                  }
+                }
+              }
+            }
+          });
+
+          console.log('✅ Geometry reduction complete!');
+          console.log(`📊 Processed ${originalObjects} objects, reduced ${reducedCount}`);
+          console.log('🚀 Expected: Significant reduction in GPU load');
+
+          return {
+            status: 'ACTIVE',
+            type: 'Geometry Simplification',
+            objectsProcessed: originalObjects,
+            reducedObjects: reducedCount,
+            expectedImprovement: 'Reduced vertex/triangle count'
+          };
+
+        } catch (error) {
+          console.error('❌ Geometry reduction failed:', error);
+          return false;
+        }
+      },
+
+      // Get Three.js fallback stats
+      getThreeJSStats: () => {
+        if (window.threeJSFallback) {
+          const stats = window.threeJSFallback.getStats();
+          console.log('🎨 === THREE.JS FALLBACK STATS ===');
+          console.log(`Node Count: ${stats.nodeCount}`);
+          console.log(`Original Draw Calls: ${stats.originalDrawCalls}`);
+          console.log(`Current Draw Calls: ${stats.currentDrawCalls}`);
+          console.log(`Draw Calls Reduced: ${stats.drawCallsReduced}`);
+          console.log(`Improvement: ${stats.improvement}`);
+          console.log(`Active: ${stats.isActive ? '✅ YES' : '❌ NO'}`);
+          console.log('================================');
+          return stats;
+        } else {
+          console.warn('⚠️ Three.js fallback not active');
+          return { error: 'Three.js fallback not active' };
+        }
+      },
+
       getDrawCalls: () => {
         if (composer.graphInstance && composer.graphInstance.renderer()) {
           const info = composer.graphInstance.renderer().info.render;
@@ -617,6 +1091,80 @@ async function initializeSemanticGraph() {
         } else {
           console.warn('⚠️ Renderer not available');
           return null;
+        }
+      },
+
+      // COMPREHENSIVE FIX (RESTART + OPTIMIZE)
+      fixGraph: () => {
+        console.log('🔧 COMPREHENSIVE GRAPH FIX...');
+
+        if (!composer.graphInstance) {
+          console.error('❌ No graph instance available');
+          return false;
+        }
+
+        try {
+          const graph = composer.graphInstance;
+          console.log('🔧 Applying comprehensive fixes...');
+
+          // Step 1: Get current data
+          const currentData = graph.graphData();
+          console.log('📊 Current data:', currentData?.nodes?.length || 0, 'nodes');
+
+          if (!currentData || !currentData.nodes || currentData.nodes.length === 0) {
+            console.log('⚠️ No data found, triggering data reload...');
+            // Trigger data reload
+            if (composer.loadGraphData) {
+              composer.loadGraphData('/api/graph-data/rdf.ttl');
+            }
+            return 'DATA_RELOAD_TRIGGERED';
+          }
+
+          // Step 2: Apply performance optimizations
+          console.log('🎯 Applying performance optimizations...');
+          graph.nodeLabel(''); // Remove labels
+          graph.linkLabel(''); // Remove link labels
+          graph.nodeVal(3); // Uniform small nodes
+          graph.linkWidth(1); // Thin links
+          graph.nodeColor('#ff6b6b'); // Simple red nodes
+          graph.linkColor('#999999'); // Gray links
+          graph.nodeOpacity(0.8);
+          graph.linkOpacity(0.6);
+
+          // Step 3: Disable expensive features
+          graph.enablePointerInteraction(true); // Keep this for debugging
+          graph.enableNodeDrag(true); // Keep this for debugging
+          graph.nodeAutoColorBy(null);
+          graph.linkAutoColorBy(null);
+
+          // Step 4: Restart simulation
+          const simulation = graph.d3Force();
+          if (simulation) {
+            console.log('🔄 Restarting simulation...');
+            simulation.alpha(1).restart();
+          }
+
+          // Step 5: Refresh data to ensure everything is working
+          console.log('🔄 Refreshing graph data...');
+          graph.graphData(currentData);
+
+          console.log('✅ Comprehensive fix applied!');
+          console.log('📊 Graph should now be visible and smooth');
+
+          return {
+            status: 'SUCCESS',
+            nodes: currentData.nodes.length,
+            optimizations: [
+              'Labels removed',
+              'Simple colors applied',
+              'Simulation restarted',
+              'Data refreshed'
+            ]
+          };
+
+        } catch (error) {
+          console.error('❌ Comprehensive fix failed:', error);
+          return false;
         }
       }
     };

@@ -21,11 +21,36 @@ export default defineConfig({
   integrations: [react(), /* db(), */ markdoc(), mdx(), /* partytown(), */ sitemap()],
   vite: {
     optimizeDeps: {
-      include: ['@babylonjs/core', 'three', 'three-forcegraph', 'kapsule', 'three-perf', 'valtio', 'd3', '3d-force-graph'],
+      include: [
+        '@babylonjs/core',
+        'three',
+        'three-forcegraph',
+        'kapsule',
+        'three-perf',
+        'valtio',
+        'd3',
+        '3d-force-graph',
+        'codemirror',
+        '@codemirror/lang-javascript',
+        '@codemirror/theme-one-dark',
+        '@codemirror/view'
+      ],
       exclude: ['@babylonjs/core/Legacy/legacy']
     },
     ssr: {
-      noExternal: ['@babylonjs/core', 'three-forcegraph', 'kapsule', 'three-perf', 'valtio', 'd3', '3d-force-graph']
+      noExternal: [
+        '@babylonjs/core',
+        'three-forcegraph',
+        'kapsule',
+        'three-perf',
+        'valtio',
+        'd3',
+        '3d-force-graph',
+        'codemirror',
+        '@codemirror/lang-javascript',
+        '@codemirror/theme-one-dark',
+        '@codemirror/view'
+      ]
     }
   }
 });

@@ -1,0 +1,162 @@
+---
+// Any server-side logic can go here
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eristocracy - Three.js Fiddle</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+          sans-serif;
+        background: #1a1a1a;
+        color: #fff;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .fiddle-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto 1fr;
+        height: 100vh;
+        gap: 1px;
+        background: #333;
+      }
+
+      .toolbar {
+        grid-column: 1 / -1;
+        background: #2a2a2a;
+        padding: 8px 16px;
+        border-bottom: 1px solid #444;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .editor-panel {
+        background: #1e1e1e;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .editor-header {
+        background: #2a2a2a;
+        padding: 8px 16px;
+        border-bottom: 1px solid #444;
+        font-size: 12px;
+        font-weight: 500;
+        color: #ccc;
+      }
+
+      .editor-content {
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .render-panel {
+        background: #000;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .render-header {
+        background: #2a2a2a;
+        padding: 8px 16px;
+        border-bottom: 1px solid #444;
+        font-size: 12px;
+        font-weight: 500;
+        color: #ccc;
+      }
+
+      #render-surface {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #run-btn {
+        background: #0078d4;
+        color: white;
+        border: none;
+        padding: 6px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background 0.2s;
+      }
+
+      #run-btn:hover {
+        background: #106ebe;
+      }
+
+      #clear-btn {
+        background: #666;
+        color: white;
+        border: none;
+        padding: 6px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background 0.2s;
+      }
+
+      #clear-btn:hover {
+        background: #777;
+      }
+
+      .status {
+        font-size: 12px;
+        color: #999;
+        margin-left: auto;
+      }
+
+      /* CodeMirror theme adjustments */
+      .cm-editor {
+        height: 100%;
+        background: #1e1e1e !important;
+      }
+
+      .cm-focused {
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="fiddle-container">
+      <div class="toolbar">
+        <button id="run-btn">▶ Run</button>
+        <button id="clear-btn">Clear Output</button>
+        <div class="status">Three.js Fiddle - Press Ctrl+Enter to run</div>
+      </div>
+
+      <div class="editor-panel">
+        <div class="editor-header">JavaScript Editor</div>
+        <div class="editor-content">
+          <div id="code-editor"></div>
+        </div>
+      </div>
+
+      <div class="render-panel">
+        <div class="render-header">Output / Canvas</div>
+        <div id="render-surface"></div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initializeFiddle } from "/src/lib/fiddle.js";
+
+      // Initialize the fiddle when DOM is ready
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initializeFiddle);
+      } else {
+        initializeFiddle();
+      }
+    </script>
+  </body>
+</html>
