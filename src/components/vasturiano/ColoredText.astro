@@ -1,0 +1,27 @@
+---
+// ColoredText.astro - Astro-native wrapper for Kapsule ColoredText
+// Uses proper client-side pattern to avoid function serialization issues
+import KapsuleWrapper from "./KapsuleWrapper.astro";
+
+interface Props {
+  color?: string;
+  text?: string;
+  style?: string;
+  elementId?: string;
+}
+
+const {
+  color = "blue",
+  text = "Hello World",
+  style = "width: 100%; height: 100px;",
+  elementId,
+} = Astro.props;
+---
+
+<KapsuleWrapper
+  component="ColoredText"
+  style={style}
+  elementId={elementId}
+  color={color}
+  text={text}
+/>

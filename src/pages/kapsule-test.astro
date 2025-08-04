@@ -1,0 +1,73 @@
+---
+import ColoredText from "../components/ColoredText.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Kapsule ColoredText Example</title>
+  </head>
+  <body>
+    <h1>Kapsule ColoredText Examples</h1>
+
+    <div style="margin: 20px 0;">
+      <h2>Default ColoredText:</h2>
+      <ColoredText />
+    </div>
+
+    <div style="margin: 20px 0;">
+      <h2>Blue ColoredText:</h2>
+      <ColoredText color="blue" text="This is blue text!" />
+    </div>
+
+    <div style="margin: 20px 0;">
+      <h2>Green ColoredText:</h2>
+      <ColoredText color="green" text="This is green text!" />
+    </div>
+
+    <!-- Interactive example -->
+    <div style="margin: 20px 0;">
+      <h2>Interactive Example:</h2>
+      <div>
+        <input type="color" id="colorPicker" value="#ff0000" />
+        <input
+          type="text"
+          id="textInput"
+          placeholder="Enter text..."
+          value="Interactive text!"
+        />
+        <button id="updateButton">Update</button>
+      </div>
+      <ColoredText
+        color="red"
+        text="Interactive text!"
+        style="margin-top: 10px;"
+      />
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const colorPicker = document.getElementById("colorPicker");
+        const textInput = document.getElementById("textInput");
+        const updateButton = document.getElementById("updateButton");
+
+        // Find the last ColoredText instance (the interactive one)
+        const interactiveElement = document.querySelectorAll(
+          '[id^="colored-text-"]'
+        )[3];
+
+        if (interactiveElement) {
+          interactiveElement.addEventListener("kapsule:ready", (event) => {
+            const instance = event.detail.instance;
+
+            updateButton.addEventListener("click", () => {
+              instance.color(colorPicker.value).text(textInput.value);
+            });
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

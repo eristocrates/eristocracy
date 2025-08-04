@@ -1,0 +1,16 @@
+---
+import ThreeForceGraph from "../components/react/ThreeForceGraph.tsx";
+---
+
+<!-- Astro template syntax, no <html> or <body> tags --><!-- Let Astro handle page HTML structure -->
+<main
+  style="margin: 0; padding: 0; background: #1a1a1a; color: white; font-family: Arial, sans-serif; min-height: 100vh;"
+>
+  <!-- Load the main force graph with camera controls -->
+  <ThreeForceGraph
+    client:only="react"
+    dataUrl="/api/graph-data/arcaea-one.ttl"
+    enableStats={true}
+    enableControls={true}
+  />
+</main>

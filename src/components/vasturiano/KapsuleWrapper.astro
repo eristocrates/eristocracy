@@ -1,0 +1,33 @@
+---
+// KapsuleWrapper.astro - Generic Kapsule component wrapper for Astro
+// Uses client-side function definitions to avoid serialization issues
+
+interface Props {
+  component: string; // Component type name for client-side lookup
+  style?: string;
+  elementId?: string;
+  [key: string]: any; // Allow any additional props for component-specific data
+}
+
+const {
+  component,
+  style = "width: 100%; height: 100px;",
+  elementId = `${component}-${crypto.randomUUID()}`,
+  ...componentProps
+} = Astro.props;
+---
+
+<div id={elementId} style={style}></div>
+
+<script type="module" define:vars={{ component, elementId, componentProps }}>
+  import { initializeKapsuleClient } from "/src/lib/vasturiano/Kapsule/function/initializeKapsuleClient.js";
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeKapsuleClient(component, elementId, componentProps);
+    });
+  } else {
+    initializeKapsuleClient(component, elementId, componentProps);
+  }
+</script>

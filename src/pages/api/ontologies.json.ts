@@ -2,37 +2,25 @@ import type { APIRoute } from "astro";
 import { readdir } from "fs/promises";
 import { join } from "path";
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ request }) => {
   try {
-    // Path to the ontology directory
-    const ontologyDir = join(process.cwd(), "public", "ontology");
+    const ontologyPath = join(process.cwd(), "public", "ontology");
+    const files = await readdir(ontologyPath);
 
-    // Read the directory contents
-    const files = await readdir(ontologyDir);
-
-    // Filter for .ttl files and create ontology objects
-    const ontologies = files
+    // Filter for .ttl files and add metadata
+    const ttlFiles = files
       .filter((file) => file.endsWith(".ttl"))
-      .map((filename) => {
-        // Create a friendly name from the filename
-        const name = filename
-          .replace(".ttl", "")
-          .split("-")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" ");
-
-        return {
-          name: name + " Ontology",
-          path: `/ontology/${filename}`,
-          filename: filename,
-        };
-      })
-      .sort((a, b) => a.name.localeCompare(b.name));
+      .map((file) => ({
+        filename: file,
+        name: file.replace(".ttl", ""),
+        path: `/ontology/${file}`,
+        apiPath: `/api/graph-data/${file}`,
+      }));
 
     return new Response(
       JSON.stringify({
-        success: true,
-        ontologies: ontologies,
+        files: ttlFiles,
+        count: ttlFiles.length,
       }),
       {
         status: 200,
@@ -43,18 +31,10 @@ export const GET: APIRoute = async () => {
     );
   } catch (error) {
     console.error("Error reading ontology directory:", error);
-
     return new Response(
       JSON.stringify({
-        success: false,
-        error: "Failed to read ontology directory",
-        ontologies: [
-          {
-            name: "Example Ontology (fallback)",
-            path: "/ontology/example.ttl",
-            filename: "example.ttl",
-          },
-        ],
+        error: "Failed to read ontology files",
+        files: [],
       }),
       {
         status: 500,

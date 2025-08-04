@@ -1,0 +1,332 @@
+@prefix : <http://eristocracy.dev/ontology/affordances/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ===== AFFORDANCE ONTOLOGY =====
+# Semantic definitions for the compositional affordance system
+
+# === Core Affordance Classes ===
+
+:AffordanceContract
+    a owl:Class ;
+    rdfs:label "Affordance Contract" ;
+    rdfs:comment "Core interface contract for all compositional affordances" ;
+    :hasCognitiveFunction "Defines the semantic interface for visualization capabilities" .
+
+:AffordanceInstance  
+    a owl:Class ;
+    rdfs:label "Affordance Instance" ;
+    rdfs:comment "Runtime instance of an affordance with active state management" ;
+    :hasCognitiveFunction "Executes affordance behavior with stateful introspection" .
+
+:AffordanceInspection
+    a owl:Class ;
+    rdfs:label "Affordance Inspection" ;
+    rdfs:comment "Semantic transparency interface for affordance introspection" ;
+    :hasCognitiveFunction "Provides epistemic transparency of affordance behavior" .
+
+:CompositionContract
+    a owl:Class ;
+    rdfs:label "Composition Contract" ;
+    rdfs:comment "Interface for composing multiple affordances into visualization instances" ;
+    :hasCognitiveFunction "Orchestrates multi-affordance compositions" .
+
+# === Specific Affordance Types ===
+
+:DataAffordance
+    a owl:Class ;
+    rdfs:subClassOf :AffordanceContract ;
+    rdfs:label "Data Affordance" ;
+    rdfs:comment "Handles information binding regardless of semantic structure" ;
+    :hasCognitiveFunction "Manages data ingestion, transformation, mapping, and binding" .
+
+:SpatialAffordance
+    a owl:Class ;
+    rdfs:subClassOf :AffordanceContract ;
+    rdfs:label "Spatial Affordance" ;
+    rdfs:comment "Manages dimensional relationships and coordinate transformations" ;
+    :hasCognitiveFunction "Controls spatial arrangement and navigation behavior" .
+
+:VisualAffordance
+    a owl:Class ;
+    rdfs:subClassOf :AffordanceContract ;
+    rdfs:label "Visual Affordance" ;
+    rdfs:comment "Orchestrates aesthetic representation independent of data structure" ;
+    :hasCognitiveFunction "Manages visual properties, materials, and rendering" .
+
+:InteractionAffordance
+    a owl:Class ;
+    rdfs:subClassOf :AffordanceContract ;
+    rdfs:label "Interaction Affordance" ;
+    rdfs:comment "Manages user engagement independent of visualization type" ;
+    :hasCognitiveFunction "Handles input detection, gesture recognition, and response" .
+
+:PerformanceAffordance
+    a owl:Class ;
+    rdfs:subClassOf :AffordanceContract ;
+    rdfs:label "Performance Affordance" ;
+    rdfs:comment "Optimizes computational efficiency across visualization paradigms" ;
+    :hasCognitiveFunction "Manages optimization strategies and resource allocation" .
+
+:TemporalAffordance
+    a owl:Class ;
+    rdfs:subClassOf :AffordanceContract ;
+    rdfs:label "Temporal Affordance" ;
+    rdfs:comment "Controls time-dependent behavior across any visualization" ;
+    :hasCognitiveFunction "Manages animation, simulation, and temporal synchronization" .
+
+:RendererAffordance
+    a owl:Class ;
+    rdfs:subClassOf :AffordanceContract ;
+    rdfs:label "Renderer Affordance" ;
+    rdfs:comment "Provides rendering backend abstraction" ;
+    :hasCognitiveFunction "Abstracts rendering engine selection and configuration" .
+
+:LayoutAffordance
+    a owl:Class ;
+    rdfs:subClassOf :AffordanceContract ;
+    rdfs:label "Layout Affordance" ;
+    rdfs:comment "Manages spatial arrangement algorithms" ;
+    :hasCognitiveFunction "Controls algorithmic positioning and constraint satisfaction" .
+
+# === Properties ===
+
+# Core affordance properties
+:hasCapability
+    a owl:ObjectProperty ;
+    rdfs:domain :AffordanceContract ;
+    rdfs:label "has capability" ;
+    rdfs:comment "Affordance exposes this capability vector" .
+
+:hasInvariant
+    a owl:DatatypeProperty ;
+    rdfs:domain :AffordanceContract ;
+    rdfs:range xsd:string ;
+    rdfs:label "has invariant" ;
+    rdfs:comment "Behavioral invariant that must be maintained" .
+
+:hasStateProperty
+    a owl:ObjectProperty ;
+    rdfs:domain :AffordanceContract ;
+    rdfs:label "has state property" ;
+    rdfs:comment "State property managed by this affordance" .
+
+:hasMethod
+    a owl:ObjectProperty ;
+    rdfs:domain :AffordanceContract ;
+    rdfs:label "has method" ;
+    rdfs:comment "Method exposed by this affordance" .
+
+:hasIdentifier
+    a owl:DatatypeProperty ;
+    rdfs:domain :AffordanceContract ;
+    rdfs:range xsd:string ;
+    rdfs:label "has identifier" ;
+    rdfs:comment "Unique identifier for affordance type" .
+
+:hasConfiguration
+    a owl:ObjectProperty ;
+    rdfs:domain :AffordanceContract ;
+    rdfs:label "has configuration" ;
+    rdfs:comment "Configuration parameters for affordance" .
+
+# Instance properties
+:instanceOf
+    a owl:ObjectProperty ;
+    rdfs:domain :AffordanceInstance ;
+    rdfs:range :AffordanceContract ;
+    rdfs:label "instance of" ;
+    rdfs:comment "Runtime instance implements this contract" .
+
+:hasRuntimeState
+    a owl:ObjectProperty ;
+    rdfs:domain :AffordanceInstance ;
+    rdfs:label "has runtime state" ;
+    rdfs:comment "Current runtime state of affordance instance" .
+
+:hasActiveConfiguration
+    a owl:ObjectProperty ;
+    rdfs:domain :AffordanceInstance ;
+    rdfs:label "has active configuration" ;
+    rdfs:comment "Currently active configuration parameters" .
+
+:isActive
+    a owl:DatatypeProperty ;
+    rdfs:domain :AffordanceInstance ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is active" ;
+    rdfs:comment "Whether affordance instance is currently active" .
+
+:hasLastUpdate
+    a owl:DatatypeProperty ;
+    rdfs:domain :AffordanceInstance ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "has last update" ;
+    rdfs:comment "Timestamp of last state update" .
+
+# Inspection properties
+:hasActiveCapabilities
+    a owl:ObjectProperty ;
+    rdfs:domain :AffordanceInspection ;
+    rdfs:label "has active capabilities" ;
+    rdfs:comment "Currently active capability vectors" .
+
+:hasStateSnapshot
+    a owl:ObjectProperty ;
+    rdfs:domain :AffordanceInspection ;
+    rdfs:label "has state snapshot" ;
+    rdfs:comment "Snapshot of current affordance state" .
+
+:hasInvariantStatus
+    a owl:ObjectProperty ;
+    rdfs:domain :AffordanceInspection ;
+    rdfs:label "has invariant status" ;
+    rdfs:comment "Status of behavioral invariants" .
+
+:hasMethodTrace
+    a owl:ObjectProperty ;
+    rdfs:domain :AffordanceInspection ;
+    rdfs:label "has method trace" ;
+    rdfs:comment "Trace of recent method invocations" .
+
+:hasCompositionDependencies
+    a owl:ObjectProperty ;
+    rdfs:domain :AffordanceInspection ;
+    rdfs:label "has composition dependencies" ;
+    rdfs:comment "Dependencies on other affordances in composition" .
+
+# Composition properties
+:hasAffordanceBinding
+    a owl:ObjectProperty ;
+    rdfs:domain :CompositionContract ;
+    rdfs:range :AffordanceInstance ;
+    rdfs:label "has affordance binding" ;
+    rdfs:comment "Affordance instance bound in this composition" .
+
+:hasCompositionRules
+    a owl:ObjectProperty ;
+    rdfs:domain :CompositionContract ;
+    rdfs:label "has composition rules" ;
+    rdfs:comment "Rules governing affordance composition" .
+
+# === Data Affordance Specific Properties ===
+
+:hasSourceType
+    a owl:DatatypeProperty ;
+    rdfs:domain :DataSource ;
+    rdfs:range xsd:string ;
+    rdfs:label "has source type" ;
+    rdfs:comment "Type of data source (rdf, json, csv, etc.)" .
+
+:hasSourceURI
+    a owl:DatatypeProperty ;
+    rdfs:domain :DataSource ;
+    rdfs:range xsd:anyURI ;
+    rdfs:label "has source URI" ;
+    rdfs:comment "URI location of data source" .
+
+:hasFormat
+    a owl:DatatypeProperty ;
+    rdfs:domain :DataSource ;
+    rdfs:range xsd:string ;
+    rdfs:label "has format" ;
+    rdfs:comment "Format specification for data source" .
+
+:hasTransformationStep
+    a owl:ObjectProperty ;
+    rdfs:domain :TransformPipeline ;
+    rdfs:label "has transformation step" ;
+    rdfs:comment "Step in data transformation pipeline" .
+
+:hasStepType
+    a owl:DatatypeProperty ;
+    rdfs:domain :TransformationStep ;
+    rdfs:range xsd:string ;
+    rdfs:label "has step type" ;
+    rdfs:comment "Type of transformation step" .
+
+:hasStepName
+    a owl:DatatypeProperty ;
+    rdfs:domain :TransformationStep ;
+    rdfs:range xsd:string ;
+    rdfs:label "has step name" ;
+    rdfs:comment "Name identifier for transformation step" .
+
+:hasSourceProperty
+    a owl:DatatypeProperty ;
+    rdfs:domain :PropertyMapping ;
+    rdfs:range xsd:string ;
+    rdfs:label "has source property" ;
+    rdfs:comment "Source property in data mapping" .
+
+:hasTargetProperty
+    a owl:DatatypeProperty ;
+    rdfs:domain :PropertyMapping ;
+    rdfs:range xsd:string ;
+    rdfs:label "has target property" ;
+    rdfs:comment "Target property in data mapping" .
+
+:isRequired
+    a owl:DatatypeProperty ;
+    rdfs:domain :PropertyMapping ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is required" ;
+    rdfs:comment "Whether property mapping is required" .
+
+# === Cognitive Function Property ===
+
+:hasCognitiveFunction
+    a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "has cognitive function" ;
+    rdfs:comment "Describes the cognitive role of this affordance in the system" .
+
+# === Capability Individuals ===
+
+# Data capabilities
+:ingestion a :Capability ; rdfs:label "Ingestion" .
+:transformation a :Capability ; rdfs:label "Transformation" .
+:mapping a :Capability ; rdfs:label "Mapping" .
+:binding a :Capability ; rdfs:label "Binding" .
+:streaming a :Capability ; rdfs:label "Streaming" .
+:caching a :Capability ; rdfs:label "Caching" .
+:semantic_preservation a :Capability ; rdfs:label "Semantic Preservation" .
+
+# Performance capabilities  
+:instancing a :Capability ; rdfs:label "Instancing" .
+:culling a :Capability ; rdfs:label "Culling" .
+:lod a :Capability ; rdfs:label "Level of Detail" .
+:batching a :Capability ; rdfs:label "Batching" .
+:adaptive_quality a :Capability ; rdfs:label "Adaptive Quality" .
+
+# Spatial capabilities
+:dimensionality a :Capability ; rdfs:label "Dimensionality" .
+:positioning a :Capability ; rdfs:label "Positioning" .
+:scaling a :Capability ; rdfs:label "Scaling" .
+:orientation a :Capability ; rdfs:label "Orientation" .
+:bounds a :Capability ; rdfs:label "Bounds" .
+:projection a :Capability ; rdfs:label "Projection" .
+
+# === Invariant Individuals ===
+
+:data_integrity a :Invariant ; 
+    rdfs:label "Data Integrity" ;
+    rdfs:comment "Data transformations preserve semantic meaning" .
+
+:type_safety a :Invariant ;
+    rdfs:label "Type Safety" ;
+    rdfs:comment "Type contracts are maintained across transformation pipeline" .
+
+:referential_consistency a :Invariant ;
+    rdfs:label "Referential Consistency" ;
+    rdfs:comment "Entity references remain consistent across transformations" .
+
+:semantic_consistency a :Invariant ;
+    rdfs:label "Semantic Consistency" ;
+    rdfs:comment "Affordance behavior remains semantically consistent across reconfigurations" .
+
+:compositional_safety a :Invariant ;
+    rdfs:label "Compositional Safety" ;
+    rdfs:comment "Affordance compositions do not violate individual affordance invariants" . 

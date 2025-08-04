@@ -1,0 +1,309 @@
+---
+/**
+ * DataVisualization.astro - Demonstration of DataAffordance + KapsuleWrapper integration
+ * Shows how the affordance architecture enables semantic data binding to visualizations
+ */
+
+interface Props {
+  width?: number;
+  height?: number;
+  nodeSize?: number;
+  linkWidth?: number;
+  backgroundColor?: string;
+  nodeColor?: string;
+  linkColor?: string;
+  enableZoom?: boolean;
+  enablePan?: boolean;
+  enableStats?: boolean;
+  cameraZ?: number;
+  dataSource?: string;
+  visualizationType?: "force_graph" | "scatter_plot" | "network";
+  style?: string;
+  elementId?: string;
+}
+
+const {
+  dataSource = "/api/graph-data/rdf.ttl",
+  width = 800,
+  height = 600,
+  cameraZ = 200,
+  enableStats = false,
+  visualizationType = "force_graph",
+  style = "width: 100%; height: 500px;",
+  elementId = `data-vis-${crypto.randomUUID()}`,
+} = Astro.props;
+
+console.log("🎬 DataVisualization SSR - configuring affordance composition");
+console.log("📊 Data source:", dataSource);
+console.log("🎨 Visualization type:", visualizationType);
+---
+
+<div id={elementId} style={style} class="data-visualization-container">
+  <div class="affordance-status" id={`${elementId}-status`}>
+    Initializing DataAffordance...
+  </div>
+  <div class="visualization-content" id={`${elementId}-content`}></div>
+</div>
+
+<script type="module" define:vars={{ dataSource, visualizationType, elementId }}
+>
+  import { createDataAffordance } from "/src/lib/affordances/DataAffordance.js";
+
+  (async function initializeDataVisualization() {
+    console.log("🎬 DataVisualization client script starting...");
+    console.log("📦 Configuration:", {
+      dataSource,
+      visualizationType,
+      elementId,
+    });
+
+    const statusElement = document.getElementById(`${elementId}-status`);
+    const contentElement = document.getElementById(`${elementId}-content`);
+
+    if (!statusElement || !contentElement) {
+      console.error("❌ Required DOM elements not found");
+      return;
+    }
+
+    try {
+      // === STEP 1: Initialize DataAffordance ===
+      console.log("🔧 Creating DataAffordance instance...");
+      statusElement.textContent = "Creating DataAffordance...";
+
+      const dataAffordance = createDataAffordance({
+        cacheEnabled: true,
+        metricsEnabled: true,
+        defaultTransformPipeline: {
+          steps: [
+            {
+              type: "validate",
+              name: "structure_validation",
+              transform: (data) => {
+                if (!data || !data.nodes || !data.links) {
+                  throw new Error("Invalid graph data structure");
+                }
+                return data;
+              },
+            },
+          ],
+        },
+      });
+
+      console.log("✅ DataAffordance created:", dataAffordance.inspect());
+
+      // === STEP 2: Configure Data Source ===
+      console.log("📡 Configuring data source...");
+      statusElement.textContent = "Loading data...";
+
+      const dataSourceConfig = {
+        type: "rdf",
+        uri: dataSource,
+        format: "turtle",
+      };
+
+      // === STEP 3: Ingest Data ===
+      console.log("📥 Ingesting data from source...");
+      const graphData =
+        await dataAffordance.contract.methods.ingest(dataSourceConfig);
+
+      console.log("✅ Data ingested successfully:", {
+        nodeCount: graphData.nodes?.length || 0,
+        linkCount: graphData.links?.length || 0,
+      });
+
+      // === STEP 4: Configure Property Mappings ===
+      console.log("🗺️ Configuring property mappings...");
+      const propertyMappings = [
+        {
+          sourceProperty: "id",
+          targetProperty: "id",
+          required: true,
+        },
+        {
+          sourceProperty: "label",
+          targetProperty: "name",
+          defaultValue: "Unlabeled Node",
+        },
+        {
+          sourceProperty: "type",
+          targetProperty: "group",
+          transform: (type) => type?.split("#").pop() || "unknown",
+        },
+      ];
+
+      // === STEP 5: Apply Data Mapping ===
+      console.log("🔄 Applying property mappings...");
+      const mappedData = dataAffordance.contract.methods.map(
+        graphData,
+        propertyMappings
+      );
+
+      // === STEP 6: Define Visualization Target ===
+      const visualizationTarget = {
+        type: visualizationType,
+        expectedFormat: "nodes_links",
+        schema: {
+          nodes: ["id", "name", "group"],
+          links: ["source", "target", "label"],
+        },
+      };
+
+      // === STEP 7: Bind Data to Visualization ===
+      console.log("🔗 Binding data to visualization target...");
+      statusElement.textContent = "Binding data to visualization...";
+
+      // Listen for data binding event
+      window.addEventListener("data:bound", (event) => {
+        console.log("📊 Data binding event received:", event.detail);
+
+        if (event.detail.source === "DataAffordance") {
+          console.log("🎯 Initializing visualization with bound data...");
+          statusElement.textContent = "Initializing visualization...";
+
+          // Create visualization based on type
+          initializeVisualization(event.detail.data, contentElement);
+        }
+      });
+
+      // Trigger data binding
+      dataAffordance.contract.methods.bind(mappedData, visualizationTarget);
+
+      // === STEP 8: Display Affordance Metrics ===
+      const metrics = dataAffordance.contract.methods.getMetrics();
+      console.log("📈 DataAffordance metrics:", metrics);
+
+      // Update status with success
+      statusElement.innerHTML = `
+        <div class="affordance-metrics">
+          <strong>DataAffordance Active</strong><br>
+          Processed: ${metrics.totalProcessed} datasets<br>
+          Cache Hit Rate: ${(metrics.cacheHitRate * 100).toFixed(1)}%<br>
+          Processing Time: ${metrics.averageProcessingTime.toFixed(1)}ms
+        </div>
+      `;
+    } catch (error) {
+      console.error("❌ DataVisualization initialization failed:", error);
+      statusElement.innerHTML = `
+        <div class="affordance-error">
+          <strong>Error:</strong> ${error.message}
+        </div>
+      `;
+    }
+
+    // === VISUALIZATION INITIALIZATION ===
+    function initializeVisualization(data, container) {
+      console.log("🎨 Initializing", visualizationType, "visualization");
+
+      if (visualizationType === "force_graph") {
+        // Use existing 3d-force-graph integration
+        import("3d-force-graph").then(({ default: ForceGraph3D }) => {
+          const graph = ForceGraph3D()(container);
+          graph
+            .graphData(data)
+            .nodeLabel("name")
+            .nodeColor((node) => {
+              const colors = {
+                Class: "#ff6b35",
+                Property: "#4ecdc4",
+                Individual: "#95e1d3",
+                unknown: "#666666",
+              };
+              return colors[node.group] || colors.unknown;
+            })
+            .linkLabel("label")
+            .onNodeClick((node) => {
+              console.log("🎯 Node clicked:", node);
+
+              // Example: Show affordance introspection
+              const inspection = dataAffordance.inspect();
+              console.log(
+                "🔍 DataAffordance inspection on node click:",
+                inspection
+              );
+            });
+
+          console.log("✅ Force graph visualization initialized");
+
+          // Update status
+          const statusEl = document.getElementById(`${elementId}-status`);
+          if (statusEl) {
+            statusEl.innerHTML = `
+              <div class="affordance-success">
+                <strong>Visualization Active</strong><br>
+                Nodes: ${data.nodes.length}<br>
+                Links: ${data.links.length}<br>
+                Type: ${visualizationType}
+              </div>
+            `;
+          }
+        });
+      } else {
+        // Placeholder for other visualization types
+        container.innerHTML = `
+          <div class="placeholder-visualization">
+            <h3>${visualizationType.replace("_", " ").toUpperCase()}</h3>
+            <p>Nodes: ${data.nodes.length}</p>
+            <p>Links: ${data.links.length}</p>
+            <p><em>Visualization implementation pending</em></p>
+          </div>
+        `;
+      }
+    }
+  })();
+</script>
+
+<style>
+  .data-visualization-container {
+    border: 2px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000;
+    color: #fff;
+    font-family: "Monaco", monospace;
+  }
+
+  .affordance-status {
+    background: #222;
+    padding: 12px;
+    border-bottom: 1px solid #444;
+    font-size: 12px;
+    min-height: 60px;
+  }
+
+  .visualization-content {
+    flex: 1;
+    min-height: 400px;
+    position: relative;
+  }
+
+  .affordance-metrics {
+    color: #4ecdc4;
+  }
+
+  .affordance-error {
+    color: #ff6b35;
+  }
+
+  .affordance-success {
+    color: #95e1d3;
+  }
+
+  .placeholder-visualization {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: #999;
+  }
+
+  .placeholder-visualization h3 {
+    margin: 0 0 16px 0;
+    color: #4ecdc4;
+  }
+
+  .placeholder-visualization p {
+    margin: 4px 0;
+  }
+</style>

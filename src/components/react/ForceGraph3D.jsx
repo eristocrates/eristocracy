@@ -644,7 +644,146 @@ export default function ReactForce3D() {
   
   const fpsRef = useRef({ lastTime: 0, frameCount: 0 });
   const graphRef = useRef();
+  const PerformanceDebugger = {
+  // 1. Scene Analysis - Check what's actually being rendered
+  analyzeScene: (scene) => {
+    console.log('🔍 SCENE ANALYSIS:');
+    console.log('  Total children:', scene.children.length);
+    
+    scene.traverse((obj) => {
+      if (obj.type === 'InstancedMesh') {
+        console.log('  ✅ InstancedMesh found:', obj.count, 'instances');
+      } else if (obj.type === 'Mesh') {
+        console.log('  ❌ Individual Mesh found:', obj.name || 'unnamed');
+      } else if (obj.type === 'LineSegments') {
+        console.log('  📏 LineSegments found');
+      }
+    });
+  },
+
+  // 2. Draw Call Monitor - WebGL context inspection
+  monitorDrawCalls: (renderer) => {
+    const gl = renderer.getContext();
+    const originalDrawElements = gl.drawElements;
+    const originalDrawArrays = gl.drawArrays;
+    let drawCallCount = 0;
+    
+    gl.drawElements = function(...args) {
+      drawCallCount++;
+      return originalDrawElements.apply(this, args);
+    };
+    
+    gl.drawArrays = function(...args) {
+      drawCallCount++;
+      return originalDrawArrays.apply(this, args);
+    };
+    
+    // Reset counter and report every second
+    setInterval(() => {
+      console.log('🎯 Draw calls/sec:', drawCallCount);
+      drawCallCount = 0;
+    }, 1000);
+  },
+
+  // 3. Force-graph-3d Override Verification
+  verifyOverrides: (graphRef) => {
+    if (!graphRef.current) {
+      console.log('🔧 FORCE-GRAPH-3D OVERRIDES: Graph not initialized');
+      return;
+    }
+    
+    const graph = graphRef.current;
+    console.log('🔧 FORCE-GRAPH-3D OVERRIDES:');
+    
+    // Safety check - ensure methods exist before calling them
+    try {
+      if (typeof graph.nodeThreeObject === 'function') {
+        const nodeThreeObjectFunc = graph.nodeThreeObject();
+        if (typeof nodeThreeObjectFunc === 'function') {
+          console.log('  nodeThreeObject is null:', nodeThreeObjectFunc() === null);
+        } else {
+          console.log('  nodeThreeObject:', 'configured but not callable');
+        }
+      } else {
+        console.log('  nodeThreeObject:', 'method not available');
+      }
+      
+      if (typeof graph.linkThreeObject === 'function') {
+        const linkThreeObjectFunc = graph.linkThreeObject();
+        if (typeof linkThreeObjectFunc === 'function') {
+          console.log('  linkThreeObject is null:', linkThreeObjectFunc() === null);
+        } else {
+          console.log('  linkThreeObject:', 'configured but not callable');
+        }
+      } else {
+        console.log('  linkThreeObject:', 'method not available');
+      }
+      
+      if (typeof graph.nodeThreeObjectExtend === 'function') {
+        console.log('  nodeThreeObjectExtend:', graph.nodeThreeObjectExtend());
+      } else {
+        console.log('  nodeThreeObjectExtend:', 'method not available');
+      }
+      
+      if (typeof graph.linkThreeObjectExtend === 'function') {
+        console.log('  linkThreeObjectExtend:', graph.linkThreeObjectExtend());
+      } else {
+        console.log('  linkThreeObjectExtend:', 'method not available');
+      }
+    } catch (error) {
+      console.log('  Error checking overrides:', error.message);
+    }
+  },
+
+  // 4. Instance Buffer Validation
+  validateInstanceBuffers: (instancedNodesRef, instancedLinksRef) => {
+    console.log('📊 INSTANCE BUFFER VALIDATION:');
+    
+    if (instancedNodesRef.current) {
+      console.log('  ✅ Nodes InstancedMesh exists');
+      console.log('    Instance count:', instancedNodesRef.current.count);
+      console.log('    In scene:', instancedNodesRef.current.parent !== null);
+      console.log('    Visible:', instancedNodesRef.current.visible);
+    } else {
+      console.log('  ❌ Nodes InstancedMesh is NULL');
+    }
+    
+    if (instancedLinksRef.current) {
+      console.log('  ✅ Links geometry exists');
+      console.log('    In scene:', instancedLinksRef.current.parent !== null);
+      console.log('    Visible:', instancedLinksRef.current.visible);
+    } else {
+      console.log('  ❌ Links geometry is NULL');
+    }
+  }
+};
+
+// 🚀 IMMEDIATE DEBUG ACTIVATION
+// Add this useEffect to your ForceGraph3D component:
+
+useEffect(() => {
+  if (!graphRef.current?.renderer()) return;
   
+  console.log('🚨 EMERGENCY PERFORMANCE DEBUG ACTIVATED');
+  
+  const scene = graphRef.current.scene();
+  const renderer = graphRef.current.renderer();
+  
+  // Run all diagnostics
+  PerformanceDebugger.analyzeScene(scene);
+  PerformanceDebugger.monitorDrawCalls(renderer);
+  PerformanceDebugger.verifyOverrides(graphRef);
+  PerformanceDebugger.validateInstanceBuffers(instancedNodesRef, instancedLinksRef);
+  
+  // Check every 5 seconds if instancing is actually working
+  const interval = setInterval(() => {
+    PerformanceDebugger.analyzeScene(scene);
+    PerformanceDebugger.validateInstanceBuffers(instancedNodesRef, instancedLinksRef);
+  }, 5000);
+  
+  return () => clearInterval(interval);
+}, [graphRef.current?.renderer()]);
+
   // Optimized instancing references
   const instancedNodesRef = useRef(null);
   const instancedLinksRef = useRef(null);
@@ -1060,6 +1199,56 @@ export default function ReactForce3D() {
     loadRdfData(currentOntology);
   }, []); // Only run once on mount
 
+  // 🚨 EMERGENCY PERFORMANCE DEBUGGING - CRITICAL FIX
+  useEffect(() => {
+    if (!graphRef.current?.renderer()) return;
+    
+    console.log('🚨 EMERGENCY PERFORMANCE DEBUG ACTIVATED');
+    
+    let intervalRef = null;
+    
+    // Add a small delay to ensure Force-graph-3d is fully initialized
+    const delayedInit = setTimeout(() => {
+      if (!graphRef.current?.renderer()) {
+        console.log('⚠️ Graph still not ready after delay');
+        return;
+      }
+      
+      const scene = graphRef.current.scene();
+      const renderer = graphRef.current.renderer();
+      
+      // Run all diagnostics immediately with safety checks
+      try {
+        PerformanceDebugger.analyzeScene(scene);
+        PerformanceDebugger.monitorDrawCalls(renderer);
+        PerformanceDebugger.verifyOverrides(graphRef);
+        PerformanceDebugger.validateInstanceBuffers(instancedNodesRef, instancedLinksRef);
+        
+        console.log('✅ Initial emergency diagnostics complete');
+      } catch (error) {
+        console.error('❌ Error running initial diagnostics:', error);
+      }
+      
+      // Monitor every 5 seconds for ongoing issues
+      intervalRef = setInterval(() => {
+        try {
+          console.log('🔄 Periodic debug check...');
+          if (graphRef.current?.scene()) {
+            PerformanceDebugger.analyzeScene(graphRef.current.scene());
+          }
+          PerformanceDebugger.validateInstanceBuffers(instancedNodesRef, instancedLinksRef);
+        } catch (error) {
+          console.error('❌ Error in periodic debug check:', error);
+        }
+      }, 5000);
+    }, 1000); // 1 second delay to ensure full initialization
+    
+    return () => {
+      clearTimeout(delayedInit);
+      if (intervalRef) clearInterval(intervalRef);
+    };
+  }, [graphRef.current?.renderer(), instancedNodesRef.current, instancedLinksRef.current]);
+
   // Function to switch ontologies
   const switchOntology = async (newOntology) => {
     if (newOntology === currentOntology) {
@@ -1362,6 +1551,43 @@ export default function ReactForce3D() {
     if (!graphRef.current || !data.nodes.length) return;
 
     console.log('🚀 Setting up ADVANCED instanced rendering for', data.nodes.length, 'nodes with geometry:', geometryParams.baseType);
+    
+    // 🚨 FORCE OVERRIDE: Ensure Force-graph-3d isn't creating individual meshes
+    if (graphRef.current) {
+      console.log('🔧 Applying force overrides to prevent individual mesh creation');
+      try {
+        // Only call methods if they exist and are functions
+        if (typeof graphRef.current.nodeThreeObject === 'function') {
+          graphRef.current.nodeThreeObject(() => null);
+          console.log('✅ Set nodeThreeObject to null');
+        } else {
+          console.log('⚠️ nodeThreeObject method not available');
+        }
+        
+        if (typeof graphRef.current.linkThreeObject === 'function') {
+          graphRef.current.linkThreeObject(() => null);
+          console.log('✅ Set linkThreeObject to null');
+        } else {
+          console.log('⚠️ linkThreeObject method not available');
+        }
+        
+        if (typeof graphRef.current.nodeThreeObjectExtend === 'function') {
+          graphRef.current.nodeThreeObjectExtend(false);
+          console.log('✅ Set nodeThreeObjectExtend to false');
+        } else {
+          console.log('⚠️ nodeThreeObjectExtend method not available');
+        }
+        
+        if (typeof graphRef.current.linkThreeObjectExtend === 'function') {
+          graphRef.current.linkThreeObjectExtend(false);
+          console.log('✅ Set linkThreeObjectExtend to false');
+        } else {
+          console.log('⚠️ linkThreeObjectExtend method not available');
+        }
+      } catch (error) {
+        console.error('❌ Error applying force overrides:', error.message);
+      }
+    }
     
     // Get the Three.js scene
     const scene = graphRef.current.scene();

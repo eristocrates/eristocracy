@@ -1,0 +1,91 @@
+---
+title: "🚨 Emergency Performance Test";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Emergency Performance Test</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        background: #111;
+        color: #fff;
+        font-family: monospace;
+      }
+      .warning {
+        background: #ff4444;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+      }
+      .success {
+        background: #44ff44;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        color: #000;
+      }
+      #graph-container {
+        width: 100%;
+        height: 600px;
+        border: 2px solid #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="warning">
+      <h2>🚨 EMERGENCY PERFORMANCE DIAGNOSTIC</h2>
+      <p>
+        This page will immediately activate emergency debugging to identify the
+        38K draw call issue.
+      </p>
+      <p>
+        <strong>Expected:</strong> &lt;10 draw calls/sec, 60+ FPS, GPU instancing
+        active
+      </p>
+      <p>
+        <strong>Current Crisis:</strong> 38,548 draw calls/sec, 2 FPS, instancing
+        failed
+      </p>
+    </div>
+
+    <div id="instructions">
+      <h3>📋 Instructions:</h3>
+      <ol>
+        <li>Open browser DevTools (F12)</li>
+        <li>Watch the Console for debug output</li>
+        <li>Look for: 🚨 EMERGENCY PERFORMANCE DEBUG ACTIVATED</li>
+        <li>Check for InstancedMesh vs individual Mesh reports</li>
+        <li>Monitor draw calls/sec reports</li>
+      </ol>
+    </div>
+
+    <div id="graph-container">
+      <script>
+        import ForceGraph3DComponent from "../components/react/ForceGraph3D.jsx";
+
+        // Mount the component with minimal data to test instancing
+        const container = document.getElementById("graph-container");
+
+        // Create small test dataset
+        const testData = {
+          nodes: Array.from({ length: 100 }, (_, i) => ({
+            id: `node-${i}`,
+            name: `Node ${i}`,
+            group: Math.floor(i / 10),
+          })),
+          links: Array.from({ length: 200 }, (_, i) => ({
+            source: `node-${Math.floor(Math.random() * 100)}`,
+            target: `node-${Math.floor(Math.random() * 100)}`,
+          })),
+        };
+
+        // This should trigger the emergency debugging
+        console.log("🚨 Loading ForceGraph3D with emergency diagnostics...");
+      </script>
+    </div>
+  </body>
+</html>

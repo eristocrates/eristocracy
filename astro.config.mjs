@@ -18,16 +18,14 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   adapter: netlify(),
   // Focus on React for 3D Force Graph and Rete.js
-  integrations: [react({
-    include: ['**/react/*'],
-  }), /* db(), */ markdoc(), mdx(), /* partytown(), */ sitemap()],
+  integrations: [react(), /* db(), */ markdoc(), mdx(), /* partytown(), */ sitemap()],
   vite: {
     optimizeDeps: {
-      include: ['@babylonjs/core'],
+      include: ['@babylonjs/core', 'three', 'three-forcegraph', 'kapsule', 'three-perf', 'valtio', 'd3', '3d-force-graph'],
       exclude: ['@babylonjs/core/Legacy/legacy']
     },
     ssr: {
-      noExternal: ['@babylonjs/core']
+      noExternal: ['@babylonjs/core', 'three-forcegraph', 'kapsule', 'three-perf', 'valtio', 'd3', '3d-force-graph']
     }
   }
 });

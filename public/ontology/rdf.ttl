@@ -1,0 +1,355 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfa: <http://www.w3.org/ns/rdfa#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+rdf:    rdf:type        owl:Ontology;
+        dc:title        "The RDF Concepts Vocabulary (RDF)";
+        dc:date         "2019-12-16";
+        dc:description  "This is the RDF Schema for the RDF vocabulary terms in the RDF Namespace, defined in RDF 1.1 Concepts." .
+
+rdf:HTML  rdf:type        rdfs:Datatype;
+        rdfs:subClassOf   rdfs:Literal;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:seeAlso      <http://www.w3.org/TR/rdf11-concepts/#section-html>;
+        rdfs:label        "HTML";
+        rdfs:comment      "The datatype of RDF literals storing fragments of HTML content" .
+
+rdf:langString  rdf:type  rdfs:Datatype;
+        rdfs:subClassOf   rdfs:Literal;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:seeAlso      <http://www.w3.org/TR/rdf11-concepts/#section-Graph-Literal>;
+        rdfs:label        "langString";
+        rdfs:comment      "The datatype of language-tagged string values" .
+
+rdf:PlainLiteral  rdf:type  rdfs:Datatype;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:subClassOf   rdfs:Literal;
+        rdfs:seeAlso      <http://www.w3.org/TR/rdf-plain-literal/>;
+        rdfs:label        "PlainLiteral";
+        rdfs:comment      "The class of plain (i.e. untyped) literal values, as used in RIF and OWL 2" .
+
+rdf:type  rdf:type        rdf:Property;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:label        "type";
+        rdfs:comment      "The subject is an instance of a class.";
+        rdfs:range        rdfs:Class;
+        rdfs:domain       rdfs:Resource .
+
+rdf:Property  rdf:type    rdfs:Class;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:label        "Property";
+        rdfs:comment      "The class of RDF properties.";
+        rdfs:subClassOf   rdfs:Resource .
+
+rdf:Statement  rdf:type   rdfs:Class;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:label        "Statement";
+        rdfs:subClassOf   rdfs:Resource;
+        rdfs:comment      "The class of RDF statements." .
+
+rdf:subject  rdf:type     rdf:Property;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:label        "subject";
+        rdfs:comment      "The subject of the subject RDF statement.";
+        rdfs:domain       rdf:Statement;
+        rdfs:range        rdfs:Resource .
+
+rdf:predicate  rdf:type   rdf:Property;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:label        "predicate";
+        rdfs:comment      "The predicate of the subject RDF statement.";
+        rdfs:domain       rdf:Statement;
+        rdfs:range        rdfs:Resource .
+
+rdf:object  rdf:type      rdf:Property;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:label        "object";
+        rdfs:comment      "The object of the subject RDF statement.";
+        rdfs:domain       rdf:Statement;
+        rdfs:range        rdfs:Resource .
+
+rdf:Bag  rdf:type         rdfs:Class;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:label        "Bag";
+        rdfs:comment      "The class of unordered containers.";
+        rdfs:subClassOf   rdfs:Container .
+
+rdf:Seq  rdf:type         rdfs:Class;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:label        "Seq";
+        rdfs:comment      "The class of ordered containers.";
+        rdfs:subClassOf   rdfs:Container .
+
+rdf:Alt  rdf:type         rdfs:Class;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:label        "Alt";
+        rdfs:comment      "The class of containers of alternatives.";
+        rdfs:subClassOf   rdfs:Container .
+
+rdf:value  rdf:type       rdf:Property;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:label        "value";
+        rdfs:comment      "Idiomatic property used for structured values.";
+        rdfs:domain       rdfs:Resource;
+        rdfs:range        rdfs:Resource .
+
+rdf:List  rdf:type        rdfs:Class;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:label        "List";
+        rdfs:comment      "The class of RDF Lists.";
+        rdfs:subClassOf   rdfs:Resource .
+
+rdf:nil  rdf:type         rdf:List;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:label        "nil";
+        rdfs:comment      "The empty list, with no items in it. If the rest of a list is nil then the list has no more items in it." .
+
+rdf:first  rdf:type       rdf:Property;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:label        "first";
+        rdfs:comment      "The first item in the subject RDF list.";
+        rdfs:domain       rdf:List;
+        rdfs:range        rdfs:Resource .
+
+rdf:rest  rdf:type        rdf:Property;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:label        "rest";
+        rdfs:comment      "The rest of the subject RDF list after the first item.";
+        rdfs:domain       rdf:List;
+        rdfs:range        rdf:List .
+
+rdf:XMLLiteral  rdf:type  rdfs:Datatype;
+        rdfs:subClassOf   rdfs:Literal;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:label        "XMLLiteral";
+        rdfs:comment      "The datatype of XML literal values." .
+
+rdf:JSON  rdf:type        rdfs:Datatype;
+        rdfs:label        "JSON";
+        rdfs:comment      "The datatype of RDF literals storing JSON content.";
+        rdfs:subClassOf   rdfs:Literal;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:seeAlso      <https://www.w3.org/TR/json-ld11/#the-rdf-json-datatype> .
+
+rdf:CompoundLiteral  rdf:type  rdfs:Class;
+        rdfs:label        "CompoundLiteral";
+        rdfs:comment      "A class representing a compound literal.";
+        rdfs:subClassOf   rdfs:Resource;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:seeAlso      <https://www.w3.org/TR/json-ld11/#the-rdf-compoundliteral-class-and-the-rdf-language-and-rdf-direction-properties> .
+
+rdf:language  rdf:type    rdf:Property;
+        rdfs:label        "language";
+        rdfs:comment      "The language component of a CompoundLiteral.";
+        rdfs:domain       rdf:CompoundLiteral;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:seeAlso      <https://www.w3.org/TR/json-ld11/#the-rdf-compoundliteral-class-and-the-rdf-language-and-rdf-direction-properties> .
+
+rdf:direction  rdf:type   rdf:Property;
+        rdfs:label        "direction";
+        rdfs:comment      "The base direction component of a CompoundLiteral.";
+        rdfs:domain       rdf:CompoundLiteral;
+        rdfs:isDefinedBy  rdf:;
+        rdfs:seeAlso      <https://www.w3.org/TR/json-ld11/#the-rdf-compoundliteral-class-and-the-rdf-language-and-rdf-direction-properties> .
+
+rdfs:   rdf:type  owl:Ontology;
+        dc:title  "The RDF Schema vocabulary (RDFS)" .
+
+rdfs:Resource  rdf:type   rdfs:Class;
+        rdfs:isDefinedBy  rdfs:;
+        rdfs:label        "Resource";
+        rdfs:comment      "The class resource, everything." .
+
+rdfs:Class  rdf:type      rdfs:Class;
+        rdfs:isDefinedBy  rdfs:;
+        rdfs:label        "Class";
+        rdfs:comment      "The class of classes.";
+        rdfs:subClassOf   rdfs:Resource .
+
+rdfs:subClassOf  rdf:type  rdf:Property;
+        rdfs:isDefinedBy  rdfs:;
+        rdfs:label        "subClassOf";
+        rdfs:comment      "The subject is a subclass of a class.";
+        rdfs:range        rdfs:Class;
+        rdfs:domain       rdfs:Class .
+
+rdfs:subPropertyOf  rdf:type  rdf:Property;
+        rdfs:isDefinedBy  rdfs:;
+        rdfs:label        "subPropertyOf";
+        rdfs:comment      "The subject is a subproperty of a property.";
+        rdfs:range        rdf:Property;
+        rdfs:domain       rdf:Property .
+
+rdfs:comment  rdf:type    rdf:Property;
+        rdfs:isDefinedBy  rdfs:;
+        rdfs:label        "comment";
+        rdfs:comment      "A description of the subject resource.";
+        rdfs:domain       rdfs:Resource;
+        rdfs:range        rdfs:Literal .
+
+rdfs:label  rdf:type      rdf:Property;
+        rdfs:isDefinedBy  rdfs:;
+        rdfs:label        "label";
+        rdfs:comment      "A human-readable name for the subject.";
+        rdfs:domain       rdfs:Resource;
+        rdfs:range        rdfs:Literal .
+
+rdfs:domain  rdf:type     rdf:Property;
+        rdfs:isDefinedBy  rdfs:;
+        rdfs:label        "domain";
+        rdfs:comment      "A domain of the subject property.";
+        rdfs:range        rdfs:Class;
+        rdfs:domain       rdf:Property .
+
+rdfs:range  rdf:type      rdf:Property;
+        rdfs:isDefinedBy  rdfs:;
+        rdfs:label        "range";
+        rdfs:comment      "A range of the subject property.";
+        rdfs:range        rdfs:Class;
+        rdfs:domain       rdf:Property .
+
+rdfs:seeAlso  rdf:type    rdf:Property;
+        rdfs:isDefinedBy  rdfs:;
+        rdfs:label        "seeAlso";
+        rdfs:comment      "Further information about the subject resource.";
+        rdfs:range        rdfs:Resource;
+        rdfs:domain       rdfs:Resource .
+
+rdfs:isDefinedBy  rdf:type  rdf:Property;
+        rdfs:isDefinedBy    rdfs:;
+        rdfs:subPropertyOf  rdfs:seeAlso;
+        rdfs:label          "isDefinedBy";
+        rdfs:comment        "The definition of the subject resource.";
+        rdfs:range          rdfs:Resource;
+        rdfs:domain         rdfs:Resource .
+
+rdfs:Literal  rdf:type    rdfs:Class;
+        rdfs:isDefinedBy  rdfs:;
+        rdfs:label        "Literal";
+        rdfs:comment      "The class of literal values, eg. textual strings and integers.";
+        rdfs:subClassOf   rdfs:Resource .
+
+rdfs:Container  rdf:type  rdfs:Class;
+        rdfs:isDefinedBy  rdfs:;
+        rdfs:label        "Container";
+        rdfs:subClassOf   rdfs:Resource;
+        rdfs:comment      "The class of RDF containers." .
+
+rdfs:ContainerMembershipProperty
+        rdf:type          rdfs:Class;
+        rdfs:isDefinedBy  rdfs:;
+        rdfs:label        "ContainerMembershipProperty";
+        rdfs:comment      "The class of container membership properties, rdf:_1, rdf:_2, ..., all of which are sub-properties of 'member'.";
+        rdfs:subClassOf   rdf:Property .
+
+rdfs:member  rdf:type     rdf:Property;
+        rdfs:isDefinedBy  rdfs:;
+        rdfs:label        "member";
+        rdfs:comment      "A member of the subject resource.";
+        rdfs:domain       rdfs:Resource;
+        rdfs:range        rdfs:Resource .
+
+rdfs:Datatype  rdf:type   rdfs:Class;
+        rdfs:isDefinedBy  rdfs:;
+        rdfs:label        "Datatype";
+        rdfs:comment      "The class of RDF datatypes.";
+        rdfs:subClassOf   rdfs:Class .
+
+rdfs:   rdfs:seeAlso  <http://www.w3.org/2000/01/rdf-schema-more> .
+
+rdfa:PGClass a rdfs:Class,
+        owl:Class;
+    dcterms:description "is the top level class of the hierarchy" .
+
+rdfa:Pattern a rdfs:Class,
+        owl:Class;
+    dcterms:description "Class to identify an (RDF) resource whose properties are to be copied to another resource" .
+
+rdfa:PrefixOrTermMapping a rdfs:Class,
+        owl:Class;
+    dcterms:description "is the top level class for prefix or term mappings" .
+
+rdfa: a owl:Ontology;
+    dcterms:creator <http://www.ivan-herman.net/foaf#me>;
+    dcterms:date "2013-01-18";
+    dcterms:description "This document describes the RDFa Vocabulary for Term and Prefix Assignment. The Vocabulary is used to modify RDFa 1.1 processing behavior.";
+    dcterms:publisher <http://www.w3.org/data#W3C>;
+    dcterms:title "RDFa Vocabulary for Term and Prefix Assignment, and for Processor Graph Reporting";
+    rdfs:isDefinedBy <http://www.w3.org/TR/rdfa-core/#s_initialcontexts>;
+    owl:versionInfo "$Date: 2013/03/11 07:54:23 $" .
+
+rdfa:DocumentError dcterms:description "error condition; to be used when the document fails to be fully processed as a result of non-conformant host language markup";
+    rdfs:subClassOf rdfa:Error .
+
+rdfa:Info dcterms:description "is the class for all informations";
+    rdfs:subClassOf rdfa:PGClass .
+
+rdfa:PrefixRedefinition dcterms:description "warning; to be used when a prefix, either from the initial context or inherited from an ancestor node, is redefined in an element";
+    rdfs:subClassOf rdfa:Warning .
+
+rdfa:UnresolvedCURIE dcterms:description "warning; to be used when a CURIE prefix fails to be resolved";
+    rdfs:subClassOf rdfa:Warning .
+
+rdfa:UnresolvedTerm dcterms:description "warning; to be used when a Term fails to be resolved";
+    rdfs:subClassOf rdfa:Warning .
+
+rdfa:VocabReferenceError dcterms:description "warning; to be used when the value of a @vocab attribute cannot be dereferenced, hence the vocabulary expansion cannot be completed";
+    rdfs:subClassOf rdfa:Warning .
+
+rdfa:context a rdf:Property,
+        owl:ObjectProperty;
+    dcterms:description "provides extra context for the error, eg, http response, an XPointer/XPath information, or simply the URI that created the error";
+    rdfs:domain rdfa:PGClass .
+
+rdfa:copy a rdf:Property,
+        owl:ObjectProperty;
+    dcterms:description "identifies the resource (i.e., pattern) whose properties and values should be copied to replace the current triple (retaining the subject of the triple)." .
+
+rdfa:prefix a rdf:Property,
+        owl:DatatypeProperty;
+    dcterms:description "defines a prefix mapping for a URI; the value is supposed to be a NMTOKEN";
+    rdfs:domain rdfa:PrefixMapping .
+
+rdfa:term a rdf:Property,
+        owl:DatatypeProperty;
+    dcterms:description "defines a term mapping for a URI; the value is supposed to be a NMTOKEN";
+    rdfs:domain rdfa:TermMapping .
+
+rdfa:uri a rdf:Property,
+        owl:DatatypeProperty;
+    dcterms:description "defines the URI for either a prefix or a term mapping; the value is supposed to be an absolute URI";
+    rdfs:domain rdfa:PrefixOrTermMapping .
+
+rdfa:usesVocabulary a rdf:Property,
+        owl:ObjectProperty;
+    dcterms:description """provides a relationship between the host document and a vocabulary
+	defined using the @vocab facility of RDFa1.1""" .
+
+rdfa:vocabulary a rdf:Property,
+        owl:DatatypeProperty;
+    dcterms:description "defines an absolute URI to be used as a default vocabulary; the value is can be any string; for documentation purposes it is advised to use the string 'true' or 'True'." .
+
+<http://www.ivan-herman.net/foaf#me> a foaf:Person;
+    rdfs:seeAlso <http://www.ivan-herman.net/foaf>;
+    foaf:mbox <mailto:ivan@w3.org>;
+    foaf:name "Ivan Herman";
+    foaf:title "Semantic Web Activity Lead";
+    foaf:workplaceHomepage <http://www.w3.org> .
+
+rdfa:Error dcterms:description "is the class for all error conditions";
+    rdfs:subClassOf rdfa:PGClass .
+
+rdfa:PrefixMapping dcterms:description "is the class for prefix mappings";
+    rdfs:subClassOf rdfa:PrefixOrTermMapping .
+
+rdfa:TermMapping dcterms:description "is the class for term mappings";
+    rdfs:subClassOf rdfa:PrefixOrTermMapping .
+
+rdfa:Warning dcterms:description "is the class for all warnings";
+    rdfs:subClassOf rdfa:PGClass .
+
