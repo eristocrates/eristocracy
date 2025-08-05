@@ -21,11 +21,11 @@
 
       .fiddle-container {
         display: grid;
-        grid-template-columns: 1fr 1fr;
         grid-template-rows: auto 1fr;
         height: 100vh;
-        gap: 1px;
-        background: #333;
+        background: #1a1a1a;
+        color: #ffffff;
+        font-family: "JetBrains Mono", "Fira Code", monospace;
       }
 
       .toolbar {
@@ -38,49 +38,186 @@
         gap: 12px;
       }
 
-      .editor-panel {
-        background: #1e1e1e;
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        height: 100%;
         overflow: hidden;
+      }
+
+      .editor-section {
         display: flex;
         flex-direction: column;
+        background: #1e1e1e;
+        border-right: 1px solid #444;
+        min-width: 400px;
       }
 
       .editor-header {
         background: #2a2a2a;
-        padding: 8px 16px;
+        padding: 8px 12px;
         border-bottom: 1px solid #444;
         font-size: 12px;
-        font-weight: 500;
         color: #ccc;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
 
-      .editor-content {
+      .editor-tabs {
+        display: flex;
+        gap: 8px;
+      }
+
+      .editor-tab {
+        padding: 4px 12px;
+        background: #3a3a3a;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 11px;
+        transition: background 0.2s;
+      }
+
+      .editor-tab.active {
+        background: #0078d4;
+        color: white;
+      }
+
+      .editor-tab:hover:not(.active) {
+        background: #4a4a4a;
+      }
+
+      .editor-container {
         flex: 1;
+        display: flex;
+        flex-direction: column;
         overflow: hidden;
       }
 
-      .render-panel {
-        background: #000;
-        display: flex;
-        flex-direction: column;
+      #code-editor {
+        flex: 1;
+        font-family: "JetBrains Mono", "Fira Code", monospace;
       }
 
-      .render-header {
+      .resize-handle {
+        width: 8px;
+        background: #333;
+        cursor: col-resize;
+        position: relative;
+        border-left: 1px solid #555;
+        border-right: 1px solid #555;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+      }
+
+      .resize-handle:hover {
+        background: #0078d4;
+      }
+
+      .resize-handle::after {
+        content: "⋮";
+        color: #888;
+        font-size: 16px;
+        line-height: 1;
+      }
+
+      .canvas-section {
+        display: flex;
+        flex-direction: column;
+        background: #0f0f0f;
+        min-width: 400px;
+      }
+
+      .canvas-header {
         background: #2a2a2a;
-        padding: 8px 16px;
+        padding: 8px 12px;
         border-bottom: 1px solid #444;
         font-size: 12px;
-        font-weight: 500;
         color: #ccc;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .recommendations-bar {
+        background: linear-gradient(90deg, #1a1a1a, #2a2a2a);
+        border-bottom: 1px solid #444;
+        padding: 6px 12px;
+        font-size: 11px;
+        color: #ccc;
+        min-height: 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+      .recommendation-item {
+        background: rgba(255, 107, 107, 0.1);
+        border: 1px solid rgba(255, 107, 107, 0.3);
+        border-radius: 12px;
+        padding: 3px 8px;
+        font-size: 10px;
+        color: #ff6b6b;
+        flex-shrink: 0;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .recommendation-item:hover {
+        background: rgba(255, 107, 107, 0.2);
+        transform: translateY(-1px);
+      }
+
+      .recommendation-item.medium {
+        color: #ffa500;
+        border-color: rgba(255, 165, 0, 0.3);
+        background: rgba(255, 165, 0, 0.1);
+      }
+
+      .recommendation-item.low {
+        color: #4ecdc4;
+        border-color: rgba(78, 205, 196, 0.3);
+        background: rgba(78, 205, 196, 0.1);
+      }
+
+      .recommendation-item.info {
+        color: #45b7d1;
+        border-color: rgba(69, 183, 209, 0.3);
+        background: rgba(69, 183, 209, 0.1);
       }
 
       #render-surface {
         flex: 1;
-        position: relative;
         overflow: hidden;
+        position: relative;
+        background: #0a0a0a;
       }
 
-      #run-btn {
+      .performance-stats {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 8px;
+        border-radius: 4px;
+        font-size: 10px;
+        color: #ccc;
+        font-family: monospace;
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .status {
+        color: #888;
+        font-size: 11px;
+      }
+
+      /* Button Styles */
+      button {
         background: #0078d4;
         color: white;
         border: none;
@@ -88,15 +225,17 @@
         border-radius: 4px;
         cursor: pointer;
         font-weight: 500;
-        transition: background 0.2s;
+        transition: all 0.2s;
+        font-size: 12px;
       }
 
-      #run-btn:hover {
+      button:hover {
         background: #106ebe;
+        transform: translateY(-1px);
       }
 
-      #clear-btn {
-        background: #666;
+      #performance-toggle {
+        background: #444;
         color: white;
         border: none;
         padding: 6px 16px;
@@ -106,24 +245,119 @@
         transition: background 0.2s;
       }
 
-      #clear-btn:hover {
-        background: #777;
+      #performance-toggle:hover {
+        background: #555;
       }
 
-      .status {
-        font-size: 12px;
-        color: #999;
-        margin-left: auto;
+      #performance-toggle.active {
+        background: #0078d4;
+      }
+
+      /* Performance Observatory Enhanced Styles */
+      .performance-observatory {
+        transition: all 0.3s ease;
+        border: 2px solid #444 !important;
+      }
+
+      .performance-observatory:hover {
+        border-color: #0078d4 !important;
+      }
+
+      .performance-observatory::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 20px;
+        height: 20px;
+        background: linear-gradient(
+          -45deg,
+          transparent 0%,
+          transparent 30%,
+          #666 30%,
+          #666 40%,
+          transparent 40%,
+          transparent 50%,
+          #666 50%,
+          #666 60%,
+          transparent 60%,
+          transparent 70%,
+          #666 70%,
+          #666 80%,
+          transparent 80%
+        );
+        cursor: nw-resize;
+        pointer-events: none;
+      }
+
+      .observatory-titlebar {
+        background: linear-gradient(90deg, #0078d4, #106ebe) !important;
+      }
+
+      .observatory-titlebar:hover {
+        background: linear-gradient(90deg, #106ebe, #005a9e) !important;
+      }
+
+      .observatory-titlebar button:hover {
+        background: rgba(255, 255, 255, 0.3) !important;
+        transform: scale(1.1);
+      }
+
+      /* Performance Observatory Styles */
+      .performance-observatory.collapsed {
+        height: 40px !important;
+        overflow: hidden !important;
+      }
+
+      .performance-observatory.collapsed .charts-container,
+      .performance-observatory.collapsed .advanced-panels {
+        display: none !important;
       }
 
       /* CodeMirror theme adjustments */
       .cm-editor {
-        height: 100%;
+        height: 100% !important;
         background: #1e1e1e !important;
       }
 
+      .cm-scroller {
+        overflow: auto !important;
+        height: 100% !important;
+        font-family: "JetBrains Mono", "Fira Code", monospace !important;
+      }
+
+      .cm-content {
+        padding: 12px !important;
+        min-height: 100% !important;
+      }
+
       .cm-focused {
-        outline: none;
+        outline: none !important;
+      }
+
+      .cm-line {
+        padding: 0 4px !important;
+        line-height: 1.4 !important;
+      }
+
+      /* Ensure editor containers allow scrolling */
+      .editor-container {
+        overflow: hidden;
+      }
+
+      #code-editor {
+        height: 100%;
+        overflow: hidden;
+      }
+
+      /* Performance Observatory quick stats styling */
+      .performance-observatory.collapsed {
+        height: 35px !important;
+        overflow: hidden !important;
+      }
+
+      .performance-observatory.collapsed .observatory-content {
+        display: none !important;
       }
     </style>
   </head>
@@ -132,19 +366,43 @@
       <div class="toolbar">
         <button id="run-btn">▶ Run</button>
         <button id="clear-btn">Clear Output</button>
-        <div class="status">Three.js Fiddle - Press Ctrl+Enter to run</div>
-      </div>
-
-      <div class="editor-panel">
-        <div class="editor-header">JavaScript Editor</div>
-        <div class="editor-content">
-          <div id="code-editor"></div>
+        <div class="status">
+          Three.js Performance Laboratory - Click tabs to switch code views
         </div>
       </div>
 
-      <div class="render-panel">
-        <div class="render-header">Output / Canvas</div>
-        <div id="render-surface"></div>
+      <div class="main-content">
+        <div class="editor-section">
+          <div class="editor-header">
+            <div class="editor-info">
+              <span style="color: #4ecdc4; font-weight: bold;"
+                >JavaScript Editor</span
+              >
+              <span style="font-size: 10px; color: #888;"
+                >Three.js Performance Laboratory</span
+              >
+            </div>
+          </div>
+          <div class="editor-container">
+            <div id="code-editor"></div>
+          </div>
+        </div>
+
+        <div class="resize-handle" id="resize-handle"></div>
+
+        <div class="canvas-section">
+          <div class="canvas-header">
+            <span>Output Canvas</span>
+            <button id="performance-toggle">📊 Show Observatory</button>
+          </div>
+          <div class="recommendations-bar" id="recommendations-bar">
+            <span style="color: #888;">💡 Recommendations:</span>
+            <span style="color: #666; font-size: 10px;"
+              >Analysis will appear here...</span
+            >
+          </div>
+          <div id="render-surface"></div>
+        </div>
       </div>
     </div>
 
