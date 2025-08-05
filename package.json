@@ -74,7 +74,7 @@
     "nanoid": "^5.1.5",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-flow-renderer": "^10.3.17",
+    "react--renderer": "^10.3.17",
     "react-force-graph-3d": "^1.28.0",
     "rete": "^2.0.6",
     "rete-area-plugin": "^2.1.3",
