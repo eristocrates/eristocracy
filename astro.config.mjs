@@ -10,15 +10,12 @@ import markdoc from '@astrojs/markdoc';
 
 import mdx from '@astrojs/mdx';
 
-import partytown from '@astrojs/partytown';
-
 import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
   adapter: netlify(),
-  // Focus on React for 3D Force Graph and Rete.js
-  integrations: [react(), /* db(), */ markdoc(), mdx(), /* partytown(), */ sitemap()],
+  integrations: [ /* db(), */ markdoc(), mdx(), /* partytown(), */ sitemap()],
   vite: {
     optimizeDeps: {
       include: [
@@ -35,22 +32,7 @@ export default defineConfig({
         '@codemirror/lang-javascript',
         '@codemirror/theme-one-dark',
         '@codemirror/view',
-        // Internal semantic library files (key entry points)
-        '/src/lib/semantic/SemanticGraphViewerInit.js',
-        '/src/lib/semantic/composer/SemanticGraphComposer.js',
-        '/src/lib/semantic/performance/D3PerformanceControls.js',
-        '/src/lib/semantic/performance/PerformanceState.js',
-        '/src/lib/semantic/affordances/AffordanceManifest.js',
-        // Internal performance profiling files
-        '/src/lib/performance/FiddlePerformanceProfiler.js',
-        '/src/lib/performance/AdvancedMetrics.js',
-        '/src/lib/performance/MaterialComplexityAnalyzer.js',
-        '/src/lib/performance/InstancingAnalyzer.js',
-        '/src/lib/performance/InteractionProfiler.js',
-        '/src/lib/performance/NetworkAssetProfiler.js',
-        // Internal utility files
-        '/src/lib/fiddle.js',
-        '/src/lib/vasturiano/Basic.js'
+
       ],
       exclude: ['@babylonjs/core/Legacy/legacy']
     },
@@ -68,22 +50,7 @@ export default defineConfig({
         '@codemirror/lang-javascript',
         '@codemirror/theme-one-dark',
         '@codemirror/view',
-        // Internal semantic library files
-        '/src/lib/semantic/SemanticGraphViewerInit.js',
-        '/src/lib/semantic/composer/SemanticGraphComposer.js',
-        '/src/lib/semantic/performance/D3PerformanceControls.js',
-        '/src/lib/semantic/performance/PerformanceState.js',
-        '/src/lib/semantic/affordances/AffordanceManifest.js',
-        // Internal performance profiling files
-        '/src/lib/performance/FiddlePerformanceProfiler.js',
-        '/src/lib/performance/AdvancedMetrics.js',
-        '/src/lib/performance/MaterialComplexityAnalyzer.js',
-        '/src/lib/performance/InstancingAnalyzer.js',
-        '/src/lib/performance/InteractionProfiler.js',
-        '/src/lib/performance/NetworkAssetProfiler.js',
-        // Internal utility files
-        '/src/lib/fiddle.js',
-        '/src/lib/vasturiano/Basic.js'
+
       ]
     },
     build: {
