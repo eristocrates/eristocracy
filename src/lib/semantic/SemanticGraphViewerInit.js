@@ -6,10 +6,8 @@
 
 import { SemanticGraphComposer } from "/src/lib/semantic/composer/SemanticGraphComposer.js";
 import { introspectAffordance } from "/src/lib/semantic/affordances/AffordanceManifest.js";
-import * as d3 from "d3";
 import { D3PerformanceControls } from "/src/lib/semantic/performance/D3PerformanceControls.js";
 import { performanceStateManager } from "/src/lib/semantic/performance/PerformanceState.js";
-import { ThreeJSInstancedFallback } from "/src/lib/semantic/gpu/ThreeJSInstancedFallback.js";
 
 // Initialize the semantic graph system when DOM is ready
 async function initializeSemanticGraph() {
