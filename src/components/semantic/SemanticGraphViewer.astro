@@ -93,8 +93,11 @@
   >
 </div>
 
-<script type="module" src="/src/lib/semantic/SemanticGraphViewerInit.js"
-></script>
+<script type="module">
+  // Import the semantic graph viewer initialization
+  // The module will auto-initialize when DOM is ready
+  import "/src/lib/semantic/SemanticGraphViewerInit.js";
+</script>
 
 <style>
   .graph-display {
