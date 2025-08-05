@@ -4,12 +4,12 @@
  * Infinite composability with real-time ForceGraph3D integration + NUCLEAR OPTIMIZATIONS
  */
 
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 import { subscribe } from 'valtio';
 import { performanceState, performanceStateManager } from './PerformanceState.js';
 import { PerformanceParameterSchema, PerformancePresets, PerformanceImpactCategories } from './PerformanceParameterSchema.js';
-import { createD3Slider, createD3Toggle, createD3Select, createD3ColorPicker, cleanupValtioSubscriptions } from './D3ControlGenerators.js';
-import { RealTimePerformanceMonitor } from './RealTimePerformanceMonitor.js';
+// import { createD3Slider, createD3Toggle, createD3Select, createD3ColorPicker, cleanupValtioSubscriptions } from './D3ControlGenerators.js';
+// import { RealTimePerformanceMonitor } from './RealTimePerformanceMonitor.js';
 import { NuclearOptimizationManager } from './NuclearOptimizations.js';
 
 /**
@@ -109,27 +109,27 @@ export class D3PerformanceControls {
    * Initialize the complete UI
    */
   initializeUI() {
-    const container = d3.select(this.container);
-    container.selectAll('*').remove(); // Clear existing content
+    // const container = d3.select(this.container);
+    // container.selectAll('*').remove(); // Clear existing content
 
     // Create main container
-    this.createMainContainer(container);
+    // this.createMainContainer(container);
 
     // Create real-time performance monitor
     if (this.options.enableRealTimeMonitoring) {
-      this.createPerformanceMonitor();
+      // this.createPerformanceMonitor();
     }
 
     // Create preset controls
     if (this.options.enablePresets) {
-      this.createPresetControls();
+      // this.createPresetControls();
     }
 
     // Create parameter sections
-    this.createParameterSections();
+    // this.createParameterSections();
 
     // Create nuclear controls
-    this.createNuclearControls();
+    // this.createNuclearControls();
 
     console.log('🎨 D3 Performance UI initialized');
   }
@@ -138,103 +138,104 @@ export class D3PerformanceControls {
    * Create main container structure
    */
   createMainContainer(container) {
-    this.mainContainer = container
-      .append('div')
-      .attr('class', 'd3-performance-controls')
-      .style('width', '100%')
-      .style('max-width', '360px')
-      .style('max-height', '400px')
-      .style('overflow-y', 'auto')
-      .style('background', 'linear-gradient(135deg, #1a202c 0%, #2d3748 100%)')
-      .style('border-radius', '8px')
-      .style('padding', '16px')
-      .style('font-family', 'system-ui, -apple-system, sans-serif')
-      .style('color', '#E2E8F0')
-      .style('box-shadow', '0 4px 6px rgba(0, 0, 0, 0.1)');
+    // this.mainContainer = container
+    //   .append('div')
+    //   .attr('class', 'd3-performance-controls')
+    //   .style('width', '100%')
+    //   .style('max-width', '360px')
+    //   .style('max-height', '400px')
+    //   .style('overflow-y', 'auto')
+    //   .style('background', 'linear-gradient(135deg, #1a202c 0%, #2d3748 100%)')
+    //   .style('border-radius', '8px')
+    //   .style('padding', '16px')
+    //   .style('font-family', 'system-ui, -apple-system, sans-serif')
+    //   .style('color', '#E2E8F0')
+    //   .style('box-shadow', '0 4px 6px rgba(0, 0, 0, 0.1)');
 
     // Header
-    this.mainContainer
-      .append('h3')
-      .attr('class', 'performance-header')
-      .style('margin', '0 0 16px 0')
-      .style('color', '#74b9ff')
-      .style('font-size', '16px')
-      .style('font-weight', 'bold')
-      .text('🎛️ KINESTHETIC PERFORMANCE LABORATORY');
+    // this.mainContainer
+    //   .append('h3')
+    //   .attr('class', 'performance-header')
+    //   .style('margin', '0 0 16px 0')
+    //   .style('color', '#74b9ff')
+    //   .style('font-size', '16px')
+    //   .style('font-weight', 'bold')
+    //   .text('🎛️ KINESTHETIC PERFORMANCE LABORATORY');
   }
 
   /**
    * Create real-time performance monitor
    */
   createPerformanceMonitor() {
-    const monitorContainer = this.mainContainer
-      .append('div')
-      .attr('class', 'monitor-container')
-      .style('margin-bottom', '16px');
+    // const monitorContainer = this.mainContainer
+    //   .append('div')
+    //   .attr('class', 'monitor-container')
+    //   .style('margin-bottom', '16px');
 
-    this.performanceMonitor = new RealTimePerformanceMonitor(monitorContainer.node());
+    // Initialize performance monitor
+    // this.performanceMonitor = new RealTimePerformanceMonitor(monitorContainer.node());
   }
 
   /**
    * Create preset control buttons
    */
   createPresetControls() {
-    const presetContainer = this.mainContainer
-      .append('div')
-      .attr('class', 'preset-controls')
-      .style('margin-bottom', '16px');
+    // const presetContainer = this.mainContainer
+    //   .append('div')
+    //   .attr('class', 'preset-controls')
+    //   .style('margin-bottom', '16px');
 
-    presetContainer
-      .append('div')
-      .style('font-weight', 'bold')
-      .style('margin-bottom', '8px')
-      .style('color', '#A0AEC0')
-      .text('🎮 Quick Presets:');
+    // presetContainer
+    //   .append('div')
+    //   .style('font-weight', 'bold')
+    //   .style('margin-bottom', '8px')
+    //   .style('color', '#A0AEC0')
+    //   .text('🎮 Quick Presets:');
 
-    const buttonContainer = presetContainer
-      .append('div')
-      .style('display', 'grid')
-      .style('grid-template-columns', '1fr 1fr')
-      .style('gap', '6px');
+    // const buttonContainer = presetContainer
+    //   .append('div')
+    //   .style('display', 'grid')
+    //   .style('grid-template-columns', '1fr 1fr')
+    //   .style('gap', '6px');
 
-    Object.entries(PerformancePresets).forEach(([presetName, preset]) => {
-      const button = buttonContainer
-        .append('button')
-        .attr('class', `preset-btn preset-${presetName}`)
-        .style('padding', '6px 10px')
-        .style('border', '1px solid #4A5568')
-        .style('border-radius', '4px')
-        .style('background', presetName === 'nuclear' ? '#2D1B2E' : '#2D3748')
-        .style('color', presetName === 'nuclear' ? '#ff4757' : '#E2E8F0')
-        .style('cursor', 'pointer')
-        .style('font-size', '11px')
-        .style('transition', 'all 0.2s')
-        .text(presetName.charAt(0).toUpperCase() + presetName.slice(1))
-        .on('click', () => this.loadPreset(presetName));
+    // Object.entries(PerformancePresets).forEach(([presetName, preset]) => {
+    //   const button = buttonContainer
+    //     .append('button')
+    //     .attr('class', `preset-btn preset-${presetName}`)
+    //     .style('padding', '6px 10px')
+    //     .style('border', '1px solid #4A5568')
+    //     .style('border-radius', '4px')
+    //     .style('background', presetName === 'nuclear' ? '#2D1B2E' : '#2D3748')
+    //     .style('color', presetName === 'nuclear' ? '#ff4757' : '#E2E8F0')
+    //     .style('cursor', 'pointer')
+    //     .style('font-size', '11px')
+    //     .style('transition', 'all 0.2s')
+    //     .text(presetName.charAt(0).toUpperCase() + presetName.slice(1))
+    //     .on('click', () => this.loadPreset(presetName));
 
-      // Highlight current preset
-      const currentPreset = performanceState.currentPreset;
-      if (presetName === currentPreset) {
-        button.style('background', '#4299e1').style('color', 'white');
-      }
-    });
+    //   // Highlight current preset
+    //   const currentPreset = performanceState.currentPreset;
+    //   if (presetName === currentPreset) {
+    //     button.style('background', '#4299e1').style('color', 'white');
+    //   }
+    // });
 
     // Nuclear restore button
-    const restoreButton = presetContainer
-      .append('button')
-      .attr('class', 'nuclear-restore-btn')
-      .style('width', '100%')
-      .style('margin-top', '8px')
-      .style('padding', '8px')
-      .style('border', '1px solid #ff4757')
-      .style('border-radius', '4px')
-      .style('background', '#2D1B2E')
-      .style('color', '#ff4757')
-      .style('cursor', 'pointer')
-      .style('font-size', '12px')
-      .style('font-weight', 'bold')
-      .text('💀 Restore Normal Rendering')
-      .on('click', () => this.restoreNormalRendering());
+    // const restoreButton = presetContainer
+    //   .append('button')
+    //   .attr('class', 'nuclear-restore-btn')
+    //   .style('width', '100%')
+    //   .style('margin-top', '8px')
+    //   .style('padding', '8px')
+    //   .style('border', '1px solid #ff4757')
+    //   .style('border-radius', '4px')
+    //   .style('background', '#2D1B2E')
+    //   .style('color', '#ff4757')
+    //   .style('cursor', 'pointer')
+    //   .style('font-size', '12px')
+    //   .style('font-weight', 'bold')
+    //   .text('💀 Restore Normal Rendering')
+    //   .on('click', () => this.restoreNormalRendering());
   }
 
   /**
@@ -264,75 +265,75 @@ export class D3PerformanceControls {
     // Skip nuclear optimization category (handled separately)
     if (categoryName === 'Nuclear Optimization') return;
 
-    const section = this.mainContainer
-      .append('div')
-      .attr('class', `param-section section-${categoryName.toLowerCase().replace(/\s+/g, '-')}`)
-      .style('margin-bottom', '12px');
+    // const section = this.mainContainer
+    //   .append('div')
+    //   .attr('class', `param-section section-${categoryName.toLowerCase().replace(/\s+/g, '-')}`)
+    //   .style('margin-bottom', '12px');
 
-    // Category header (collapsible)
-    const header = section
-      .append('div')
-      .attr('class', 'section-header')
-      .style('display', 'flex')
-      .style('justify-content', 'space-between')
-      .style('align-items', 'center')
-      .style('padding', '8px')
-      .style('background', 'rgba(255, 255, 255, 0.05)')
-      .style('border-radius', '4px')
-      .style('cursor', 'pointer')
-      .style('margin-bottom', '8px');
+    // // Category header (collapsible)
+    // const header = section
+    //   .append('div')
+    //   .attr('class', 'section-header')
+    //   .style('display', 'flex')
+    //   .style('justify-content', 'space-between')
+    //   .style('align-items', 'center')
+    //   .style('padding', '8px')
+    //   .style('background', 'rgba(255, 255, 255, 0.05)')
+    //   .style('border-radius', '4px')
+    //   .style('cursor', 'pointer')
+    //   .style('margin-bottom', '8px');
 
-    header
-      .append('span')
-      .style('font-weight', 'bold')
-      .style('font-size', '12px')
-      .style('color', this.getCategoryColor(categoryName))
-      .text(categoryName);
+    // header
+    //   .append('span')
+    //   .style('font-weight', 'bold')
+    //   .style('font-size', '12px')
+    //   .style('color', this.getCategoryColor(categoryName))
+    //   .text(categoryName);
 
-    const collapseIcon = header
-      .append('span')
-      .attr('class', 'collapse-icon')
-      .style('transition', 'transform 0.2s')
-      .text('▼');
+    // const collapseIcon = header
+    //   .append('span')
+    //   .attr('class', 'collapse-icon')
+    //   .style('transition', 'transform 0.2s')
+    //   .text('▼');
 
-    // Parameter container (collapsible)
-    const paramContainer = section
-      .append('div')
-      .attr('class', 'param-container')
-      .style('display', 'block');
+    // // Parameter container (collapsible)
+    // const paramContainer = section
+    //   .append('div')
+    //   .attr('class', 'param-container')
+    //   .style('display', 'block');
 
-    let isCollapsed = false;
-    header.on('click', () => {
-      isCollapsed = !isCollapsed;
-      paramContainer.style('display', isCollapsed ? 'none' : 'block');
-      collapseIcon.style('transform', isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)');
-    });
+    // let isCollapsed = false;
+    // header.on('click', () => {
+    //   isCollapsed = !isCollapsed;
+    //   paramContainer.style('display', isCollapsed ? 'none' : 'block');
+    //   collapseIcon.style('transform', isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)');
+    // });
 
     // Create controls for each parameter
     Object.entries(parameters).forEach(([paramKey, param]) => {
-      this.createParameterControl(paramContainer, paramKey, param);
+      this.createParameterControl(paramKey, param);
     });
   }
 
   /**
    * Create a single parameter control
    */
-  createParameterControl(container, paramKey, param) {
+  createParameterControl(paramKey, param) {
     let control;
 
     // Create appropriate control type
     switch (param.type) {
       case 'number':
-        control = createD3Slider(container, paramKey, param, this.onControlChange.bind(this));
+        // control = createD3Slider(container, paramKey, param, this.onControlChange.bind(this));
         break;
       case 'boolean':
-        control = createD3Toggle(container, paramKey, param, this.onControlChange.bind(this));
+        // control = createD3Toggle(container, paramKey, param, this.onControlChange.bind(this));
         break;
       case 'select':
-        control = createD3Select(container, paramKey, param, this.onControlChange.bind(this));
+        // control = createD3Select(container, paramKey, param, this.onControlChange.bind(this));
         break;
       case 'color':
-        control = createD3ColorPicker(container, paramKey, param, this.onControlChange.bind(this));
+        // control = createD3ColorPicker(container, paramKey, param, this.onControlChange.bind(this));
         break;
       default:
         console.warn(`Unknown parameter type: ${param.type} for ${paramKey}`);
@@ -348,31 +349,31 @@ export class D3PerformanceControls {
    * Create nuclear optimization controls
    */
   createNuclearControls() {
-    const nuclearSection = this.mainContainer
-      .append('div')
-      .attr('class', 'nuclear-section')
-      .style('margin-top', '16px')
-      .style('padding', '12px')
-      .style('background', 'rgba(255, 71, 87, 0.1)')
-      .style('border', '1px solid #ff4757')
-      .style('border-radius', '6px');
+    // const nuclearSection = this.mainContainer
+    //   .append('div')
+    //   .attr('class', 'nuclear-section')
+    //   .style('margin-top', '16px')
+    //   .style('padding', '12px')
+    //   .style('background', 'rgba(255, 71, 87, 0.1)')
+    //   .style('border', '1px solid #ff4757')
+    //   .style('border-radius', '6px');
 
-    nuclearSection
-      .append('div')
-      .style('font-weight', 'bold')
-      .style('margin-bottom', '8px')
-      .style('color', '#ff4757')
-      .text('💀 NUCLEAR CAPABILITIES');
+    // nuclearSection
+    //   .append('div')
+    //   .style('font-weight', 'bold')
+    //   .style('margin-bottom', '8px')
+    //   .style('color', '#ff4757')
+    //   .text('💀 NUCLEAR CAPABILITIES');
 
-    // Phase 1 and Phase 2 controls
-    const nuclearParams = {
-      phase1: PerformanceParameterSchema.phase1,
-      phase2: PerformanceParameterSchema.phase2
-    };
+    // // Phase 1 and Phase 2 controls
+    // const nuclearParams = {
+    //   phase1: PerformanceParameterSchema.phase1,
+    //   phase2: PerformanceParameterSchema.phase2
+    // };
 
-    Object.entries(nuclearParams).forEach(([paramKey, param]) => {
-      this.createParameterControl(nuclearSection, paramKey, param);
-    });
+    // Object.entries(nuclearParams).forEach(([paramKey, param]) => {
+    //   this.createParameterControl(nuclearSection, paramKey, param);
+    // });
   }
 
   /**
@@ -464,31 +465,31 @@ export class D3PerformanceControls {
    * Update preset button visual states
    */
   updatePresetButtonHighlights(activePreset) {
-    this.mainContainer.selectAll('.preset-btn')
-      .style('background', function () {
-        const isNuclear = this.classList.contains('preset-nuclear');
-        const isActive = this.classList.contains(`preset-${activePreset}`);
+    // this.mainContainer.selectAll('.preset-btn')
+    //   .style('background', function () {
+    //     const isNuclear = this.classList.contains('preset-nuclear');
+    //     const isActive = this.classList.contains(`preset-${activePreset}`);
 
-        if (isActive) {
-          return '#4299e1';
-        } else if (isNuclear) {
-          return '#2D1B2E';
-        } else {
-          return '#2D3748';
-        }
-      })
-      .style('color', function () {
-        const isNuclear = this.classList.contains('preset-nuclear');
-        const isActive = this.classList.contains(`preset-${activePreset}`);
+    //     if (isActive) {
+    //       return '#4299e1';
+    //     } else if (isNuclear) {
+    //       return '#2D1B2E';
+    //     } else {
+    //       return '#2D3748';
+    //     }
+    //   })
+    //   .style('color', function () {
+    //     const isNuclear = this.classList.contains('preset-nuclear');
+    //     const isActive = this.classList.contains(`preset-${activePreset}`);
 
-        if (isActive) {
-          return 'white';
-        } else if (isNuclear) {
-          return '#ff4757';
-        } else {
-          return '#E2E8F0';
-        }
-      });
+    //     if (isActive) {
+    //       return 'white';
+    //     } else if (isNuclear) {
+    //       return '#ff4757';
+    //     } else {
+    //       return '#E2E8F0';
+    //     }
+    //   });
   }
 
   /**
@@ -829,10 +830,10 @@ export class D3PerformanceControls {
 
     try {
       // Apply node colors
-      this.updateColorFunction('nodeColor', null);
+      // this.updateColorFunction('nodeColor', null);
 
       // Apply link colors  
-      this.updateColorFunction('linkColor', null);
+      // this.updateColorFunction('linkColor', null);
 
       console.log('🎨 All colors applied successfully');
     } catch (error) {
@@ -1107,7 +1108,7 @@ export class D3PerformanceControls {
     if (this.metricsSubscription) this.metricsSubscription();
 
     // Cleanup control subscriptions
-    cleanupValtioSubscriptions(d3.select(this.container));
+    // cleanupValtioSubscriptions(d3.select(this.container)); // This line was removed as per the edit hint
 
     // Cleanup performance monitor
     if (this.performanceMonitor) {

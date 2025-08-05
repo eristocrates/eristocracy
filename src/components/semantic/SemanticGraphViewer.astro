@@ -41,7 +41,7 @@
         class="debug-btn restart-btn"
         style="margin-top: 8px; width: 100%; padding: 6px; font-size: 10px; background: #fd79a8; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background 0.2s ease;"
       >
-        🔥 Restart Simulation
+        Restart Simulation
       </button>
     </div>
 
@@ -94,6 +94,9 @@
 </div>
 
 <script type="module">
+  // Import entrypoint to ensure all internal modules are included in build
+  import "/src/entrypoints/allLibs.ts";
+
   // Import the semantic graph viewer initialization
   // The module will auto-initialize when DOM is ready
   import "/src/lib/semantic/SemanticGraphViewerInit.js";

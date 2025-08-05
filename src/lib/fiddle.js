@@ -3,20 +3,20 @@ import { javascript } from "@codemirror/lang-javascript";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { keymap } from "@codemirror/view";
 import * as THREE from "three";
-import { FiddlePerformanceProfiler } from "/src/lib/performance/FiddlePerformanceProfiler.js";
-import {
-  AdvancedMetricsCollector,
-  ThreeJSProfiler,
-  SystemPerformanceMonitor,
-  PerformanceComparator
-} from "/src/lib/performance/AdvancedMetrics.js";
+// import { FiddlePerformanceProfiler } from "../performance/FiddlePerformanceProfiler.js";
+// import {
+//   AdvancedMetricsCollector,
+//   ThreeJSProfiler,
+//   SystemPerformanceMonitor,
+//   PerformanceComparator
+// } from "../performance/AdvancedMetrics.js";
 
 // Global performance system
-let performanceProfiler = null;
-let advancedMetrics = null;
-let threeJSProfiler = null;
-let systemMonitor = null;
-let comparator = null;
+// let performanceProfiler = null;
+// let advancedMetrics = null;
+// let threeJSProfiler = null;
+// let systemMonitor = null;
+// let comparator = null;
 
 // Performance setup code (stays consistent)
 const performanceSetupCode = `// === PERFORMANCE SETUP (Auto-generated) ===
@@ -163,53 +163,53 @@ function initializePerformanceSystem() {
     document.body.appendChild(observatoryContainer);
 
     // Initialize the main profiler with collapsed start
-    performanceProfiler = new FiddlePerformanceProfiler({
-      container: '#performance-observatory',
-      updateInterval: 100,
-      historyLength: 60,
-      startCollapsed: true, // Start in quick stats mode
-      enableAdvancedMetrics: true,
-      enableInteractionProfiling: true,
-      enableNetworkProfiling: true
-    });
+    // performanceProfiler = new FiddlePerformanceProfiler({
+    //   container: '#performance-observatory',
+    //   updateInterval: 100,
+    //   historyLength: 60,
+    //   startCollapsed: true, // Start in quick stats mode
+    //   enableAdvancedMetrics: true,
+    //   enableInteractionProfiling: true,
+    //   enableNetworkProfiling: true
+    // });
 
     // Initialize advanced metrics collectors
-    advancedMetrics = new AdvancedMetricsCollector({
-      longTaskThreshold: 50,
-      eventLoopLagThreshold: 16,
-      memoryGrowthThreshold: 10
-    });
+    // advancedMetrics = new AdvancedMetricsCollector({
+    //   longTaskThreshold: 50,
+    //   eventLoopLagThreshold: 16,
+    //   memoryGrowthThreshold: 10
+    // });
 
-    threeJSProfiler = new ThreeJSProfiler();
-    systemMonitor = new SystemPerformanceMonitor();
-    comparator = new PerformanceComparator();
+    // threeJSProfiler = new ThreeJSProfiler();
+    // systemMonitor = new SystemPerformanceMonitor();
+    // comparator = new PerformanceComparator();
 
     // Connect advanced metrics callbacks
-    advancedMetrics.onLongTask = (task) => {
-      performanceProfiler.addMetric('advanced.longTasks', {
-        duration: task.duration,
-        startTime: task.startTime
-      });
-    };
+    // advancedMetrics.onLongTask = (task) => {
+    //   performanceProfiler.addMetric('advanced.longTasks', {
+    //     duration: task.duration,
+    //     startTime: task.startTime
+    //   });
+    // };
 
-    advancedMetrics.onEventLoopLag = (lag) => {
-      performanceProfiler.addMetric('javascript.eventLoopLag', lag);
-    };
+    // advancedMetrics.onEventLoopLag = (lag) => {
+    //   performanceProfiler.addMetric('javascript.eventLoopLag', lag);
+    // };
 
-    advancedMetrics.onMemoryGrowth = (growth) => {
-      performanceProfiler.addMetric('advanced.memoryGrowth', growth);
-    };
+    // advancedMetrics.onMemoryGrowth = (growth) => {
+    //   performanceProfiler.addMetric('advanced.memoryGrowth', growth);
+    // };
 
-    advancedMetrics.onGarbageCollection = (gcInfo) => {
-      performanceProfiler.addMetric('javascript.gcEvents', gcInfo);
-    };
+    // advancedMetrics.onGarbageCollection = (gcInfo) => {
+    //   performanceProfiler.addMetric('javascript.gcEvents', gcInfo);
+    // };
 
     // Make everything globally available
-    window.fiddleProfiler = performanceProfiler;
-    window.fiddleAdvancedMetrics = advancedMetrics;
-    window.fiddleThreeJSProfiler = threeJSProfiler;
-    window.fiddleSystemMonitor = systemMonitor;
-    window.fiddleComparator = comparator;
+    // window.fiddleProfiler = performanceProfiler;
+    // window.fiddleAdvancedMetrics = advancedMetrics;
+    // window.fiddleThreeJSProfiler = threeJSProfiler;
+    // window.fiddleSystemMonitor = systemMonitor;
+    // window.fiddleComparator = comparator;
 
     console.log("🔬 Performance Observatory initialized in collapsed mode");
     console.log("📊 Quick stats will show: FPS, Memory, Draw Calls, GPU");
@@ -281,9 +281,9 @@ function setupResizeHandle() {
 function setupRecommendationsDisplay() {
   // Update recommendations every 5 seconds
   setInterval(() => {
-    if (performanceProfiler) {
-      updateRecommendations();
-    }
+    // if (performanceProfiler) {
+    updateRecommendations();
+    // }
   }, 5000);
 
   // Also update quick stats
@@ -302,48 +302,48 @@ function updateRecommendations() {
   const recommendations = [];
 
   // Collect recommendations from all analyzers
-  if (performanceProfiler.lastMaterialAnalysis?.optimizations?.length > 0) {
-    recommendations.push({
-      type: 'material',
-      severity: 'medium',
-      message: `${performanceProfiler.lastMaterialAnalysis.optimizations.length} material optimizations available`,
-      detail: performanceProfiler.lastMaterialAnalysis.optimizations[0]
-    });
-  }
+  // if (performanceProfiler.lastMaterialAnalysis?.optimizations?.length > 0) {
+  //   recommendations.push({
+  //     type: 'material',
+  //     severity: 'medium',
+  //     message: `${performanceProfiler.lastMaterialAnalysis.optimizations.length} material optimizations available`,
+  //     detail: performanceProfiler.lastMaterialAnalysis.optimizations[0]
+  //   });
+  // }
 
-  if (performanceProfiler.lastInstancingAnalysis?.opportunities?.length > 0) {
-    const drawCallReduction = performanceProfiler.lastInstancingAnalysis.potentialDrawCallReduction;
-    recommendations.push({
-      type: 'instancing',
-      severity: drawCallReduction > 10 ? 'high' : 'medium',
-      message: `${drawCallReduction} draw calls could be saved with instancing`,
-      detail: `${performanceProfiler.lastInstancingAnalysis.opportunities.length} instancing opportunities`
-    });
-  }
+  // if (performanceProfiler.lastInstancingAnalysis?.opportunities?.length > 0) {
+  //   const drawCallReduction = performanceProfiler.lastInstancingAnalysis.potentialDrawCallReduction;
+  //   recommendations.push({
+  //     type: 'instancing',
+  //     severity: drawCallReduction > 10 ? 'high' : 'medium',
+  //     message: `${drawCallReduction} draw calls could be saved with instancing`,
+  //     detail: `${performanceProfiler.lastInstancingAnalysis.opportunities.length} instancing opportunities`
+  //   });
+  // }
 
-  if (performanceProfiler.interactionProfiler) {
-    const interactionMetrics = performanceProfiler.interactionProfiler.getRealTimeMetrics();
-    if (interactionMetrics.responsiveness < 70) {
-      recommendations.push({
-        type: 'interaction',
-        severity: 'high',
-        message: `Input responsiveness: ${interactionMetrics.responsiveness}/100`,
-        detail: `Average latency: ${interactionMetrics.averageLatency.toFixed(1)}ms`
-      });
-    }
-  }
+  // if (performanceProfiler.interactionProfiler) {
+  //   const interactionMetrics = performanceProfiler.interactionProfiler.getRealTimeMetrics();
+  //   if (interactionMetrics.responsiveness < 70) {
+  //     recommendations.push({
+  //       type: 'interaction',
+  //       severity: 'high',
+  //       message: `Input responsiveness: ${interactionMetrics.responsiveness}/100`,
+  //       detail: `Average latency: ${interactionMetrics.averageLatency.toFixed(1)}ms`
+  //     });
+  //   }
+  // }
 
-  if (performanceProfiler.networkProfiler) {
-    const networkAnalysis = performanceProfiler.networkProfiler.getAnalysis();
-    if (networkAnalysis.summary && networkAnalysis.summary.cacheHitRate < 50) {
-      recommendations.push({
-        type: 'network',
-        severity: 'medium',
-        message: `Cache hit rate: ${networkAnalysis.summary.cacheHitRate}%`,
-        detail: 'Consider implementing better caching'
-      });
-    }
-  }
+  // if (performanceProfiler.networkProfiler) {
+  //   const networkAnalysis = performanceProfiler.networkProfiler.getAnalysis();
+  //   if (networkAnalysis.summary && networkAnalysis.summary.cacheHitRate < 50) {
+  //     recommendations.push({
+  //       type: 'network',
+  //       severity: 'medium',
+  //       message: `Cache hit rate: ${networkAnalysis.summary.cacheHitRate}%`,
+  //       detail: 'Consider implementing better caching'
+  //     });
+  //   }
+  // }
 
   // Update the recommendations bar
   recommendationsBar.innerHTML = `
@@ -438,9 +438,9 @@ export function initializeFiddle() {
 
       // Clear previous render surface and reset profiler
       surface.innerHTML = '';
-      if (performanceProfiler) {
-        console.log("🔄 Resetting performance metrics...");
-      }
+      // if (performanceProfiler) {
+      //   console.log("🔄 Resetting performance metrics...");
+      // }
 
       // Create a sandboxed function with THREE and surface available
       const scopedFn = new Function("THREE", "surface", "console", code);
@@ -451,10 +451,10 @@ export function initializeFiddle() {
 
       // Auto-take snapshot after 3 seconds
       setTimeout(() => {
-        if (comparator) {
-          const snapshot = comparator.takeSnapshot('auto-' + Date.now(), performanceProfiler?.exportData()?.metrics || {});
-          console.log("📸 Auto-snapshot taken:", snapshot.label);
-        }
+        // if (comparator) {
+        //   const snapshot = comparator.takeSnapshot('auto-' + Date.now(), performanceProfiler?.exportData()?.metrics || {});
+        //   console.log("📸 Auto-snapshot taken:", snapshot.label);
+        // }
       }, 3000);
 
     } catch (error) {
@@ -483,37 +483,37 @@ export function initializeFiddle() {
     console.log("🧹 Output cleared");
 
     // Reset performance metrics
-    if (performanceProfiler) {
-      performanceProfiler.metrics = {
-        frame: { fps: [], frameTime: [], deltaTime: [], drops: [], jank: [] },
-        threejs: { drawCalls: [], triangles: [], geometries: [], textures: [], materials: [], shaderSwitches: [] },
-        javascript: { executionTime: [], gcEvents: [], heapSize: [], eventLoopLag: [] },
-        system: { cpuUsage: [], memoryUsage: [], thermalState: [], batteryLevel: [] },
-        custom: {}
-      };
-      console.log("🔄 Performance metrics reset");
-    }
+    // if (performanceProfiler) {
+    //   performanceProfiler.metrics = {
+    //     frame: { fps: [], frameTime: [], deltaTime: [], drops: [], jank: [] },
+    //     threejs: { drawCalls: [], triangles: [], geometries: [], textures: [], materials: [], shaderSwitches: [] },
+    //     javascript: { executionTime: [], gcEvents: [], heapSize: [], eventLoopLag: [] },
+    //     system: { cpuUsage: [], memoryUsage: [], thermalState: [], batteryLevel: [] },
+    //     custom: {}
+    //   };
+    //   console.log("🔄 Performance metrics reset");
+    // }
   }
 
   // Performance snapshot function
   function takePerformanceSnapshot() {
-    if (!comparator || !performanceProfiler) {
-      console.warn("Performance system not initialized");
-      return;
-    }
+    // if (!comparator || !performanceProfiler) {
+    //   console.warn("Performance system not initialized");
+    //   return;
+    // }
 
     const label = prompt("Enter snapshot label:", "snapshot-" + Date.now());
     if (label) {
-      const snapshot = comparator.takeSnapshot(label, performanceProfiler.exportData().metrics);
-      console.log("📸 Performance snapshot saved:", snapshot);
+      // const snapshot = comparator.takeSnapshot(label, performanceProfiler.exportData().metrics);
+      // console.log("📸 Performance snapshot saved:", snapshot);
 
       // Show comparison if we have multiple snapshots
-      if (comparator.snapshots.length >= 2) {
-        const latest = comparator.snapshots[comparator.snapshots.length - 1];
-        const previous = comparator.snapshots[comparator.snapshots.length - 2];
-        const comparison = comparator.compare(previous.label, latest.label);
-        console.log("📊 Performance comparison:", comparison);
-      }
+      // if (comparator.snapshots.length >= 2) {
+      //   const latest = comparator.snapshots[comparator.snapshots.length - 1];
+      //   const previous = comparator.snapshots[comparator.snapshots.length - 2];
+      //   const comparison = comparator.compare(previous.label, latest.label);
+      //   console.log("📊 Performance comparison:", comparison);
+      // }
     }
   }
 
@@ -525,17 +525,17 @@ export function initializeFiddle() {
   const performanceToggleBtn = document.getElementById('performance-toggle');
   if (performanceToggleBtn) {
     performanceToggleBtn.onclick = () => {
-      if (performanceProfiler) {
-        if (performanceProfiler.svg && performanceProfiler.svg.style('display') === 'none') {
-          performanceProfiler.show();
-          performanceToggleBtn.textContent = '📊 Hide Observatory';
-        } else {
-          performanceProfiler.toggleCollapse();
-          // Update button text based on state
-          const isCollapsed = performanceProfiler.isCollapsed;
-          performanceToggleBtn.textContent = isCollapsed ? '📊 Expand Observatory' : '📊 Collapse Observatory';
-        }
-      }
+      // if (performanceProfiler) {
+      //   if (performanceProfiler.svg && performanceProfiler.svg.style('display') === 'none') {
+      //     performanceProfiler.show();
+      //     performanceToggleBtn.textContent = '📊 Hide Observatory';
+      //   } else {
+      //     performanceProfiler.toggleCollapse();
+      //     // Update button text based on state
+      //     const isCollapsed = performanceProfiler.isCollapsed;
+      //     performanceToggleBtn.textContent = isCollapsed ? '📊 Expand Observatory' : '📊 Collapse Observatory';
+      //   }
+      // }
     };
   }
 

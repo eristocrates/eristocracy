@@ -4,10 +4,10 @@
  * Extracted from .astro embedded script to enable proper npm module imports
  */
 
-import { SemanticGraphComposer } from "/src/lib/semantic/composer/SemanticGraphComposer.js";
-import { introspectAffordance } from "/src/lib/semantic/affordances/AffordanceManifest.js";
-import { D3PerformanceControls } from "/src/lib/semantic/performance/D3PerformanceControls.js";
-import { performanceStateManager } from "/src/lib/semantic/performance/PerformanceState.js";
+import { SemanticGraphComposer } from "./composer/SemanticGraphComposer.js";
+import { introspectAffordance } from "./affordances/AffordanceManifest.js";
+import { D3PerformanceControls } from "./performance/D3PerformanceControls.js";
+import { performanceStateManager } from "./performance/PerformanceState.js";
 
 // Initialize the semantic graph system when DOM is ready
 async function initializeSemanticGraph() {
@@ -449,7 +449,7 @@ async function initializeSemanticGraph() {
       inspect: async () => {
         if (composer.graphInstance) {
           const { inspectScene } = await import(
-            "/src/lib/semantic/graph/function/forceCleanup.js"
+            "./graph/function/forceCleanup.js"
           );
           return inspectScene(composer.graphInstance);
         }
@@ -459,7 +459,7 @@ async function initializeSemanticGraph() {
       forceCleanup: async () => {
         if (composer.graphInstance) {
           const { forceCleanup } = await import(
-            "/src/lib/semantic/graph/function/forceCleanup.js"
+            "./graph/function/forceCleanup.js"
           );
           return forceCleanup(composer.graphInstance);
         }

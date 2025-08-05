@@ -2,15 +2,10 @@
 import { defineConfig } from 'astro/config';
 import netlify from '@astrojs/netlify';
 import react from '@astrojs/react';
-
-// Removed db import since not using it yet
-// import db from '@astrojs/db';
-
 import markdoc from '@astrojs/markdoc';
-
 import mdx from '@astrojs/mdx';
-
 import sitemap from '@astrojs/sitemap';
+import path from 'path';
 
 // https://astro.build/config
 export default defineConfig({
@@ -19,7 +14,7 @@ export default defineConfig({
   integrations: [react({
     include: ['**/react/*'],
   })
-  , /* db(), */ markdoc(), mdx(), /* partytown(), */ sitemap()],
+    , markdoc(), mdx(), sitemap()],
   vite: {
     optimizeDeps: {
       include: [
@@ -36,7 +31,18 @@ export default defineConfig({
         '@codemirror/lang-javascript',
         '@codemirror/theme-one-dark',
         '@codemirror/view',
-
+        // Internal modules - ensure they're pre-bundled
+        'src/lib/fiddle.js',
+        'src/lib/semantic/SemanticGraphViewerInit.js',
+        'src/lib/performance/FiddlePerformanceProfiler.js',
+        'src/lib/semantic/performance/D3PerformanceControls.js',
+        'src/lib/semantic/performance/PerformanceState.js',
+        'src/lib/semantic/performance/PerformanceParameterSchema.js',
+        'src/lib/semantic/composer/SemanticGraphComposer.js',
+        'src/lib/semantic/graph/function/createForceGraphInstance.js',
+        'src/lib/vasturiano/Basic.js',
+        'src/lib/vasturiano/Kapsule/KapsuleConfigsClient.js',
+        'src/hooks/useStats.ts',
       ],
       exclude: ['@babylonjs/core/Legacy/legacy']
     },
@@ -50,12 +56,35 @@ export default defineConfig({
         'valtio',
         'd3',
         '3d-force-graph',
+        'three-render-objects',
         'codemirror',
         '@codemirror/lang-javascript',
         '@codemirror/theme-one-dark',
         '@codemirror/view',
-
+        // Internal modules - ensure they're bundled for SSR
+        'src/lib/fiddle.js',
+        'src/lib/semantic/SemanticGraphViewerInit.js',
+        'src/lib/performance/FiddlePerformanceProfiler.js',
+        'src/lib/semantic/performance/D3PerformanceControls.js',
+        'src/lib/semantic/performance/PerformanceState.js',
+        'src/lib/semantic/performance/PerformanceParameterSchema.js',
+        'src/lib/semantic/composer/SemanticGraphComposer.js',
+        'src/lib/semantic/graph/function/createForceGraphInstance.js',
+        'src/lib/vasturiano/Basic.js',
+        'src/lib/vasturiano/Kapsule/KapsuleConfigsClient.js',
+        'src/hooks/useStats.ts',
       ]
+    },
+    resolve: {
+      // Add aliases for better module resolution
+      alias: {
+        '@lib': path.resolve('./src/lib'),
+        '@semantic': path.resolve('./src/lib/semantic'),
+        '@performance': path.resolve('./src/lib/performance'),
+        '@vasturiano': path.resolve('./src/lib/vasturiano'),
+        '@hooks': path.resolve('./src/hooks'),
+        '@entrypoints': path.resolve('./src/entrypoints'),
+      }
     },
     build: {
       rollupOptions: {
@@ -65,12 +94,6 @@ export default defineConfig({
         input: {
           // Let Astro handle the main entries, but ensure these are discoverable
         }
-      }
-    },
-    resolve: {
-      // Ensure proper resolution of internal modules
-      alias: {
-        // Add aliases if needed for complex import paths
       }
     },
     server: {

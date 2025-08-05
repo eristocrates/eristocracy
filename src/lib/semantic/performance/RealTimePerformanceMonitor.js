@@ -5,6 +5,7 @@
  */
 
 import * as d3 from 'd3';
+import { curveMonotoneX } from 'd3-shape';
 
 export class RealTimePerformanceMonitor {
   constructor(container, options = {}) {

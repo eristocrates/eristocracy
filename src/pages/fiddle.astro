@@ -407,6 +407,9 @@
     </div>
 
     <script type="module">
+      // Import entrypoint to ensure all internal modules are included in build
+      import "/src/entrypoints/allLibs.ts";
+
       import { initializeFiddle } from "/src/lib/fiddle.js";
 
       // Initialize the fiddle when DOM is ready

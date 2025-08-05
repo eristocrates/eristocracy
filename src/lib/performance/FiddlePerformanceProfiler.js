@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { curveMonotoneX } from 'd3-shape';
 import * as THREE from 'three';
 import { MaterialComplexityAnalyzer } from './MaterialComplexityAnalyzer.js';
 import { InstancingAnalyzer } from './InstancingAnalyzer.js';
@@ -603,7 +604,7 @@ export class FiddlePerformanceProfiler {
     const line = d3.line()
       .x((d, i) => scale.x(i))
       .y(d => scale.y(d))
-      .curve(d3.curveCardinal);
+      .curve(curveMonotoneX);
 
     // Update or create path
     let path = chartSvg.select('.data-line');
@@ -1215,7 +1216,7 @@ export class FiddlePerformanceProfiler {
     const line = d3.line()
       .x((d, i) => xScale(i))
       .y(d => yScale(d))
-      .curve(d3.curveMonotoneX);
+      .curve(curveMonotoneX);
 
     const path = svg.append('path')
       .style('fill', 'none')
