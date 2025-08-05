@@ -15,7 +15,11 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   adapter: netlify(),
-  integrations: [ /* db(), */ markdoc(), mdx(), /* partytown(), */ sitemap()],
+  // Focus on React for 3D Force Graph and Rete.js
+  integrations: [react({
+    include: ['**/react/*'],
+  })
+  , /* db(), */ markdoc(), mdx(), /* partytown(), */ sitemap()],
   vite: {
     optimizeDeps: {
       include: [
