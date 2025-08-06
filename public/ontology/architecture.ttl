@@ -1,0 +1,178 @@
+@prefix : <http://eristocracy.dev/ontology/architecture#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# Externalism-Aligned Architecture Ontology
+# Triadic stratification for semantic software systems
+
+# Core Architectural Strata
+:Representation a owl:Class ;
+    rdfs:label "Representation Layer" ;
+    rdfs:comment "What things are - structure, semantics, roles" ;
+    :hasPurpose "Define formal semantics of the graph" ;
+    :hasRole "ontology-layer" ;
+    :isNonHierarchical true .
+
+:Execution a owl:Class ;
+    rdfs:label "Execution Layer" ;
+    rdfs:comment "What things do - reactivity, effects, tracing" ;
+    :hasPurpose "Handle reactivity, effect propagation, evaluation" ;
+    :hasRole "implementation-layer" ;
+    :isNonHierarchical true .
+
+:Presentation a owl:Class ;
+    rdfs:label "Presentation Layer" ;
+    rdfs:comment "What things look like - rendering, UX, interactions" ;
+    :hasPurpose "Control UI, rendering, interaction" ;
+    :hasRole "interface-layer" ;
+    :isNonHierarchical true .
+
+# Representation Layer Components
+:NodeTypes a owl:Class ;
+    rdfs:label "Node Types" ;
+    rdfs:comment "Declarative list of node classes/types" ;
+    :belongsTo :Representation ;
+    :hasTags ("identity" "schema") ;
+    :filePath "representation/NodeTypes.js" .
+
+:SocketKinds a owl:Class ;
+    rdfs:label "Socket Kinds" ;
+    rdfs:comment "Definition of pull/push/semantic affordances" ;
+    :belongsTo :Representation ;
+    :hasTags ("directionality" "intent") ;
+    :filePath "representation/SocketKinds.js" .
+
+:GraphModel a owl:Class ;
+    rdfs:label "Graph Model" ;
+    rdfs:comment "Core object model (NodeInstance, EdgeRef)" ;
+    :belongsTo :Representation ;
+    :hasTags ("structure" "composition") ;
+    :filePath "representation/GraphModel.js" .
+
+:Semantics a owl:Class ;
+    rdfs:label "Semantics" ;
+    rdfs:comment "Cognesis labels, node roles, predicates" ;
+    :belongsTo :Representation ;
+    :hasTags ("meaning" "symbolism") ;
+    :filePath "representation/Semantics.js" .
+
+# Execution Layer Components
+:EffectGraph a owl:Class ;
+    rdfs:label "Effect Graph" ;
+    rdfs:comment "Maintains reactive flow network" ;
+    :belongsTo :Execution ;
+    :hasTags ("propagation" "trigger") ;
+    :filePath "execution/EffectGraph.js" .
+
+:Evaluator a owl:Class ;
+    rdfs:label "Evaluator" ;
+    rdfs:comment "Node execution (e.g. reconstruct import stmt)" ;
+    :belongsTo :Execution ;
+    :hasTags ("execution" "semantics") ;
+    :filePath "execution/Evaluator.js" .
+
+:GraphStore a owl:Class ;
+    rdfs:label "Graph Store" ;
+    rdfs:comment "Zustand or RxJS-based state manager" ;
+    :belongsTo :Execution ;
+    :hasTags ("state" "mutation") ;
+    :filePath "execution/GraphStore.js" .
+
+:TraceEngine a owl:Class ;
+    rdfs:label "Trace Engine" ;
+    rdfs:comment "Effect trace logs + annotations" ;
+    :belongsTo :Execution ;
+    :hasTags ("transparency" "debug") ;
+    :filePath "execution/TraceEngine.js" .
+
+# Presentation Layer Components
+:GraphRenderer a owl:Class ;
+    rdfs:label "Graph Renderer" ;
+    rdfs:comment "DOM or canvas graph projection (D3, regl)" ;
+    :belongsTo :Presentation ;
+    :hasTags ("layout" "rendering") ;
+    :filePath "presentation/GraphRenderer.js" .
+
+:NodeEditor a owl:Class ;
+    rdfs:label "Node Editor" ;
+    rdfs:comment "Text input/edit UI for string nodes" ;
+    :belongsTo :Presentation ;
+    :hasTags ("input" "overlay") ;
+    :filePath "presentation/NodeEditor.js" .
+
+:InteractionManager a owl:Class ;
+    rdfs:label "Interaction Manager" ;
+    rdfs:comment "Dragging, socket snapping, selection logic" ;
+    :belongsTo :Presentation ;
+    :hasTags ("UX" "gesture") ;
+    :filePath "presentation/InteractionManager.js" .
+
+:CodeMirrorOverlay a owl:Class ;
+    rdfs:label "CodeMirror Overlay" ;
+    rdfs:comment "Graph ↔ code bindings" ;
+    :belongsTo :Presentation ;
+    :hasTags ("code" "mirror") ;
+    :filePath "presentation/CodeMirrorOverlay.js" .
+
+# Faceted Metadata System
+:FacetedMetadata a owl:Class ;
+    rdfs:label "Faceted Metadata" ;
+    rdfs:comment "Semantic annotations for module navigation" ;
+    :hasPurpose "Enable semantic IDE lens functionality" ;
+    :canBeStoredIn ("manifest.ttl" "modules.json" "inline-comments") .
+
+:FunctionalRole a owl:Class ;
+    rdfs:label "Functional Role" ;
+    rdfs:comment "Role-based categorization of modules" ;
+    :hasExamples ("evaluator" "renderer" "propagator" "input-handler") .
+
+:Stratum a owl:Class ;
+    rdfs:label "Stratum" ;
+    rdfs:comment "Architectural layer classification" ;
+    :hasValues (:Representation :Execution :Presentation) .
+
+# Cognitive Operations Mapping
+:CognitiveMapping a owl:Class ;
+    rdfs:label "Cognitive Operations Mapping" ;
+    rdfs:comment "How architectural layers map to cognitive operations" .
+
+:Representation :mapsToCognitiveOperation "Compositional memory / ontology" .
+:Execution :mapsToCognitiveOperation "Semantic propagation / intent flow" .
+:Presentation :mapsToCognitiveOperation "Phenomenological access / attention" .
+
+# Key Architectural Principles
+:NonHierarchicalStratification a owl:Class ;
+    rdfs:label "Non-Hierarchical Stratification" ;
+    rdfs:comment "Layers are functionally segregated but not nested" ;
+    :isPrinciple true .
+
+:FacetedNavigation a owl:Class ;
+    rdfs:label "Faceted Navigation" ;
+    rdfs:comment "Navigate by semantic roles rather than folder structure" ;
+    :isPrinciple true ;
+    :enables "Semantic IDE lens" .
+
+:HotModuleIsolation a owl:Class ;
+    rdfs:label "Hot Module Isolation" ;
+    rdfs:comment "Ability to swap renderers (D3, regl, Three.js) dynamically" ;
+    :isPrinciple true ;
+    :appliesTo :GraphRenderer .
+
+# Runtime Model Reflection
+:RuntimeModelReflection a owl:Class ;
+    rdfs:label "Runtime Model Reflection" ;
+    rdfs:comment "Architecture mirrors the runtime semantic graph system" ;
+    :isPrinciple true ;
+    :explains "Why stratification mirrors cognitive operations" .
+
+# Implementation Notes
+:ImplementationNote a owl:Class ;
+    rdfs:label "Implementation Notes" ;
+    :hasContent "Directory structure is not sufficient to model system intent" ;
+    :hasContent "Shift from linear nesting to faceted stratification" ;
+    :hasContent "Externalized cognitive reconfiguration of software ontology" ;
+    :hasContent "Triadic strata cross-cut with functionally orthogonal roles" . 
