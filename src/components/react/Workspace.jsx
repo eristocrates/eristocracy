@@ -21,7 +21,19 @@ function createTemplateLoader() {
   for (const path of templateManifest) {
     const filename = path.split('/').pop();
     const extension = filename.split('.').pop();
-    const name = filename.replace(`.${extension}`, '').split(/[-_]/g).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    const parts = path.split('/');
+    const base = filename.replace(`.${extension}`, '');
+    const toTitle = (s) => s.split(/[-_./]/g).filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    const relParts = path.replace(/^\/+/, '').split('/');
+    let name;
+    if (relParts[0] === 'thirdParty' && relParts[1] === 'repos' && relParts.length >= 4) {
+      const repo = relParts[2];
+      const parentFolder = relParts[relParts.length - 2] || '';
+      name = `${toTitle(repo)} ${parentFolder ? toTitle(parentFolder) + ' ' : ''}${toTitle(base)}`;
+    } else {
+      const folder = parts.length > 1 ? parts[parts.length - 2] : '';
+      name = `${folder ? toTitle(folder) + ' ' : ''}${toTitle(base)}`;
+    }
     const type = extension === 'html' ? 'html' : 'javascript';
     
     templates[path] = {
@@ -48,6 +60,23 @@ function buildSandboxHtml(code, type, isExecutionOnly = false, baseHref) {
   // For full HTML artifacts, we honor its content but ensure base and harness
   if (type === 'html') {
     const baseTag = baseHref ? `<base href="${baseHref}/">` : '';
+
+    // Remove any existing importmap blocks from the example
+    let cleaned = code.replace(/<script\s+type=["']importmap["'][\s\S]*?<\/script>/gi, '');
+    // Normalize three/webgpu imports to three (WebGPU build not supported here)
+    cleaned = cleaned.replace(/(["'])three\/webgpu\1/g, `'three'`);
+
+    // Our normalized import map to node_modules
+    const importMap = {
+      imports: {
+        "three": "/node_modules/three/build/three.module.js",
+        "three/addons/": "/node_modules/three/examples/jsm/",
+        "3d-force-graph": "/node_modules/3d-force-graph/dist/3d-force-graph.module.js",
+        "pixi.js": "/node_modules/pixi.js/dist/pixi.mjs"
+      }
+    };
+    const importMapTag = `<script type="importmap">\n${JSON.stringify(importMap, null, 2)}\n</script>`;
+
     const harness = `
       <script>
         window.onerror = (message, source, lineno, colno, error) => {
@@ -60,11 +89,13 @@ function buildSandboxHtml(code, type, isExecutionOnly = false, baseHref) {
         };
       </script>
     `;
-    // Insert base and harness into head if present, otherwise prepend
-    if (code.includes('</head>')) {
-      return code.replace('<head>', `<head>${baseTag}`).replace('</head>', `${harness}</head>`);
+
+    // Insert base, importmap, and harness into head if present, otherwise wrap
+    if (/<\/head>/i.test(cleaned)) {
+      cleaned = cleaned.replace(/<head>/i, `<head>${baseTag}${importMapTag}${harness}`);
+      return cleaned;
     }
-    return `<!DOCTYPE html><html><head>${baseTag}${harness}</head><body>${code}</body></html>`;
+    return `<!DOCTYPE html><html><head>${baseTag}${importMapTag}${harness}</head><body>${cleaned}</body></html>`;
   }
 
   // For JavaScript, we inject it into a boilerplate HTML structure.
@@ -120,7 +151,6 @@ function buildSandboxHtml(code, type, isExecutionOnly = false, baseHref) {
     </html>
   `;
 }
-
 
 // --- Context Menu Component ---
 const ContextMenu = () => {
@@ -206,7 +236,6 @@ const ExecutionSandbox = () => {
     />
   );
 };
-
 
 // --- Updated Feedback Components ---
 const ConsoleFeedback = () => {
@@ -332,6 +361,15 @@ const ArtifactsList = () => {
   const snap = useSnapshot(state);
   const [selectedTemplate, setSelectedTemplate] = useState('');
 
+  const handleBlankArtifact = async () => {
+    const id = await repo.create({
+      name: `Untitled #${state.artifacts.length + 1}`,
+      type: 'javascript',
+      content: '// Your code here\n'
+    });
+    state.activeArtifactId = id;
+  };
+
   const handleRandomArtifact = async () => {
     const templatePaths = Object.keys(templates);
     const randomPath = templatePaths[Math.floor(Math.random() * templatePaths.length)];
@@ -347,13 +385,16 @@ const ArtifactsList = () => {
     state.activeArtifactId = id;
   };
 
-  const handleBlankArtifact = async () => {
-    const id = await repo.create({
-      name: `Untitled #${state.artifacts.length + 1}`,
-      type: 'javascript',
-      content: '// Your code here\n'
-    });
-    state.activeArtifactId = id;
+  const handleLoadRandom = async () => {
+    if (!state.activeArtifactId) return;
+    const templatePaths = Object.keys(templates);
+    const randomPath = templatePaths[Math.floor(Math.random() * templatePaths.length)];
+    const template = templates[randomPath];
+    const content = await template.getContent();
+    await repo.updateMeta(state.activeArtifactId, { type: template.type, path: randomPath });
+    await repo.updateContent(state.activeArtifactId, content);
+    state.activeArtifactType = template.type;
+    state.activeArtifactPath = randomPath;
   };
 
   const handleSelectTemplate = async () => {
@@ -372,6 +413,19 @@ const ArtifactsList = () => {
     setSelectedTemplate(''); // Reset dropdown
   };
 
+  const handleLoadSelected = async () => {
+    if (!selectedTemplate || !state.activeArtifactId) return;
+    const template = templates[selectedTemplate];
+    const content = await template.getContent();
+    // Update meta to reflect the template's type and origin path
+    await repo.updateMeta(state.activeArtifactId, { type: template.type, path: selectedTemplate });
+    // Update content of the current artifact
+    await repo.updateContent(state.activeArtifactId, content);
+    // Optimistic local hints
+    state.activeArtifactType = template.type;
+    state.activeArtifactPath = selectedTemplate;
+  };
+
   const templateOptions = Object.entries(templates).map(([path, template]) => ({
     path,
     name: template.name,
@@ -388,16 +442,23 @@ const ArtifactsList = () => {
       </ul>
       
       {/* Three distinct creation buttons */}
-      <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
+      <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <button onClick={handleBlankArtifact} style={{ width: '100%', padding: '8px', fontSize: '12px' }}>
           New Blank Artifact
         </button>
         
-        <button onClick={handleRandomArtifact} style={{ width: '100%', padding: '8px', fontSize: '12px' }}>
-          Random Example Artifact
-        </button>
+        {/* Random actions side-by-side */}
+        <div style={{ display: 'flex', gap: '6px' }}>
+          <button onClick={handleRandomArtifact} style={{ flex: 1, padding: '8px', fontSize: '12px' }}>
+            Create Random Artifact
+          </button>
+          <button onClick={handleLoadRandom} disabled={!state.activeArtifactId} style={{ flex: 1, padding: '8px', fontSize: '12px', opacity: state.activeArtifactId ? 1 : 0.5, cursor: state.activeArtifactId ? 'pointer' : 'not-allowed' }}>
+            Load Random (into current)
+          </button>
+        </div>
         
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+        {/* Selected template controls */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
           <select 
             value={selectedTemplate} 
             onChange={(e) => setSelectedTemplate(e.target.value)}
@@ -410,19 +471,34 @@ const ArtifactsList = () => {
               </option>
             ))}
           </select>
-          <button 
-            onClick={handleSelectTemplate} 
-            disabled={!selectedTemplate}
-            style={{ 
-              width: '100%', 
-              padding: '6px', 
-              fontSize: '12px',
-              opacity: selectedTemplate ? 1 : 0.5,
-              cursor: selectedTemplate ? 'pointer' : 'not-allowed'
-            }}
-          >
-            Create Selected
-          </button>
+          <div style={{ display: 'flex', gap: '6px' }}>
+            <button 
+              onClick={handleSelectTemplate} 
+              disabled={!selectedTemplate}
+              style={{ 
+                flex: 1,
+                padding: '6px', 
+                fontSize: '12px',
+                opacity: selectedTemplate ? 1 : 0.5,
+                cursor: selectedTemplate ? 'pointer' : 'not-allowed'
+              }}
+            >
+              Create Selected
+            </button>
+            <button
+              onClick={handleLoadSelected}
+              disabled={!selectedTemplate || !state.activeArtifactId}
+              style={{
+                flex: 1,
+                padding: '6px',
+                fontSize: '12px',
+                opacity: selectedTemplate && state.activeArtifactId ? 1 : 0.5,
+                cursor: selectedTemplate && state.activeArtifactId ? 'pointer' : 'not-allowed'
+              }}
+            >
+              Load Selected (into current)
+            </button>
+          </div>
         </div>
       </div>
     </div>

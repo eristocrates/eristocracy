@@ -19,7 +19,7 @@ export const acquisitionGoals = [
     }
   },
   {
-    origin: 'src/templates/repos/three.js/examples',
+    origin: 'thirdParty/repos/three.js/examples',
     anchor: 'repo-root',
     scope: 'exhaustive',
     filter: {
@@ -29,6 +29,33 @@ export const acquisitionGoals = [
   },
   {
     origin: 'src/templates/websites',
+    anchor: 'repo-root',
+    scope: 'exhaustive',
+    filter: {
+      by: 'extension',
+      criteria: ['js']
+    }
+  },
+  {
+    origin: 'thirdParty/repos/3d-force-graph/example',
+    anchor: 'repo-root',
+    scope: 'exhaustive',
+    filter: {
+      by: 'extension',
+      criteria: ['html']
+    }
+  },
+  {
+    origin: 'thirdParty/repos/learningPixi/examples',
+    anchor: 'repo-root',
+    scope: 'exhaustive',
+    filter: {
+      by: 'extension',
+      criteria: ['html']
+    }
+  },
+  {
+    origin: 'thirdParty/repos/pixijs.com/docs/examples',
     anchor: 'repo-root',
     scope: 'exhaustive',
     filter: {
