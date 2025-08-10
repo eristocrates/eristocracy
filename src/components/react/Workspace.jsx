@@ -66,13 +66,13 @@ function buildSandboxHtml(code, type, isExecutionOnly = false, baseHref) {
     // Normalize three/webgpu imports to three (WebGPU build not supported here)
     cleaned = cleaned.replace(/(["'])three\/webgpu\1/g, `'three'`);
 
-    // Our normalized import map to node_modules
+    // Our normalized import map to CDN (production-safe)
     const importMap = {
       imports: {
-        "three": "/node_modules/three/build/three.module.js",
-        "three/addons/": "/node_modules/three/examples/jsm/",
-        "3d-force-graph": "/node_modules/3d-force-graph/dist/3d-force-graph.module.js",
-        "pixi.js": "/node_modules/pixi.js/dist/pixi.mjs"
+        "three": "https://cdn.jsdelivr.net/npm/three@0.179.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.179.1/examples/jsm/",
+        "3d-force-graph": "https://cdn.jsdelivr.net/npm/3d-force-graph@1.78.4/dist/3d-force-graph.module.js",
+        "pixi.js": "https://cdn.jsdelivr.net/npm/pixi.js@8.12.0/dist/pixi.mjs"
       }
     };
     const importMapTag = `<script type="importmap">\n${JSON.stringify(importMap, null, 2)}\n</script>`;
@@ -111,12 +111,13 @@ function buildSandboxHtml(code, type, isExecutionOnly = false, baseHref) {
         canvas { display: block; width: 100%; height: 100%; }
       </style>
       <script type="importmap">
-        {
-          "imports": {
-            "pixi.js": "/node_modules/pixi.js/dist/pixi.mjs",
-            "three": "/node_modules/three/build/three.module.js"
+        ${JSON.stringify({
+          imports: {
+            "pixi.js": "https://cdn.jsdelivr.net/npm/pixi.js@8.12.0/dist/pixi.mjs",
+            "three": "https://cdn.jsdelivr.net/npm/three@0.179.1/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.179.1/examples/jsm/"
           }
-        }
+        }, null, 2)}
       </script>
       <script>
         // This harness script captures logs and errors from the sandbox.
