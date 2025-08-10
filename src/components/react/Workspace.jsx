@@ -7,18 +7,18 @@ import { CodeMirrorEditor } from './CodeMirrorEditor';
 import * as acorn from 'acorn';
 import { v4 as uuidv4 } from 'uuid';
 import { templateModules } from 'virtual:templates';
-import templateManifest from '../../config/template-manifest.json';
 import { templateMeta } from 'virtual:templates';
 import { debounce } from 'lodash';
 
 // --- Dynamic Artifact Templates ---
 // We now use a two-stage loading process.
-// 1. Statically import the manifest of file paths.
+// 1. Discover available templates from virtual:templates keys (bundler source of truth).
 // 2. Dynamically create a loader function that can fetch content on demand.
 
 function createTemplateLoader() {
   const templates = {};
-  for (const path of templateManifest) {
+  const templatePaths = Object.keys(templateModules);
+  for (const path of templatePaths) {
     const filename = path.split('/').pop();
     const extension = filename.split('.').pop();
     const parts = path.split('/');
@@ -39,7 +39,7 @@ function createTemplateLoader() {
     templates[path] = {
       name,
       type,
-      // Now templateModules[path] returns a function that loads the content lazily
+      // Return the raw, lazily-loaded string content
       getContent: async () => {
         const importFn = templateModules[path];
         if (typeof importFn === 'function') {
