@@ -6,8 +6,7 @@ import { repo } from '../../lib/repo/index';
 import { CodeMirrorEditor } from './CodeMirrorEditor';
 import * as acorn from 'acorn';
 import { v4 as uuidv4 } from 'uuid';
-import { templateModules } from 'virtual:templates';
-import { templateMeta } from 'virtual:templates';
+import { templateModules, templateAssetModules, templateDirs } from 'virtual:templates';
 import { debounce } from 'lodash';
 
 // --- Dynamic Artifact Templates ---
@@ -39,7 +38,7 @@ function createTemplateLoader() {
     templates[path] = {
       name,
       type,
-      // Return the raw, lazily-loaded string content
+      // Now templateModules[path] returns a function that loads the content lazily
       getContent: async () => {
         const importFn = templateModules[path];
         if (typeof importFn === 'function') {
@@ -56,11 +55,14 @@ const templates = createTemplateLoader();
 // --- Sandbox HTML Builder ---
 // This utility function constructs the complete HTML document for an iframe sandbox.
 // It's used by both the visible graphical sandbox and the hidden execution sandbox.
-function buildSandboxHtml(code, type, isExecutionOnly = false, baseHref) {
+function buildSandboxHtml(code, type, isExecutionOnly = false, assetMapping) {
+  // Safely serialize the asset mapping to avoid parser edge cases in srcdoc
+  const safeMappingString = JSON.stringify(assetMapping || { dir: '', map: {} })
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/[\u2028\u2029]/g, '');
   // For full HTML artifacts, we honor its content but ensure base and harness
   if (type === 'html') {
-    const baseTag = baseHref ? `<base href="${baseHref}/">` : '';
-
     // Remove any existing importmap blocks from the example
     let cleaned = code.replace(/<script\s+type=["']importmap["'][\s\S]*?<\/script>/gi, '');
     // Normalize three/webgpu imports to three (WebGPU build not supported here)
@@ -77,6 +79,36 @@ function buildSandboxHtml(code, type, isExecutionOnly = false, baseHref) {
     };
     const importMapTag = `<script type="importmap">\n${JSON.stringify(importMap, null, 2)}\n</script>`;
 
+    const resolver = `
+      <script>
+        (function(){
+          const mapping = JSON.parse('${safeMappingString}');
+          const isAbsolute = (u) => /^(?:[a-z]+:)?\/\//i.test(u) || /^\//.test(u) || /^data:/.test(u) || /^blob:/.test(u);
+          const resolveRel = (rel) => {
+            if (!rel || isAbsolute(rel)) return rel;
+            // Strip leading './'
+            const key = rel.replace(/^\.\//, '');
+            return (mapping.map && mapping.map[key]) || rel;
+          };
+          const origFetch = window.fetch;
+          window.fetch = function(input, init) {
+            if (typeof input === 'string') input = resolveRel(input);
+            return origFetch(input, init);
+          };
+          const origOpen = XMLHttpRequest.prototype.open;
+          XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
+            if (typeof url === 'string') url = resolveRel(url);
+            return origOpen.call(this, method, url, async !== false, user, password);
+          };
+          const desc = Object.getOwnPropertyDescriptor(Image.prototype, 'src');
+          Object.defineProperty(Image.prototype, 'src', {
+            set(value){ desc.set.call(this, resolveRel(value)); },
+            get(){ return desc.get.call(this); }
+          });
+        })();
+      </script>
+    `;
+
     const harness = `
       <script>
         window.onerror = (message, source, lineno, colno, error) => {
@@ -92,10 +124,10 @@ function buildSandboxHtml(code, type, isExecutionOnly = false, baseHref) {
 
     // Insert base, importmap, and harness into head if present, otherwise wrap
     if (/<\/head>/i.test(cleaned)) {
-      cleaned = cleaned.replace(/<head>/i, `<head>${baseTag}${importMapTag}${harness}`);
+      cleaned = cleaned.replace(/<head>/i, `<head>${importMapTag}${resolver}${harness}`);
       return cleaned;
     }
-    return `<!DOCTYPE html><html><head>${baseTag}${importMapTag}${harness}</head><body>${cleaned}</body></html>`;
+    return `<!DOCTYPE html><html><head>${importMapTag}${resolver}${harness}</head><body>${cleaned}</body></html>`;
   }
 
   // For JavaScript, we inject it into a boilerplate HTML structure.
@@ -120,6 +152,32 @@ function buildSandboxHtml(code, type, isExecutionOnly = false, baseHref) {
         }, null, 2)}
       </script>
       <script>
+        (function(){
+          const mapping = JSON.parse('${safeMappingString}');
+          const isAbsolute = (u) => /^(?:[a-z]+:)?\/\//i.test(u) || /^\//.test(u) || /^data:/.test(u) || /^blob:/.test(u);
+          const resolveRel = (rel) => {
+            if (!rel || isAbsolute(rel)) return rel;
+            const key = rel.replace(/^\.\//, '');
+            return (mapping.map && mapping.map[key]) || rel;
+          };
+          const origFetch = window.fetch;
+          window.fetch = function(input, init) {
+            if (typeof input === 'string') input = resolveRel(input);
+            return origFetch(input, init);
+          };
+          const origOpen = XMLHttpRequest.prototype.open;
+          XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
+            if (typeof url === 'string') url = resolveRel(url);
+            return origOpen.call(this, method, url, async !== false, user, password);
+          };
+          const desc = Object.getOwnPropertyDescriptor(Image.prototype, 'src');
+          Object.defineProperty(Image.prototype, 'src', {
+            set(value){ desc.set.call(this, resolveRel(value)); },
+            get(){ return desc.get.call(this); }
+          });
+        })();
+      </script>
+      <script>
         // This harness script captures logs and errors from the sandbox.
         if (${isExecutionOnly}) {
           window.onerror = (message, source, lineno, colno, error) => {
@@ -138,14 +196,14 @@ function buildSandboxHtml(code, type, isExecutionOnly = false, baseHref) {
       <script type="module">
         ${isExecutionOnly ? `
         try {
-          console.debug('[sandbox] executing code, len=', ${code.length});
-          ${code}
+          console.debug('[sandbox] executing code, len=', ${code ? code.length : 0});
+          ${code || ''}
           window.parent.postMessage({ type: 'success' }, '*');
         } catch (e) {
           window.parent.postMessage({ type: 'error', message: e && e.stack ? e.stack : String(e) }, '*');
         }
         ` : `
-          ${code}
+          ${code || ''}
         `}
       </script>
     </body>
@@ -209,11 +267,10 @@ const StubFeedback = ({ name }) => (
 // It does not execute code directly; it just shows the result.
 const GraphicalSandbox = () => {
   const snap = useSnapshot(state);
-  const baseHref = snap.activeArtifactPath && templateMeta[snap.activeArtifactPath]?.baseHref;
   return (
     <iframe
-      key={snap.renderedContent} // Re-renders only on successful code execution
-      srcDoc={buildSandboxHtml(snap.renderedContent, snap.activeArtifactType, false, baseHref)} // `isExecutionOnly = false`
+      key={snap.renderedContent}
+      srcDoc={buildSandboxHtml(snap.renderedContent, snap.activeArtifactType, false, snap.activeTemplateAssets)}
       title="Visible Sandboxed Feedback"
       sandbox="allow-scripts"
       style={{ width: '100%', height: '100%', border: 'none' }}
@@ -226,11 +283,10 @@ const GraphicalSandbox = () => {
 // It runs the latest code from the editor (`activeArtifactContent`) and reports success or failure.
 const ExecutionSandbox = () => {
   const snap = useSnapshot(state);
-  const baseHref = snap.activeArtifactPath && templateMeta[snap.activeArtifactPath]?.baseHref;
   return (
     <iframe
-      key={snap.activeArtifactContent} // Re-renders and executes on every keystroke (debounced)
-      srcDoc={buildSandboxHtml(snap.activeArtifactContent, snap.activeArtifactType, true, baseHref)}
+      key={snap.activeArtifactContent}
+      srcDoc={buildSandboxHtml(snap.activeArtifactContent, snap.activeArtifactType, true, snap.activeTemplateAssets)}
       title="Execution Sandbox"
       sandbox="allow-scripts"
       style={{ display: 'none' }} // Always hidden
@@ -659,6 +715,7 @@ export default function Workspace() {
         state.consoleOutput = [];
         state.stableConsoleOutput = [];
         state.executionError = null;
+        state.activeTemplateAssets = null;
         return;
       }
       subscription = repo.watchOne(snap.activeArtifactId).subscribe((doc) => {
@@ -678,6 +735,25 @@ export default function Workspace() {
     syncActiveArtifact();
     return () => subscription?.unsubscribe();
   }, [snap.activeArtifactId]); // Re-subscribe whenever the active artifact changes.
+
+  // Build an asset mapping for the currently active template so relative loads resolve in production
+  useEffect(() => {
+    const build = async () => {
+      const templatePath = state.activeArtifactPath;
+      if (!templatePath) { state.activeTemplateAssets = null; return; }
+      const dir = templateDirs[templatePath];
+      if (!dir) { state.activeTemplateAssets = null; return; }
+      const entries = Object.entries(templateAssetModules).filter(([p]) => p.startsWith(dir + '/'));
+      const pairs = await Promise.all(entries.map(async ([p, loader]) => [p, await loader()]));
+      const map = {};
+      for (const [repoPath, url] of pairs) {
+        const rel = repoPath.slice((dir + '/').length);
+        map[rel] = url;
+      }
+      state.activeTemplateAssets = { dir, map };
+    };
+    build();
+  }, [snap.activeArtifactPath]);
 
   // Effect to handle clicking outside the context menu to close it.
   useEffect(() => {

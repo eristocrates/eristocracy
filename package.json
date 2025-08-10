@@ -4,9 +4,9 @@
   "version": "0.0.1",
   "scripts": {
     "predev": "node scripts/generate-template-manifest.js",
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
+    "dev": "astro dev --verbose",
+    "build": "astro build --verbose",
+    "preview": "astro preview --verbose",
     "astro": "astro"
   },
   "dependencies": {

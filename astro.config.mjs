@@ -43,20 +43,45 @@ function templateResolverPlugin() {
           return globSync(pattern);
         });
 
-        // Create meta mapping (path -> baseHref /@fs/absDir) and static glob import
+        // Create entries for template text (HTML/JS) using repo-relative paths
         const entries = allFiles.map(abs => {
           const rel = '/' + path.relative(projectRoot, abs).replace(/\\/g, '/');
-          const baseHref = '/@fs/' + path.dirname(abs).replace(/\\/g, '/');
-          return { rel, baseHref };
+          const dir = '/' + path.relative(projectRoot, path.dirname(abs)).replace(/\\/g, '/');
+          return { rel, dir };
         });
 
+        // Asset extensions we want to expose as URLs for production-safe loading
+        const assetExts = [
+          'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'bmp', 'tga', 'ktx', 'ktx2', 'hdr', 'exr', 'dds', 'bin', 'glb', 'gltf',
+          'mp3', 'ogg', 'wav', 'mp4', 'webm', 'json', 'css', 'js'
+        ];
+
+        // Derive a list of asset files within the same origins as templates
+        const assetRoots = Array.from(new Set(acquisitionGoals
+          .filter(g => g.anchor === 'repo-root')
+          .map(g => path.join(projectRoot, g.origin).replace(/\\/g, '/'))));
+
+        const assetFiles = assetRoots.flatMap(root => {
+          const pattern = `${root}/**/*.{${assetExts.join(',')}}`;
+          return globSync(pattern);
+        });
+
+        const assetRelList = Array.from(new Set(assetFiles.map(abs => '/' + path.relative(projectRoot, abs).replace(/\\/g, '/'))));
+
         const importList = entries.map(e => `'${e.rel}'`).join(', ');
-        const metaObject = entries.map(e => `  '${e.rel}': { baseHref: '${e.baseHref}' }`).join(',\n');
+        const templateDirObject = entries.map(e => `  '${e.rel}': '${e.dir}'`).join(',\n');
+        const assetImportList = assetRelList.map(p => `'${p}'`).join(', ');
 
         const moduleContent = `
-          const globResult = import.meta.glob([${importList}], { query: '?raw', import: 'default' });
-          export const templateModules = globResult;
-          export const templateMeta = {\n${metaObject}\n          };
+          // Text content of templates (HTML/JS) as raw strings
+          const textModules = import.meta.glob([${importList}], { query: '?raw', import: 'default' });
+          export const templateModules = textModules;
+
+          // Production-safe asset URL modules (images, media, css/js referenced by templates)
+          export const templateAssetModules = import.meta.glob([${assetImportList}], { query: '?url', import: 'default' });
+
+          // Map of template file -> its repo-relative directory (no dev-only /@fs)
+          export const templateDirs = {\n${templateDirObject}\n          };
         `;
 
         return moduleContent;
@@ -67,6 +92,9 @@ function templateResolverPlugin() {
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://eristocrates.dev/',   // needed for absolute asset URLs, sitemaps, etc.
+  base: '/',                     // set if deploying under a subpath
+  output: "server",
   adapter: netlify(),
   integrations: [
     react({ include: ['**/react/*'], }),
