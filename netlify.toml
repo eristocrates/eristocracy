@@ -1,3 +1,10 @@
 [build]
   command = "npm run build"
   publish = "dist"
+
+[[headers]]
+for = "/*"
+[headers.values]
+Access-Control-Allow-Origin = "*"
+Access-Control-Allow-Methods = "GET, OPTIONS"
+Access-Control-Allow-Headers = "Content-Type"

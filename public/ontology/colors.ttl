@@ -1,0 +1,9 @@
+@prefix : <https://eristocrates.dev/externalism/ontology/colors/> .
+
+:chaosBlack a :color ;
+  :hex "#101010" .
+:orchid a :color ;
+  :hex "#78f";
+  :luminance 0.42 .
+:snowflake a :color ;
+:hex "#f0f0f0" .

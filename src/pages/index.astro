@@ -1,5 +1,6 @@
 ---
-
+import Workspace from "../components/react/Workspace.jsx";
+import "../styles/global.css";
 ---
 
 <html lang="en">
@@ -8,9 +9,31 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
+    <title>fiddleristocracy</title>
+    <style is:global>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+      }
+      #controls-bar button {
+        background: #3c3c3c;
+        color: #ccc;
+        border: 1px solid #555;
+        border-radius: 4px;
+        cursor: pointer;
+        padding: 5px 10px;
+        transition: background-color 0.2s;
+      }
+      #controls-bar button:hover {
+        background: #555;
+      }
+      #controls-bar button.active {
+        background: #0078d4;
+        color: white;
+      }
+    </style>
   </head>
   <body>
-    <h1>Nuke</h1>
+    <Workspace client:only="react" />
   </body>
 </html>
