@@ -1,0 +1,11 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  call-deploy:
+    uses: ./.github/workflows/reusable-deploy.yml
+    secrets: inherit

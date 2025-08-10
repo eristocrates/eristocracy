@@ -1,0 +1,34 @@
+zyie:
+  name: Zyie
+  title: PixiJS Admin
+  url: https://github.com/zyie
+  image_url: https://github.com/zyie.png
+  socials:
+    github: zyie
+    x: _Zyie_
+    bluesky: https://bsky.app/profile/zyie.bsky.social
+mat:
+  name: Mat Groves
+  title: PixiJS Creator
+  url: https://github.com/GoodboyDigital
+  image_url: https://github.com/GoodboyDigital.png
+  socials:
+    github: GoodboyDigital
+    x: Doormat23
+bigtimebuddy:
+  name: Matt Karl
+  title: PixiJS Admin
+  url: https://github.com/bigtimebuddy
+  image_url: https://github.com/bigtimebuddy.png
+  socials:
+    github: bigtimebuddy
+    x: bigtimebuddy
+    bluesky: https://bsky.app/profile/bigtimebuddy.com
+trezy:
+  name: Trezy
+  title: Pixi React Maintainer
+  url: https://github.com/trezy
+  image_url: https://github.com/trezy.png
+  socials:
+    github: trezy
+    bluesky: https://bsky.app/profile/trezy.codes
