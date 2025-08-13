@@ -28,6 +28,16 @@ export const acquisitionGoals = [
     }
   },
   {
+    origin: 'thirdParty/repos/three.js/manual/examples',
+    anchor: 'repo-root',
+    scope: 'terminal',
+    filter: {
+      by: 'extension',
+      criteria: ['html', 'js']
+    }
+  },
+
+  {
     origin: 'src/templates/websites',
     anchor: 'repo-root',
     scope: 'exhaustive',

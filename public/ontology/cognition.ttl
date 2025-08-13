@@ -1,0 +1,18 @@
+@prefix : <https://eristocrates.dev/externalism/ontology/cognition/> .
+@prefix bounding: <urn:eristocrates:bounding:> .
+@prefix has: <urn:eristocrates:has:> .
+@prefix is: <urn:eristocrates:is:> .
+@prefix process: <urn:erprocesstocrates:process:> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ref: <urn:eristocrates:referent:> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix ut: <urn:eristocrates:utterance:> .
+@prefix set: <urn:eristocrates:set:> .
+
+@base <https://eristocrates.dev/externalism/ontology/> .
+
+<eris> has:constraint bounding:polysemy:incremental .
+:process is:a ut:series_or_set_of_activities_that_interact_to_produce_a_result; <may> ut:occur_once-only_or_be_recurrent_or_periodic.
+ut:series_or_set_of_activities_that_interact_to_produce_a_result ref:activities :action .
+process:narrowing:recursive a :process ;
+  set:activity ut:Start_with_a_core_lexeme .

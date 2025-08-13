@@ -1,0 +1,158 @@
+@prefix : <urn:eristocrates:> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix fno: <https://w3id.org/function/ontology#> .
+@prefix function: <urn:eristocrates:function:> .
+@prefix has: <urn:eristocrates:has:> .
+@prefix kind: <urn:eristocrates:kind:> .
+@prefix nfo: <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#> .
+@prefix of: <urn:eristocrates:of:> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pko: <https://w3id.org/pko#> .
+@prefix pplan: <http://purl.org/net/p-plan#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix set: <urn:eristocrates:set:> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix step: <urn:eristocrates:step:> .
+@prefix act: <urn:eristocrates:act:> .
+@prefix that: <urn:eristocrates:that:> .
+@prefix type: <urn:eristocrates:type:> .
+@prefix verify: <urn:eristocrates:verify:> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+@base <https://eristocrates.dev/externalism/ontology/> .
+has: a owl:ObjectProperty ; rdfs:label "has ⟨α⟩" .
+of: a owl:ObjectProperty; rdfs:label "⟨α⟩ of" ;
+:order:reading "object→predicate(of:α)→subject" .
+has: owl:inverseOf of: .
+:order:reading rdfs:subPropertyOf rdfs:comment .
+
+
+:word has:meaning set:meaning:linguistic ;
+  has:definition set:definition:dictionary ;
+  has:sense set:sense:word .
+:meaning:linguistic rdfs:subClassOf :meaning:philosophic ;
+  of:linguistics :meaning .
+:meaning:philosophic skos:definition "a relationship between two sorts of things: signs and the kinds of things they intend, express, or signify" ;
+of:philosophy :meaning .
+has:significance a owl:ObjectProperty ;
+rdfs:domain :sign ;
+rdfs:range kind:object:signified ;
+skos:related :meaning:philosophic .
+set:meaning:linguistic rdfs:member :meaning:linguistic .
+set:definition:dictionary rdfs:member :definition:dictionary .
+set:sense:word rdfs:member :sense:word .
+:sense:word rdfs:subClassOf :meaning:word ;
+skos:broader :definition:dictionary .
+:definition:dictionary rdfs:subClassOf :statement:meaning ;
+has:sense :sense:word .
+:statement:meaning rdfs:subClassOf :statement ;
+of:statement :meaning:term .
+:meaning:term of:meaning :term .
+:word rdfs:subClassOf :term .
+:phrase rdfs:subClassOf :term .
+:symbol rdfs:subClassOf :term .
+:sense:ontological rdfs:subClassOf :sense:word ;
+  skos:definition "A minimal complete definition of a target term that integrates cross-domain invariants and accommodates legitimate edge cases without unjustified exclusions." .
+
+has:description:typed owl:subPropertyOf pko:hasProcedureType .
+has:step:first owl:subPropertyOf pko:hasFirstStep .
+has:step:next owl:subPropertyOf pko:nextStep .
+has:step owl:subPropertyOf pko:hasStep .
+has:target:procedure owl:subPropertyOf pko:hasProcedureTarget .
+:adopted:by owl:subPropertyOf pko:isAdoptedBy .
+step:single rdfs:subClassOf pplan:Step, pko:Step .
+step:multi rdfs:subClassOf pplan:MultiStep, pko:Step .
+has:prerequisite:act owl:subPropertyOf pko:requiresAction .
+has:prerequisite:function owl:subPropertyOf pko:requiresFunction .
+has:step:verification owl:subPropertyOf pko:hasStepVerification .
+step:verification rdfs:subClassOf pko:StepVerification .
+:act rdfs:subClassOf pko:Action .
+:function rdfs:subClassOf pko:Function, fno:Function .
+
+:procedure:reconstruction:definition a pko:Procedure ;
+has:outcome:intended :sense:ontological ;
+:adopted:by <eristocrates> ;
+has:target:procedure :term ;
+  has:description:typed that:procedure-produces:sense:ontological ;
+  has:step step:collect:definitions, step:cluster:definitions, step:extract:invariants, step:converge,
+              step:integrate:Edges, step:condense, step:verify ;
+  has:step:first step:collect:definitions ;
+  rdfs:label "Definition Reconstruction" .
+
+# Step ordering (linear; replace with branching if needed)
+step:collect:definitions  has:step:next step:cluster:definitions .
+step:cluster:definitions  has:step:next step:extract:Invariants .
+step:extract:Invariants has:step:next step:converge .
+step:converge        has:step:next step:integrate:Edges .
+step:integrate:Edges  has:step:next step:condense .
+step:condense        has:step:next step:verify .
+
+# Step 1 - Collect & Cluster
+
+step:collect:definitions a step:single ;
+  rdfs:label "Collect definitions" ;
+  has:prerequisite:act act:sources:read ;
+  has:step:verification verify:All_Target_Sources_Enumerated .
+step:cluster:definitions a step:single ;
+  rdfs:label "Cluster definitions" ;
+  has:prerequisite:act act:sources:read, act:definitions:clustered ;
+  has:step:verification verify:All_Target_Domains_Enumerated .
+
+# Step 2 - Extract Invariants
+step:extract:Invariants a step:single ;
+  rdfs:label "Extract domain invariants" ;
+  has:prerequisite:act act:invariants:abstracted:by:domain ;
+  has:step:verification verify:No_Jargon_In_Invariants .
+
+# Step 3 - Cross-Domain Convergence
+step:converge a step:multi ;
+  rdfs:label "Cross-domain convergence" ;
+  has:prerequisite:function function:intersect:invariants ;
+  has:step:verification verify:Shared_Roles_Present .
+
+# Step 4 - Integrate Edge Cases
+step:integrate:Edges a step:single ;
+  rdfs:label "Integrate edge cases" ;
+  has:prerequisite:act act:cases:edge:mapped ;
+  has:step:verification verify:Edge_Cases_Preserved .
+
+# Step 5 - Condense (compose sentence)
+step:condense a step:single ;
+  rdfs:label "Condense into minimal complete definition" ;
+  has:prerequisite:act act:definition:composed ;
+  has:step:verification verify:Sentence_Expressive_Potential_Preserved .
+
+# Step 6 - Verify Across Domains
+step:verify a step:single ;
+  rdfs:label "Verify across domains" ;
+  has:prerequisite:function function:check:coverage ;
+  has:step:verification verify:No_Unjustified_Exclusions .
+
+
+# Actions / Functions (roles only; define implementations elsewhere)
+act:sources:read a :act .
+act:definitions:clustered a :act .
+act:invariants:abstracted:by:domain a :act .
+act:cases:edge:mapped a :act .
+act:definition:composed a :act .
+
+function:intersect:invariants a :function .
+function:check:coverage a :function .
+
+# Verifications as first-class nodes (explicit, checkable criteria)
+verify:All_Target_Domains_Enumerated a step:verification ;
+  rdfs:comment "Every intended domain cluster present." .
+verify:All_Target_Sources_Enumerated a step:verification ;
+  rdfs:comment "Every intended source present." .
+verify:No_Jargon_In_Invariants a step:verification ;
+  rdfs:comment "Invariants free of domain-specific terms." .
+verify:Shared_Roles_Present a step:verification ;
+  rdfs:comment "Form/Content/Medium/Evaluability/Manifestation detected." .
+verify:Edge_Cases_Preserved a step:verification ;
+  rdfs:comment "Edge cases included without loss." .
+verify:Sentence_Expressive_Potential_Preserved a step:verification ;
+  rdfs:comment "Sentence has essence + function + dynamic potential." .
+verify:No_Unjustified_Exclusions a step:verification ;
+  rdfs:comment "All clusters validated; none excluded without reason." .

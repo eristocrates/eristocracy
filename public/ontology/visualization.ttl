@@ -1,0 +1,96 @@
+@prefix : <https://eristocrates.dev/externalism/ontology/visualization/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix api: <urn:eristocrates:api:> .
+@prefix context: <urn:eristocrates:context:> .
+@prefix domain: <urn:eristocrates:domain:> .
+@prefix engine: <urn:eristocrates:engine:> .
+@prefix function: <urn:eristocrates:function:> .
+@prefix graph: <urn:eristocrates:graph:> .
+@prefix graphics: <urn:eristocrates:graphics:> .
+@prefix has: <urn:eristocrates:has:> .
+@prefix hosts: <urn:eristocrates:hosts:> .
+@prefix layout: <urn:eristocrates:layout:> .
+@prefix metaphor: <urn:eristocrates:metaphor:> .
+@prefix model: <urn:eristocrates:model:> .
+@prefix output: <urn:eristocrates:output:> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix ref: <urn:eristocrates:referent:> .
+@prefix relation: <urn:eristocrates:relation:> .
+@prefix rendering: <urn:eristocrates:rendering:> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix structure: <urn:eristocrates:structure:> .
+@prefix substrate: <urn:eristocrates:substrate:> .
+@prefix system: <http://www.univalle.edu.co/ontologies/System#> .
+@prefix topology: <urn:eristocrates:topology:> .
+@prefix ut: <urn:eristocrates:utterance:> .
+
+@base <https://eristocrates.dev/externalism/ontology/> .
+<Totipotent> skos:definition ut:a_single_representational_seed_can_generate_many_forms.
+ut:a_single_representational_seed_can_generate_many_forms ref:seed :model ;
+  ref:form :form .
+
+:chart a :form .
+:table a :form .
+rendering:3d owl:subClassOf :form .
+output:tactile owl:subClassOf :form .
+
+<Equifinal> skos:definition ut:multiple_input_pathways_can_lead_to_the_same_perceptual_configuration ; skos:note ut:manual_drawing_procedural_generation_data-diriven_rendering_all_yield_the_same_visualization.
+<visualization> skos:definition ut:the_mapping_of_structured_phenomena_into_a_perceivable_substrate_ia_a_mediating_representational_form, ut:the_intentional_act_of_encoding_meaning_into_a_perceptible_form_which_may_use_graphics_but_is_not_limited_to_them.
+ut:the_mapping_of_structured_phenomena_into_a_perceivable_substrate_ia_a_mediating_representational_form ref:mapping :mapping ;
+  ref:substrate :substrate ;
+  ref:form :form .
+ut:the_intentional_act_of_encoding_meaning_into_a_perceptible_form_which_may_use_graphics_but_is_not_limited_to_them ref:encoding :encoding ;
+  ref:graphics :graphics ;
+    ref:form :form .
+
+:substrate skos:definition ut:The_sensory_channel_or_medium_through_which_the_visualization_manifests_\(screen_pixels_ound_pressure_waves_actile_feedback\).
+substrate:graphics owl:subClassOf substrate: ;
+  skos:example ut:In_graphics_this_is_often_the_canvas_framebuffer_or_display_surface.
+substrate:system:window owl:subClassOf substrate:system: ;
+  skos:example ut:In_window_systems_the_substrate_can_be_multiple_logical_surfaces_composited_onto_a_single_physical_output.
+:model skos:definition ut:An_internal_representation_of_the_phenomenon_to_be_visualized.
+  ut:An_internal_representation_of_the_phenomenon_to_be_visualized ref:phenomenon :geometry, relation:statistical, layout:spatial, graph:logical.
+engine:3d owl:subClassOf :model ;
+  skos:example ut:In_a_3D_engine_this_is_the_scene_graph_or_world_model.
+:mapping skos:definition ut:The_translation_rules_from_model_elements_to_perceptible_features ;
+  owl:sameAs :encoding .
+ut:The_translation_rules_from_model_elements_to_perceptible_features ref:model :model .
+model:stage owl:subClassOf :model ; domain:common metaphor:animation, metaphor:theater ; function:in.pipeline:visualization  ut:Global_coordinate_space_holding_all_elements ; skos:note ut:may_be_larger_than_visible_area.
+model:canvas owl:subClassOf :model ; domain:common context:drawing:raster:2d   ; function:in.pipeline:visualization ut:Immediate_drawing_surface; skos:note  ut:low-level_substrate.                                       
+model:scene owl:subClassOf :model ; domain:common graphics:3d,  engine:3d ;                   function:in.pipeline:visualization ut:Hierarchical_collection_of_objects_lights_cameras; skos:note ut:spatial_and_logical_relationships.
+model:screen owl:subClassOf :model ; domain:common output:hardware, output:system:operating         ; function:in.pipeline:visualization ut:Physical_or_logical_output_device; skos:note  ut:ultimate_substrate_for_perception.                 
+ :PixiJS has:metaphor:model model:stage . 
+api:canvas:html:5 has:context context:drawing:raster:2dcanvas:html .
+structure:data:graph a owl:Class ;
+  skos:definition ut:nodes_and_edges ;
+  skos:note ut:abstract_relationships.
+:graphics owl:sameAs substrate:graphics ;
+  skos:definition ut:the_perceptible_output_of_rendering_operations_; skos:note ut:may_be_representational_or_decorative.
+graphics:3d owl:subClassOf :graphics .
+
+graph:logical owl:subClassOf structure:data:graph .
+:data a owl:Class .
+
+ :position owl:subClassOf :data .
+ :shape owl:subClassOf :data .
+ :size owl:subClassOf :data .
+ :color owl:subClassOf :data .
+ :texture owl:subClassOf :data .
+ :motion owl:subClassOf :data .
+
+:viewport skos:definition ut:The_portion_of_the_substrate_that_is_currently_perceivable;
+  skos:note ut:A_stage_may_hold_far_more_than_whats_visible, ut:the_viewport_is_the_selected_projection.
+
+:region            a owl:Class .
+:topology          a owl:Class .
+:constraint        a owl:Class .
+:policy            a owl:Class .
+has:child          a owl:ObjectProperty .
+has:topology       a owl:ObjectProperty .
+has:constraint     a owl:ObjectProperty .
+has:policy         a owl:ObjectProperty .
+hosts:binding      a owl:ObjectProperty .
+
+topology:split     a :Topology .
+topology:grid      a :Topology .
+topology:float     a :Topology .

@@ -1,0 +1,77 @@
+@prefix : <urn:eristocrates:> .
+@prefix ch2: <https://craftinginterpreters.com/a-map-of-the-territory.html#> .
+@prefix ci: <https://craftinginterpreters.com/> .
+@prefix has: <urn:eristocrates:has:> .
+@prefix in: <urn:erisincrates:in:> .
+@prefix of: <urn:eristocrates:of:> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix static: <http://vocab-ld.org/vocab/static-ld#> .
+@prefix to: <urn:eristocrates:to:> .
+@prefix ut: <urn:eristocrates:utterance:> .
+@base <https://eristocrates.dev/externalism/ontology/> .
+
+ci: a :book .
+ch2:the-parts-of-a-language :steps ( ch2:scanning ch2:parsing ch2:analysis:static ) .
+:actor a owl:Class .
+:process a owl:Class .
+# keep categories clean
+:actor owl:disjointWith :process .
+:role rdfs:subClassOf :actor .
+:scanner rdfs:subClassOf :role ;
+   owl:equivalentClass :lexer ;
+   :enables :scanning .
+:lexer rdfs:subClassOf :role ;
+   :enables :lexing .
+:enables a owl:ObjectProperty ;
+   rdfs:domain :role ;
+   rdfs:range :process .
+:performs a owl:ObjectProperty ;
+   rdfs:domain :actor ;
+   rdfs:range :process .
+:lexing rdfs:subClassOf :process .
+:scanning rdfs:subClassOf :process ;
+   prov:wasDerivedFrom ch2:scanning ;
+   owl:equivalentClass :lexing ;
+   has:input :character:stream:linear ;
+   has:output :token .
+:character a owl:Class .
+:token a owl:Class ;
+   of:composed :character .
+:token:character:single rdfs:subClassOf :token .
+:token:character:multi rdfs:subClassOf :token .
+:parsing rdfs:subClassOf :process ;
+   has:spec :grammar ;
+   prov:wasDerivedFrom ch2:parsing .
+:grammar :licenses :syntax ;
+   has:ability :composition:syntactic:hierarchical , :composition:syntactic:sequential , :composition:syntactic:operator:binding , :composition:syntactic:recursive .
+:operator:binding owl:equivalentClass :composition:syntactic:operator:binding ;
+   has:parameter :precedence , :associativity .
+:parser rdfs:subClassOf :role ;
+   :enables :parsing ;
+   has:input :token:sequence:flat ;
+   has:output :structure:tree .
+:structure:tree rdfs:subClassOf :structure .
+:tree:syntax:abstract rdfs:subClassOf :structure:tree ;
+   :mirrors :structure:grammar .
+:tree:parse rdfs:subClassOf :structure:tree .
+:analysis:static prov:wasDerivedFrom ch2:analysis:static .
+# binding/resolution as static analysis kinds
+:binding rdfs:subClassOf :analysis:static ;
+   :has:input :reference ;
+   :has:output :declaration .
+:resolution rdfs:subClassOf :analysis:static .
+:binding owl:equivalentClass :resolution .
+
+# core entities
+:declaration a owl:Class .
+:identifier rdfs:subClassOf :token .     # if you already have :token
+:scope a owl:Class .
+:reference to:resolves :declaration ;
+   has:name :identifier ;
+   in:occurs :scope .
+:scope :declares :declaration .
+:declaration :visible:in :scope .
+ch2:optimization :keywords "constant propagation" , "common subexpression elimination" , "loop invariant code motion" , "global value numbering" , "strength reduction" , "scalar replacement of aggregates" , "dead code elimination" , "loop unrolling" .
